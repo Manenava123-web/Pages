@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Buena Vibra - Menú Digital</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            background-color: #3e4420;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            color: white;
+        }
+        .menu-container {
+            max-width: 600px;
+            margin: 30px auto;
+            background-color: #f5e1c0;
+            border-radius: 15px;
+            box-shadow: 0px 6px 15px rgba(0,0,0,0.4);
+            overflow: hidden;
+            padding: 20px;
+            border: 5px solid #8b5a2b;
+        }
+        .menu-header {
+            font-size: 32px;
+            font-weight: bold;
+            color: #4b5320;
+            margin-bottom: 15px;
+            border-bottom: 3px solid #8b5a2b;
+            padding-bottom: 10px;
+        }
+        .menu-item {
+            background-color: #8b5a2b;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-size: 22px;
+            font-weight: bold;
+            cursor: pointer;
+            border-bottom: 2px solid #4b5320;
+            transition: background 0.3s, color 0.3s;
+            border-radius: 8px;
+            margin: 5px;
+        }
+        .menu-item:hover {
+            background-color: #4b5320;
+            color: #f5e1c0;
+        }
+        .menu-content {
+            display: none;
+            background-color: #f5e1c0;
+            padding: 15px;
+            text-align: left;
+            border-radius: 8px;
+            box-shadow: inset 0px 2px 5px rgba(0,0,0,0.2);
+        }
+        .menu-content a {
+            display: block;
+            color: #8b5a2b;
+            text-decoration: none;
+            font-size: 18px;
+            padding: 8px 0;
+            font-weight: bold;
+        }
+        .menu-content a:hover {
+            text-decoration: underline;
+            color: #4b5320;
+        }
+    </style>
+</head>
+<body>
+    <div class="menu-container">
+        <div class="menu-header">La Buena Vibra - Menú</div>
+        <div class="menu-item" onclick="toggleMenu('waffles')">🧇 Waffles</div>
+        <div class="menu-content" id="waffles">
+            <a href="#">Waffle Clásico - $50</a>
+            <a href="#">Waffle con Frutas - $60</a>
+            <a href="#">Waffle con Miel de Maple - $55</a>
+        </div>
+        <div class="menu-item" onclick="toggleMenu('panquesitos')">🧁 Panquesitos de Avena con Philadelphia</div>
+        <div class="menu-content" id="panquesitos">
+            <a href="#">Panquesito Individual - $40</a>
+            <a href="#">Pack de 3 Panquesitos - $110</a>
+        </div>
+        <div class="menu-item" onclick="toggleMenu('te')">🍵 Té de Infusión</div>
+        <div class="menu-content" id="te">
+            <a href="#">Manzanilla - $35</a>
+            <a href="#">Menta - $35</a>
+            <a href="#">Frutos Rojos - $40</a>
+        </div>
+        <div class="menu-item" onclick="toggleMenu('malteadas')">🥤 Malteadas</div>
+        <div class="menu-content" id="malteadas">
+            <a href="#">Vainilla - $50</a>
+            <a href="#">Chocolate - $55</a>
+            <a href="#">Fresa - $55</a>
+        </div>
+        <div class="menu-item" onclick="toggleMenu('infusiones')">🍶 Infusiones de Sabor</div>
+        <div class="menu-content" id="infusiones">
+            <a href="#">Limón y Jengibre - $45</a>
+            <a href="#">Hibisco y Naranja - $45</a>
+            <a href="#">Canela y Manzana - $50</a>
+        </div>
+    </div>
+    <script>
+        function toggleMenu(id) {
+            var content = document.getElementById(id);
+            if (content.style.display === "block") {
+                content.style.display = "none";
+            } else {
+                content.style.display = "block";
+            }
+        }
+    </script>
+	
+</body>
+</html>
