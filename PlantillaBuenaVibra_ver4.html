@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desayunos Premium</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f7f7f7;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            color: #333;
+        }
+        .menu-container {
+            max-width: 600px;
+            width: 80%;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 25px;
+            transition: transform 0.3s ease;
+        }
+        .menu-container:hover {
+            transform: scale(1.02);
+        }
+        .menu-header {
+            font-size: 35px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        .motivational-quote {
+            font-size: 18px;
+            font-style: italic;
+            color: #16a085;
+            margin-bottom: 25px;
+        }
+        .menu-item {
+            background: #16a085;
+            color: white;
+            padding: 18px;
+            font-size: 22px;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 10px;
+            margin: 15px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: background 0.3s, transform 0.2s;
+        }
+        .menu-item:hover {
+            background: #1abc9c;
+            transform: scale(1.05);
+        }
+        .menu-content {
+            display: none;
+        }
+        .back-btn {
+            background: #2c3e50;
+            color: white;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 6px;
+            margin-top: 30px;
+            transition: background 0.3s;
+        }
+        .back-btn:hover {
+            background: #16a085;
+        }
+        .footer {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="menu-container" id="menu">
+        <div class="menu-header">Desayunos Premium</div>
+        <div class="motivational-quote">¡El mejor comienzo para tu día comienza aquí!</div>
+        <div class="menu-item" onclick="showContent('tostadas')">🥪 Tostadas Especiales</div>
+        <div class="menu-item" onclick="showContent('omelet')">🍳 Omelet Gourmet</div>
+        <div class="menu-item" onclick="showContent('frutas')">🍓 Ensalada de Frutas</div>
+        <div class="menu-item" onclick="showContent('panqueques')">🥞 Panqueques Fluffy</div>
+        <div class="menu-item" onclick="showContent('jugos')">🍊 Jugos Naturales</div>
+        <div class="menu-item" onclick="showContent('cafe')">☕ Café Exquisito</div>
+    </div>
+    
+    <div class="menu-container" id="content" style="display: none;">
+        <div class="back-btn" onclick="showMenu()">⬅ Volver al Menú</div>
+        <div id="tostadas" class="menu-content">
+            <div class="menu-header">🥪 Tostadas Especiales</div>
+            <p>De aguacate y huevo pochado - $55</p>
+            <p>Con jamón de pavo y queso - $50</p>
+        </div>
+        <div id="omelet" class="menu-content">
+            <div class="menu-header">🍳 Omelet Gourmet</div>
+            <p>Omelet de espinacas y queso feta - $75</p>
+            <p>Omelet con bacon y champiñones - $80</p>
+        </div>
+        <div id="frutas" class="menu-content">
+            <div class="menu-header">🍓 Ensalada de Frutas</div>
+            <p>Mixta con miel - $45</p>
+            <p>Con yogur griego - $50</p>
+        </div>
+        <div id="panqueques" class="menu-content">
+            <div class="menu-header">🥞 Panqueques Fluffy</div>
+            <p>Clásicos con miel - $50</p>
+            <p>Con frutas y crema - $60</p>
+        </div>
+        <div id="jugos" class="menu-content">
+            <div class="menu-header">🍊 Jugos Naturales</div>
+            <p>De naranja - $35</p>
+            <p>De pepino y menta - $40</p>
+        </div>
+        <div id="cafe" class="menu-content">
+            <div class="menu-header">☕ Café Exquisito</div>
+            <p>Americano - $35</p>
+            <p>Latte - $45</p>
+        </div>
+    </div>
+
+    <script>
+        function showContent(id) {
+            document.getElementById('menu').style.display = 'none';
+            document.getElementById('content').style.display = 'block';
+            document.querySelectorAll('.menu-content').forEach(content => content.style.display = 'none');
+            document.getElementById(id).style.display = 'block';
+        }
+        
+        function showMenu() {
+            document.getElementById('menu').style.display = 'block';
+            document.getElementById('content').style.display = 'none';
+            document.querySelectorAll('.menu-content').forEach(content => content.style.display = 'none');
+        }
+    </script>
+</body>
+</html>
