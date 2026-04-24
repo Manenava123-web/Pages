@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Efraín Arcos — 30 años</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Nunito:wght@300;400;600&family=Rye&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #fdf6ec;
+    --ink:       #2b1a0f;
+    --terracota: #c4522a;
+    --amber:     #d98c2f;
+    --sage:      #6b8f71;
+    --sky:       #4a8fa8;
+    --gold:      #e0a830;
+    --sand:      #e8c98a;
+    --rule:      #d4b98a;
+    --muted:     #937a60;
+    --dark:      #3b1f0c;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  /* ════════════════════════════════
+     OUTER BACKGROUND — tierra & cielo
+  ════════════════════════════════ */
+  body {
+    min-height: 100vh;
+    font-family: 'Nunito', sans-serif;
+    color: var(--ink);
+    overflow-x: hidden;
+
+    /* Desert landscape gradient */
+    background:
+      /* horizon sky glow */
+      radial-gradient(ellipse at 50% 0%, #ffdba0 0%, transparent 60%),
+      /* warm ground tone */
+      linear-gradient(to bottom,
+        #c8843a 0%,
+        #a8622a 18%,
+        #7a4018 35%,
+        #5a2e10 55%,
+        #3d1e08 100%
+      );
+    background-attachment: fixed;
+    position: relative;
+  }
+
+  /* Noise grain over background */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+
+  /* Fixed background stars (visible on sides) */
+  .bg-stars {
+    position: fixed; inset: 0; z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .bg-star {
+    position: absolute;
+    background: rgba(255,220,120,0.55);
+    border-radius: 50%;
+    animation: bgTwinkle ease-in-out infinite alternate;
+  }
+  @keyframes bgTwinkle {
+    from { opacity: 0.1; transform: scale(1); }
+    to   { opacity: 0.8; transform: scale(1.8); }
+  }
+
+  /* ════════════════════════════════
+     PAGE WRAPPER — the "card"
+  ════════════════════════════════ */
+  .page-outer {
+    position: relative;
+    z-index: 1;
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 16px;
+  }
+
+  /* Decorative outer frame — burnt leather border */
+  .frame {
+    position: relative;
+    background: var(--bg);
+    background-image:
+      radial-gradient(ellipse at 10% 0%,  #f5e0c0 0%, transparent 55%),
+      radial-gradient(ellipse at 90% 100%, #ffe8c0 0%, transparent 50%);
+
+    /* Layered border: rough outer edge + inner ruled lines */
+    border: 3px solid #7a4a1a;
+    border-radius: 6px;
+    box-shadow:
+      0 0 0 1px #5a3210,
+      0 0 0 7px #9b6830,
+      0 0 0 9px #5a3210,
+      0 0 0 13px #7a4a1a,
+      0 0 0 15px #4a2808,
+      /* outer glow */
+      0 24px 60px rgba(0,0,0,0.7),
+      0 8px 20px rgba(0,0,0,0.5);
+    overflow: hidden;
+  }
+
+  /* Inner paper texture overlay */
+  .frame::before {
+    content: '';
+    position: absolute; inset: 0; z-index: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+
+  /* Corner ornaments */
+  .corner {
+    position: absolute;
+    width: 54px; height: 54px;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .corner svg { width: 100%; height: 100%; }
+  .corner-tl { top: -1px;  left: -1px;  }
+  .corner-tr { top: -1px;  right: -1px; transform: scaleX(-1); }
+  .corner-bl { bottom: -1px; left: -1px;  transform: scaleY(-1); }
+  .corner-br { bottom: -1px; right: -1px; transform: scale(-1,-1); }
+
+  /* Side ornament lines */
+  .side-rule {
+    position: absolute;
+    background: linear-gradient(transparent, #c4912a 20%, #c4912a 80%, transparent);
+    width: 2px;
+    top: 54px; bottom: 54px;
+    z-index: 2;
+    pointer-events: none;
+    opacity: 0.6;
+  }
+  .side-rule.left  { left:  12px; }
+  .side-rule.right { right: 12px; }
+
+  .top-rule, .bot-rule {
+    position: absolute;
+    background: linear-gradient(90deg, transparent, #c4912a 20%, #c4912a 80%, transparent);
+    height: 2px;
+    left: 54px; right: 54px;
+    z-index: 2;
+    pointer-events: none;
+    opacity: 0.6;
+  }
+  .top-rule { top:    12px; }
+  .bot-rule { bottom: 12px; }
+
+  /* ════════ everything inside .frame ════════ */
+  .page { position: relative; z-index: 1; padding-bottom: 80px; }
+
+  /* ── Stripe ── */
+  .stripe {
+    height: 8px;
+    background: linear-gradient(90deg,
+      var(--terracota) 0%, var(--amber) 33%,
+      var(--sage) 66%, var(--sky) 100%);
+  }
+  .stripe.rev {
+    background: linear-gradient(90deg,
+      var(--sky) 0%, var(--sage) 33%,
+      var(--amber) 66%, var(--terracota) 100%);
+  }
+
+  /* ════════════════════════════════
+     HERO
+  ════════════════════════════════ */
+  .hero {
+    background: linear-gradient(160deg, #3b1f0c 0%, #6b3318 60%, #9b5530 100%);
+    padding: 48px 32px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.045) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+  .hero-star {
+    position: absolute;
+    background: rgba(255,255,255,0.75);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: twinkle 2.5s ease-in-out infinite alternate;
+  }
+  @keyframes twinkle {
+    from { opacity: 0.15; transform: scale(1); }
+    to   { opacity: 1;    transform: scale(2); }
+  }
+
+  /* WANTED stamp */
+  .wanted-wrap {
+    display: inline-block;
+    border: 2.5px solid var(--terracota);
+    padding: 6px 24px 10px;
+    position: relative;
+    opacity: 0;
+    animation: wrapFade 0.4s ease forwards 0.7s;
+  }
+  .wanted-wrap::before, .wanted-wrap::after {
+    content: ''; position: absolute;
+    left: 6px; right: 6px; height: 1.5px;
+    background: var(--terracota); opacity: 0.5;
+  }
+  .wanted-wrap::before { top: 4px; }
+  .wanted-wrap::after  { bottom: 4px; }
+
+  .wanted-stamp {
+    font-family: 'Rye', cursive;
+    font-size: clamp(52px, 14vw, 80px);
+    color: var(--terracota);
+    letter-spacing: 6px; line-height: 1;
+    display: inline-block; opacity: 0;
+    transform: scale(2.8) rotate(-8deg);
+    animation: stampIn 0.6s cubic-bezier(0.22,1,0.36,1) forwards 0.25s;
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.22);
+    -webkit-text-stroke: 1px rgba(0,0,0,0.15);
+  }
+  @keyframes stampIn {
+    0%   { opacity:0; transform: scale(2.8) rotate(-8deg); }
+    55%  { opacity:1; transform: scale(0.9) rotate(1.5deg); }
+    75%  { transform: scale(1.05) rotate(-0.5deg); }
+    100% { opacity:1; transform: scale(1) rotate(0deg); }
+  }
+  @keyframes wrapFade { from { opacity:0; } to { opacity:1; } }
+
+  .hero-hat {
+    margin: 22px auto 16px; width: 200px;
+    opacity: 0;
+    animation: riseUp 0.55s ease forwards 1s;
+  }
+  .hero-hat svg { width: 100%; }
+
+  .hero-name {
+    font-family: 'Rye', cursive;
+    font-size: clamp(28px, 8vw, 46px);
+    font-weight: 400; color: #fff; line-height: 1.15;
+    letter-spacing: 2px;
+    text-shadow: 2px 3px 0 rgba(0,0,0,0.35);
+    opacity: 0; animation: riseUp 0.5s ease forwards 1.2s;
+  }
+  .hero-years {
+    font-family: 'Playfair Display', serif;
+    font-style: italic; font-size: 22px;
+    color: var(--gold); margin-top: 8px;
+    opacity: 0; animation: riseUp 0.5s ease forwards 1.35s;
+  }
+  .hero-tagline {
+    margin-top: 14px; font-size: 13px;
+    color: rgba(255,255,255,0.55);
+    letter-spacing: 1.5px; font-weight: 300;
+    opacity: 0; animation: riseUp 0.5s ease forwards 1.5s;
+  }
+
+  .band {
+    height: 6px;
+    background: linear-gradient(90deg,
+      var(--sky) 0%, var(--sage) 33%,
+      var(--amber) 66%, var(--terracota) 100%);
+  }
+
+  /* ── SHERIFF BADGE ── */
+  .sheriff-row {
+    display: flex; align-items: center;
+    padding: 30px 32px 0; gap: 20px;
+    opacity: 0; animation: fadeSlide 0.5s ease forwards 1.7s;
+  }
+  .badge-wrap {
+    flex-shrink: 0; width: 76px; height: 76px;
+    opacity: 0; transform: rotateY(90deg) scale(0.6);
+    animation: badgeSpin 0.9s cubic-bezier(0.34,1.56,0.64,1) forwards 1.8s;
+  }
+  @keyframes badgeSpin {
+    0%   { opacity:0; transform: rotateY(90deg) scale(0.6); }
+    60%  { opacity:1; transform: rotateY(-8deg) scale(1.06); }
+    100% { opacity:1; transform: rotateY(0deg) scale(1); }
+  }
+  .badge-wrap svg { width: 100%; height: 100%; }
+  .badge-text .badge-label {
+    font-family: 'Rye', cursive;
+    font-size: 11px; letter-spacing: 4px;
+    color: var(--amber); text-transform: uppercase; margin-bottom: 4px;
+  }
+  .badge-text .badge-desc { font-size: 15px; color: var(--ink); line-height: 1.55; }
+  .badge-text .badge-desc em { font-style: italic; color: var(--muted); font-size: 13px; }
+
+  /* ── COUNTDOWN ── */
+  .countdown-section {
+    padding: 28px 32px 0;
+    opacity: 0; animation: fadeSlide 0.6s ease forwards 2s;
+  }
+  .section-title {
+    font-size: 10px; letter-spacing: 5px;
+    text-transform: uppercase; color: var(--muted);
+    font-weight: 600; margin-bottom: 16px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-title::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+  .countdown-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; }
+  .cd-block {
+    background: var(--dark); border-radius: 10px;
+    padding: 16px 8px 12px; text-align: center;
+    border-bottom: 3px solid var(--gold);
+    position: relative; overflow: hidden;
+  }
+  .cd-block::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0;
+    height: 40%; background: rgba(255,255,255,0.04);
+  }
+  .cd-num {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px,7vw,38px); font-weight: 700;
+    color: var(--gold); line-height: 1; display: block;
+  }
+  .cd-label {
+    font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+    color: rgba(255,255,255,0.45); margin-top: 6px; display: block;
+  }
+  .flip { animation: flipNum 0.4s ease; }
+  @keyframes flipNum {
+    0%  { transform: rotateX(0);     opacity: 1; }
+    50% { transform: rotateX(90deg); opacity: 0; }
+    51% { transform: rotateX(-90deg);opacity: 0; }
+    100%{ transform: rotateX(0);     opacity: 1; }
+  }
+
+  /* ── INFO CARDS ── */
+  .info-section {
+    padding: 28px 32px 0;
+    opacity: 0; animation: fadeSlide 0.6s ease forwards 2.15s;
+  }
+  .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .info-card {
+    border-radius: 10px; padding: 18px 16px;
+    transition: transform 0.2s, box-shadow 0.2s; cursor: default;
+  }
+  .info-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+  .ic-date  { background: #ffecd6; }
+  .ic-time  { background: #d6f0e0; }
+  .ic-place { background: #d6eaf8; grid-column: 1 / -1; }
+  .ic-dress { background: #fdf3dc; }
+  .ic-icon  { font-size: 24px; margin-bottom: 8px; display: block; }
+  .ic-label { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); font-weight: 600; margin-bottom: 4px; }
+  .ic-value { font-family: 'Playfair Display', serif; font-size: 15px; color: var(--ink); line-height: 1.3; }
+  .ic-sub   { font-size: 12px; color: var(--muted); margin-top: 3px; font-style: italic; }
+
+  /* ── BULLET HOLES ── */
+  .bullet-divider {
+    display: flex; align-items: center; justify-content: center; gap: 14px;
+    padding: 26px 32px 0;
+    opacity: 0; animation: fadeSlide 0.5s ease forwards 2.3s;
+  }
+  .bullet-hole {
+    width: 14px; height: 14px; border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #555 0%, #1a1a1a 50%, #000 100%);
+    box-shadow: 0 0 0 2px #8a7060, 0 0 0 4px rgba(138,112,96,0.3);
+    position: relative;
+  }
+  .bullet-hole::before {
+    content: ''; position: absolute; inset: -6px; border-radius: 50%;
+    box-shadow:
+      -5px -3px 0 -3px rgba(0,0,0,0.13),
+       4px -5px 0 -3px rgba(0,0,0,0.11),
+       6px  3px 0 -3px rgba(0,0,0,0.09),
+      -3px  5px 0 -3px rgba(0,0,0,0.08);
+  }
+  .bullet-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--rule) 30%, var(--rule) 70%, transparent); }
+  .bullet-star { font-family: 'Rye', cursive; font-size: 16px; color: var(--amber); letter-spacing: 2px; }
+
+  /* ── MAP ── */
+  .map-section {
+    padding: 28px 32px 0;
+    opacity: 0; animation: fadeSlide 0.6s ease forwards 2.45s;
+  }
+  .map-frame { width: 100%; height: 210px; overflow: hidden; border-radius: 10px; border: 2px solid var(--rule); }
+  .map-frame iframe { width: 100%; height: 100%; border: none; display: block; }
+
+  /* ── WAX SEAL ENVELOPE ── */
+  .envelope-section {
+    padding: 28px 32px 0;
+    opacity: 0; animation: fadeSlide 0.6s ease forwards 2.65s;
+  }
+  .envelope-wrap { position: relative; cursor: pointer; user-select: none; }
+  .envelope-body {
+    background: #f5ede0; border: 2px solid var(--rule);
+    border-radius: 4px; overflow: visible; position: relative;
+    transition: box-shadow 0.3s;
+  }
+  .envelope-wrap:hover .envelope-body { box-shadow: 0 12px 32px rgba(0,0,0,0.14); }
+  .env-flap {
+    width: 100%; overflow: hidden; height: 80px; position: relative;
+    transition: height 0.55s cubic-bezier(0.4,0,0.2,1);
+  }
+  .env-flap svg { width: 100%; display: block; }
+  .env-message {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.7s cubic-bezier(0.4,0,0.2,1);
+    background: #fdf6ec; padding: 0 28px;
+  }
+  .env-message-inner {
+    padding: 24px 0 28px; text-align: center;
+    border-top: 1px dashed var(--rule);
+  }
+  .env-msg-title { font-family: 'Rye', cursive; font-size: 14px; color: var(--amber); letter-spacing: 3px; margin-bottom: 12px; }
+  .env-msg-text  { font-family: 'Playfair Display', serif; font-style: italic; font-size: 16px; color: var(--ink); line-height: 1.85; }
+  .env-msg-sig   { margin-top: 14px; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); }
+  .env-bottom    { height: 14px; background: linear-gradient(90deg, var(--terracota), var(--amber), var(--sage), var(--sky)); }
+  .wax-seal {
+    position: absolute; left: 50%; top: 50px;
+    transform: translateX(-50%);
+    width: 60px; height: 60px; z-index: 10;
+    transition: transform 0.45s cubic-bezier(0.34,1.56,0.64,1), opacity 0.3s;
+    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.35));
+  }
+  .wax-seal svg { width: 100%; height: 100%; }
+  .envelope-wrap.open .env-flap    { height: 0; }
+  .envelope-wrap.open .env-message { max-height: 400px; }
+  .envelope-wrap.open .wax-seal    { transform: translateX(-50%) scale(0) rotate(25deg); opacity: 0; }
+  .env-hint {
+    text-align: center; margin-top: 12px; font-size: 11px;
+    letter-spacing: 3px; text-transform: uppercase; color: var(--muted);
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity: 0.45; } 50% { opacity: 1; } }
+
+  /* ── LASSO ROPE ── */
+  .rope-divider {
+    padding: 26px 32px 0;
+    opacity: 0; animation: fadeSlide 0.5s ease forwards 2.6s;
+  }
+  .rope-svg { width: 100%; height: 30px; }
+
+  /* ── TUMBLEWEED ── */
+  .tumbleweed-stage { height: 60px; overflow: hidden; position: relative; }
+  .tumbleweed {
+    position: absolute; top: 10px; font-size: 36px; opacity: 0;
+    animation: tumble 3.5s cubic-bezier(0.4,0,0.6,1) forwards 2.7s;
+  }
+  @keyframes tumble {
+    0%   { left: -60px; opacity: 0; transform: rotate(0deg); }
+    8%   { opacity: 0.9; }
+    90%  { opacity: 0.9; }
+    100% { left: 110%; opacity: 0; transform: rotate(720deg); }
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    padding: 10px 32px 0; text-align: center;
+    opacity: 0; animation: fadeSlide 0.7s ease forwards 2.8s;
+  }
+  .footer-quote { font-family: 'Playfair Display', serif; font-style: italic; font-size: 19px; color: var(--terracota); line-height: 1.75; }
+  .footer-from  { margin-top: 14px; font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); }
+  .footer-dots  { margin-top: 26px; display: flex; justify-content: center; gap: 8px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; }
+  .d1{background:var(--terracota);}
+  .d2{background:var(--amber);}
+  .d3{background:var(--sage);}
+  .d4{background:var(--sky);}
+
+  /* ── SHARED KEYFRAMES ── */
+  @keyframes fadeSlide { from { opacity:0; transform: translateY(14px); } to { opacity:1; transform: translateY(0); } }
+  @keyframes riseUp    { from { opacity:0; transform: translateY(22px); } to { opacity:1; transform: translateY(0); } }
+
+  /* ── DUST PARTICLES ── */
+  .dust { position: fixed; pointer-events: none; z-index: 99; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; }
+  .dust-particle { position: absolute; border-radius: 50%; background: rgba(196,150,80,0.5); animation: dustFloat linear forwards; }
+  @keyframes dustFloat {
+    0%   { transform: translateY(110vh) scale(1); opacity: 0.7; }
+    80%  { opacity: 0.35; }
+    100% { transform: translateY(-10vh) scale(0.2); opacity: 0; }
+  }
+
+  /* ── GUNSHOT FLASH ── */
+  .flash {
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(255,220,120,0.55);
+    pointer-events: none; opacity: 0;
+    animation: gunFlash 0.35s ease forwards 0.15s;
+  }
+  @keyframes gunFlash {
+    0%  { opacity: 0.6; }
+    40% { opacity: 0.2; }
+    100%{ opacity: 0; }
+  }
+
+  @media (max-width: 520px) {
+    .page-outer { padding: 10px; }
+    .hero { padding: 36px 20px 40px; }
+    .sheriff-row, .countdown-section, .info-section,
+    .bullet-divider, .map-section, .rope-divider,
+    .envelope-section, .footer { padding-left: 18px; padding-right: 18px; }
+    .countdown-grid { gap: 7px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Fixed background stars -->
+<div class="bg-stars" id="bgStars"></div>
+
+<!-- Flash -->
+<div class="flash"></div>
+
+<!-- Dust -->
+<div class="dust" id="dust"></div>
+
+<div class="page-outer">
+
+  <!-- ══ DECORATIVE FRAME ══ -->
+  <div class="frame">
+
+    <!-- Corner ornaments -->
+    <div class="corner corner-tl">
+      <svg viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- L-shaped rule -->
+        <path d="M4 4 L4 50" stroke="#9b6830" stroke-width="2"/>
+        <path d="M4 4 L50 4" stroke="#9b6830" stroke-width="2"/>
+        <path d="M10 10 L10 44" stroke="#c4912a" stroke-width="1" opacity="0.5"/>
+        <path d="M10 10 L44 10" stroke="#c4912a" stroke-width="1" opacity="0.5"/>
+        <!-- Rosette -->
+        <circle cx="10" cy="10" r="5" fill="none" stroke="#c4912a" stroke-width="1.5"/>
+        <circle cx="10" cy="10" r="2.5" fill="#c4912a"/>
+        <!-- Decorative spurs -->
+        <path d="M10 5 L10 2 M10 15 L10 18 M5 10 L2 10 M15 10 L18 10 M6.5 6.5 L4.5 4.5 M13.5 13.5 L15.5 15.5 M13.5 6.5 L15.5 4.5 M6.5 13.5 L4.5 15.5"
+              stroke="#c4912a" stroke-width="1" stroke-linecap="round" opacity="0.7"/>
+        <!-- Vine curl -->
+        <path d="M18 4 Q28 4 28 14 Q28 22 20 22"
+              stroke="#9b6830" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+        <path d="M4 18 Q4 28 14 28 Q22 28 22 20"
+              stroke="#9b6830" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+        <circle cx="20" cy="22" r="2" fill="#c4912a" opacity="0.7"/>
+        <circle cx="22" cy="20" r="1.5" fill="#9b6830" opacity="0.6"/>
+      </svg>
+    </div>
+    <div class="corner corner-tr">
+      <svg viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 4 L4 50" stroke="#9b6830" stroke-width="2"/>
+        <path d="M4 4 L50 4" stroke="#9b6830" stroke-width="2"/>
+        <path d="M10 10 L10 44" stroke="#c4912a" stroke-width="1" opacity="0.5"/>
+        <path d="M10 10 L44 10" stroke="#c4912a" stroke-width="1" opacity="0.5"/>
+        <circle cx="10" cy="10" r="5" fill="none" stroke="#c4912a" stroke-width="1.5"/>
+        <circle cx="10" cy="10" r="2.5" fill="#c4912a"/>
+        <path d="M10 5 L10 2 M10 15 L10 18 M5 10 L2 10 M15 10 L18 10 M6.5 6.5 L4.5 4.5 M13.5 13.5 L15.5 15.5 M13.5 6.5 L15.5 4.5 M6.5 13.5 L4.5 15.5"
+              stroke="#c4912a" stroke-width="1" stroke-linecap="round" opacity="0.7"/>
+        <path d="M18 4 Q28 4 28 14 Q28 22 20 22" stroke="#9b6830" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+        <path d="M4 18 Q4 28 14 28 Q22 28 22 20" stroke="#9b6830" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+        <circle cx="20" cy="22" r="2" fill="#c4912a" opacity="0.7"/>
+        <circle cx="22" cy="20" r="1.5" fill="#9b6830" opacity="0.6"/>
+      </svg>
+    </div>
+    <div class="corner corner-bl">
+      <svg viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 4 L4 50" stroke="#9b6830" stroke-width="2"/>
+        <path d="M4 4 L50 4" stroke="#9b6830" stroke-width="2"/>
+        <path d="M10 10 L10 44" stroke="#c4912a" stroke-width="1" opacity="0.5"/>
+        <path d="M10 10 L44 10" stroke="#c4912a" stroke-width="1" opacity="0.5"/>
+        <circle cx="10" cy="10" r="5" fill="none" stroke="#c4912a" stroke-width="1.5"/>
+        <circle cx="10" cy="10" r="2.5" fill="#c4912a"/>
+        <path d="M10 5 L10 2 M10 15 L10 18 M5 10 L2 10 M15 10 L18 10 M6.5 6.5 L4.5 4.5 M13.5 13.5 L15.5 15.5 M13.5 6.5 L15.5 4.5 M6.5 13.5 L4.5 15.5"
+              stroke="#c4912a" stroke-width="1" stroke-linecap="round" opacity="0.7"/>
+        <path d="M18 4 Q28 4 28 14 Q28 22 20 22" stroke="#9b6830" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+        <path d="M4 18 Q4 28 14 28 Q22 28 22 20" stroke="#9b6830" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+        <circle cx="20" cy="22" r="2" fill="#c4912a" opacity="0.7"/>
+        <circle cx="22" cy="20" r="1.5" fill="#9b6830" opacity="0.6"/>
+      </svg>
+    </div>
+    <div class="corner corner-br">
+      <svg viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 4 L4 50" stroke="#9b6830" stroke-width="2"/>
+        <path d="M4 4 L50 4" stroke="#9b6830" stroke-width="2"/>
+        <path d="M10 10 L10 44" stroke="#c4912a" stroke-width="1" opacity="0.5"/>
+        <path d="M10 10 L44 10" stroke="#c4912a" stroke-width="1" opacity="0.5"/>
+        <circle cx="10" cy="10" r="5" fill="none" stroke="#c4912a" stroke-width="1.5"/>
+        <circle cx="10" cy="10" r="2.5" fill="#c4912a"/>
+        <path d="M10 5 L10 2 M10 15 L10 18 M5 10 L2 10 M15 10 L18 10 M6.5 6.5 L4.5 4.5 M13.5 13.5 L15.5 15.5 M13.5 6.5 L15.5 4.5 M6.5 13.5 L4.5 15.5"
+              stroke="#c4912a" stroke-width="1" stroke-linecap="round" opacity="0.7"/>
+        <path d="M18 4 Q28 4 28 14 Q28 22 20 22" stroke="#9b6830" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+        <path d="M4 18 Q4 28 14 28 Q22 28 22 20" stroke="#9b6830" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+        <circle cx="20" cy="22" r="2" fill="#c4912a" opacity="0.7"/>
+        <circle cx="22" cy="20" r="1.5" fill="#9b6830" opacity="0.6"/>
+      </svg>
+    </div>
+
+    <!-- Side and top/bottom rule lines -->
+    <div class="side-rule left"></div>
+    <div class="side-rule right"></div>
+    <div class="top-rule"></div>
+    <div class="bot-rule"></div>
+
+    <!-- ══ PAGE CONTENT ══ -->
+    <div class="page">
+
+      <div class="stripe"></div>
+
+      <!-- HERO -->
+      <div class="hero">
+        <div id="hero-stars"></div>
+        <div class="wanted-wrap">
+          <span class="wanted-stamp">WANTED</span>
+        </div>
+        <div class="hero-hat">
+          <svg viewBox="0 0 220 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="110" cy="122" rx="88" ry="7" fill="rgba(0,0,0,0.28)"/>
+            <path d="M8 98 Q14 82 38 84 Q58 86 72 90" fill="#3d1e08" stroke="#2a1205" stroke-width="1"/>
+            <path d="M212 98 Q206 82 182 84 Q162 86 148 90" fill="#3d1e08" stroke="#2a1205" stroke-width="1"/>
+            <path d="M38 84 Q72 94 110 95 Q148 94 182 84 Q198 80 206 88 Q210 94 200 100 Q170 112 110 114 Q50 112 20 100 Q10 94 14 88 Q22 80 38 84 Z"
+                  fill="#4a2510" stroke="#2a1205" stroke-width="1.2"/>
+            <path d="M42 86 Q76 93 110 94 Q144 93 178 86" stroke="#7a4a28" stroke-width="1" fill="none" opacity="0.6"/>
+            <path d="M72 90 Q68 56 70 38 Q74 18 110 12 Q146 18 150 38 Q152 56 148 90 Z" fill="#5a3018"/>
+            <path d="M72 90 Q68 56 70 38 Q80 22 95 16 Q82 28 80 52 Q78 70 80 90 Z" fill="rgba(0,0,0,0.18)"/>
+            <path d="M148 90 Q152 56 150 38 Q140 22 125 16 Q138 28 140 52 Q142 70 140 90 Z" fill="rgba(0,0,0,0.12)"/>
+            <path d="M92 14 Q100 10 110 12 Q120 10 128 14 Q122 20 110 22 Q98 20 92 14 Z" fill="#3d1e08"/>
+            <path d="M71 52 Q76 48 82 52" stroke="#2a1205" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <path d="M149 52 Q144 48 138 52" stroke="#2a1205" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <path d="M72 90 Q68 56 70 38 Q74 18 110 12 Q146 18 150 38 Q152 56 148 90" fill="none" stroke="#2a1205" stroke-width="1.2"/>
+            <path d="M74 78 Q92 74 110 73 Q128 74 146 78" stroke="#c47820" stroke-width="6" stroke-linecap="round" fill="none"/>
+            <path d="M74 78 Q92 74 110 73 Q128 74 146 78" stroke="#e0a830" stroke-width="2" stroke-linecap="round" fill="none" stroke-dasharray="4 3"/>
+            <rect x="104" y="70" width="12" height="8" rx="1.5" fill="#c47820" stroke="#e0a830" stroke-width="1"/>
+            <line x1="110" y1="70" x2="110" y2="78" stroke="#e0a830" stroke-width="0.8"/>
+            <path d="M32 96 Q72 106 110 107 Q148 106 188 96" stroke="#7a4a28" stroke-width="0.8" fill="none" stroke-dasharray="3 3" opacity="0.55"/>
+            <path d="M96 16 Q110 13 124 16 Q118 22 110 24 Q102 22 96 16 Z" fill="rgba(255,255,255,0.07)"/>
+          </svg>
+        </div>
+        <h1 class="hero-name">Efraín Arcos</h1>
+        <p class="hero-tagline">Una tarde vaquera para celebrar su cumpleaños</p>
+      </div>
+      <div class="band"></div>
+
+      <!-- SHERIFF -->
+      <div class="sheriff-row">
+        <div class="badge-wrap">
+          <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="50,4 61,35 94,35 68,56 78,88 50,68 22,88 32,56 6,35 39,35" fill="#e0a830" stroke="#c4522a" stroke-width="2.5"/>
+            <circle cx="50" cy="50" r="18" fill="#3b1f0c" stroke="#e0a830" stroke-width="1.5"/>
+            <text x="50" y="44" text-anchor="middle" font-family="Rye,serif" font-size="7" fill="#e0a830" letter-spacing="0.5">SHERIFF</text>
+            <text x="50" y="58" text-anchor="middle" font-family="Rye,serif" font-size="11" fill="#fff">★</text>
+          </svg>
+        </div>
+        <div class="badge-text">
+          <p class="badge-label">Orden del Sheriff</p>
+          <p class="badge-desc">Se solicita tu presencia<br><em>en el rancho al atardecer</em></p>
+        </div>
+      </div>
+
+      <!-- COUNTDOWN -->
+      <div class="countdown-section">
+        <p class="section-title">Cuenta regresiva</p>
+        <div class="countdown-grid">
+          <div class="cd-block"><span class="cd-num" id="cd-d">00</span><span class="cd-label">días</span></div>
+          <div class="cd-block"><span class="cd-num" id="cd-h">00</span><span class="cd-label">horas</span></div>
+          <div class="cd-block"><span class="cd-num" id="cd-m">00</span><span class="cd-label">minutos</span></div>
+          <div class="cd-block"><span class="cd-num" id="cd-s">00</span><span class="cd-label">segundos</span></div>
+        </div>
+      </div>
+
+      <!-- INFO -->
+      <div class="info-section">
+        <p class="section-title">Detalles del evento</p>
+        <div class="info-grid">
+          <div class="info-card ic-date">
+            <span class="ic-icon">
+              <!-- Calendar with spur -->
+              <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" width="36" height="36">
+                <rect x="3" y="6" width="30" height="26" rx="3" fill="#c4522a" opacity="0.15" stroke="#c4522a" stroke-width="1.5"/>
+                <rect x="3" y="6" width="30" height="8" rx="3" fill="#c4522a" opacity="0.35"/>
+                <line x1="3" y1="14" x2="33" y2="14" stroke="#c4522a" stroke-width="1"/>
+                <!-- Ring bindings -->
+                <rect x="10" y="3" width="3" height="6" rx="1.5" fill="#7a4a1a" stroke="#c4522a" stroke-width="1"/>
+                <rect x="23" y="3" width="3" height="6" rx="1.5" fill="#7a4a1a" stroke="#c4522a" stroke-width="1"/>
+                <!-- Date dots -->
+                <circle cx="11" cy="21" r="1.8" fill="#c4522a"/>
+                <circle cx="18" cy="21" r="1.8" fill="#c4522a" opacity="0.5"/>
+                <circle cx="25" cy="21" r="1.8" fill="#c4522a" opacity="0.5"/>
+                <circle cx="11" cy="28" r="1.8" fill="#c4522a" opacity="0.5"/>
+                <circle cx="18" cy="28" r="1.8" fill="#c4522a"/>
+                <circle cx="25" cy="28" r="1.8" fill="#c4522a" opacity="0.5"/>
+              </svg>
+            </span>
+            <p class="ic-label">Fecha</p>
+            <p class="ic-value">Sábado 16 de Mayo, 2026</p>
+          </div>
+          <div class="info-card ic-time">
+            <span class="ic-icon">
+              <!-- Pocket watch -->
+              <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" width="36" height="36">
+                <!-- Crown/winder -->
+                <rect x="15" y="1" width="6" height="4" rx="1.5" fill="#7a4a1a" stroke="#d98c2f" stroke-width="1"/>
+                <path d="M18 5 L18 8" stroke="#d98c2f" stroke-width="1.5"/>
+                <!-- Watch case outer -->
+                <circle cx="18" cy="21" r="13" fill="#d98c2f" opacity="0.2" stroke="#d98c2f" stroke-width="1.5"/>
+                <!-- Watch case inner -->
+                <circle cx="18" cy="21" r="10" fill="#fdf6ec" stroke="#7a4a1a" stroke-width="1"/>
+                <!-- Hour marks -->
+                <line x1="18" y1="12" x2="18" y2="14" stroke="#7a4a1a" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="18" y1="28" x2="18" y2="30" stroke="#7a4a1a" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="9" y1="21" x2="11" y2="21" stroke="#7a4a1a" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="25" y1="21" x2="27" y2="21" stroke="#7a4a1a" stroke-width="1.5" stroke-linecap="round"/>
+                <!-- Hour hand (pointing ~3) -->
+                <line x1="18" y1="21" x2="24" y2="21" stroke="#2b1a0f" stroke-width="1.8" stroke-linecap="round"/>
+                <!-- Minute hand (pointing ~12) -->
+                <line x1="18" y1="21" x2="18" y2="14" stroke="#2b1a0f" stroke-width="1.2" stroke-linecap="round"/>
+                <!-- Center dot -->
+                <circle cx="18" cy="21" r="1.5" fill="#c4522a"/>
+              </svg>
+            </span>
+            <p class="ic-label">Hora</p>
+            <p class="ic-value">3:00 pm</p>
+            <p class="ic-sub">Hasta las 11:00 pm o hasta que el cuerpo aguante.</p>
+          </div>
+          <div class="info-card ic-place">
+            <span class="ic-icon">
+              <!-- Horseshoe as location pin -->
+              <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" width="36" height="36">
+                <!-- Pin drop shape -->
+                <path d="M18 2 C10 2 4 8 4 16 C4 24 18 34 18 34 C18 34 32 24 32 16 C32 8 26 2 18 2 Z"
+                      fill="#4a8fa8" opacity="0.2" stroke="#4a8fa8" stroke-width="1.5"/>
+                <!-- Horseshoe inside pin -->
+                <path d="M12 20 Q12 11 18 11 Q24 11 24 20"
+                      stroke="#4a8fa8" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                <line x1="12" y1="20" x2="12" y2="23" stroke="#4a8fa8" stroke-width="2.5" stroke-linecap="round"/>
+                <line x1="24" y1="20" x2="24" y2="23" stroke="#4a8fa8" stroke-width="2.5" stroke-linecap="round"/>
+                <!-- Nail holes -->
+                <circle cx="13.5" cy="22" r="1" fill="#4a8fa8"/>
+                <circle cx="22.5" cy="22" r="1" fill="#4a8fa8"/>
+              </svg>
+            </span>
+            <p class="ic-label">Lugar</p>
+            <p class="ic-value">Domicilio conocido</p>
+            <p class="ic-sub">Calle 25 norte #103, Barrio del Calvario.</p>
+          </div>
+          <div class="info-card ic-dress">
+            <span class="ic-icon">
+              <!-- Cowboy hat SVG icon -->
+              <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" width="36" height="36">
+                <!-- Brim -->
+                <path d="M2 24 Q5 18 10 20 Q14 22 18 22 Q22 22 26 20 Q31 18 34 24 Q32 28 18 29 Q4 28 2 24 Z"
+                      fill="#7a4a1a" stroke="#2b1a0f" stroke-width="1"/>
+                <!-- Crown -->
+                <path d="M10 20 Q9 10 12 7 Q18 3 24 7 Q27 10 26 20 Z"
+                      fill="#5a3018" stroke="#2b1a0f" stroke-width="1"/>
+                <!-- Crown top crease -->
+                <path d="M15 5 Q18 3 21 5 Q19 8 18 9 Q17 8 15 5 Z" fill="#3d1e08"/>
+                <!-- Hatband -->
+                <path d="M11 18 Q18 16 25 18" stroke="#e0a830" stroke-width="2.5" stroke-linecap="round"/>
+                <!-- Star on band -->
+                <polygon points="18,15 19,17.5 21.5,17.5 19.5,19 20.2,21.5 18,20 15.8,21.5 16.5,19 14.5,17.5 17,17.5"
+                         fill="#e0a830" transform="scale(0.55) translate(15,12)"/>
+              </svg>
+            </span>
+            <p class="ic-label">Vestimenta</p>
+            <p class="ic-value">Vaquera<br><small style="font-size:11px;color:var(--muted);font-style:italic;">(quien no venga así se tomará cuatro mezcales)</small></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- BULLET HOLES -->
+      <div class="bullet-divider">
+        <div class="bullet-line"></div>
+        <div class="bullet-hole"></div>
+        <span class="bullet-star">✦</span>
+        <div class="bullet-hole"></div>
+        <div class="bullet-line"></div>
+      </div>
+
+      <!-- MAP -->
+      <div class="map-section">
+        <p class="section-title">Cómo llegar</p>
+        <div class="map-frame">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1016.2811657345234!2d-99.18373389538849!3d17.594675928697487!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85c958873ccd1dfd%3A0xfdea933e1804078b!2sC.%2025%20Nte.%20103%2C%20La%20Villa%2C%2041103%20Chilapa%20de%20%C3%81lvarez%2C%20Gro.!5e0!3m2!1ses-419!2smx!4v1777047273365!5m2!1ses-419!2smx"
+            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+      </div>
+
+      <!-- ENVELOPE -->
+      <div class="envelope-section">
+        <p class="section-title">Mensaje del anfitrión</p>
+        <div class="envelope-wrap" id="envelope">
+          <div class="envelope-body">
+            <div class="env-flap">
+              <svg viewBox="0 0 540 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="540" height="80" fill="#ede0cc"/>
+                <line x1="0" y1="0" x2="270" y2="80" stroke="#d4b98a" stroke-width="1.5" opacity="0.6"/>
+                <line x1="540" y1="0" x2="270" y2="80" stroke="#d4b98a" stroke-width="1.5" opacity="0.6"/>
+                <path d="M0 0 L270 70 L540 0" fill="#e5d4bc" stroke="#d4b98a" stroke-width="1"/>
+              </svg>
+            </div>
+            <div class="env-message">
+              <div class="env-message-inner">
+                <p class="env-msg-title">— Estimado forastero —</p>
+                <p class="env-msg-text">
+                  Regalo monetaria (opcional)<br>
+                  para que no te quiebres la cabeza buscando qué regalar.<br>
+                  Vía transferencia o contamos con terminal.<br><br>
+                  <em>No faltes.</em>
+                </p>
+              </div>
+            </div>
+            <div class="env-bottom"></div>
+          </div>
+          <div class="wax-seal">
+            <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="30" cy="30" r="28" fill="#c4522a"/>
+              <circle cx="30" cy="30" r="24" fill="#d4623a"/>
+              <polygon points="30,10 33.5,21 45,21 36,28 39.5,39 30,32 20.5,39 24,28 15,21 26.5,21"
+                       fill="#a83820" stroke="#e07050" stroke-width="0.8"/>
+              <ellipse cx="22" cy="20" rx="6" ry="4" fill="rgba(255,255,255,0.18)" transform="rotate(-25 22 20)"/>
+            </svg>
+          </div>
+        </div>
+        <p class="env-hint">✦ <span>toca para abrir</span> ✦</p>
+      </div>
+
+      <!-- LASSO -->
+      <div class="rope-divider">
+        <svg class="rope-svg" viewBox="0 0 540 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="24" cy="15" rx="18" ry="10" stroke="#b8914a" stroke-width="2" stroke-dasharray="3 2" fill="none"/>
+          <path d="M42 15 Q80 4 120 15 Q160 26 200 15 Q240 4 280 15 Q320 26 360 15 Q400 4 440 15 Q480 26 520 15"
+                stroke="#b8914a" stroke-width="2" stroke-dasharray="5 3" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
+
+      <!-- TUMBLEWEED -->
+      <div class="tumbleweed-stage">
+        <span class="tumbleweed" id="tw">🌿</span>
+      </div>
+
+      <!-- FOOTER -->
+      <div class="footer">
+        <p class="footer-quote">"El camino se hace al andar."</p>
+        <p class="footer-from">Con cariño — Efraín Arcos</p>
+        <div class="footer-dots">
+          <div class="dot d1"></div>
+          <div class="dot d2"></div>
+          <div class="dot d3"></div>
+          <div class="dot d4"></div>
+        </div>
+      </div>
+
+      <div class="stripe rev" style="margin-top:40px;"></div>
+    </div><!-- end .page -->
+
+  </div><!-- end .frame -->
+</div><!-- end .page-outer -->
+
+<script>
+/* Background stars (visible on desktop sides) */
+const bgStarsEl = document.getElementById('bgStars');
+for (let i = 0; i < 60; i++) {
+  const s = document.createElement('div');
+  s.className = 'bg-star';
+  const size = 1 + Math.random() * 3;
+  s.style.cssText = `
+    width:${size}px; height:${size}px;
+    left:${Math.random()*100}%; top:${Math.random()*100}%;
+    animation-delay:${Math.random()*4}s;
+    animation-duration:${2+Math.random()*3}s;
+  `;
+  bgStarsEl.appendChild(s);
+}
+
+/* Hero stars */
+const heroStarsEl = document.getElementById('hero-stars');
+for (let i = 0; i < 30; i++) {
+  const s = document.createElement('div');
+  s.className = 'hero-star';
+  s.style.cssText = `
+    left:${Math.random()*100}%; top:${Math.random()*100}%;
+    animation-delay:${Math.random()*3}s;
+    animation-duration:${1.5+Math.random()*2}s;
+    width:${Math.random()<0.3?3:2}px; height:${Math.random()<0.3?3:2}px;
+  `;
+  heroStarsEl.appendChild(s);
+}
+
+/* Envelope toggle */
+const env  = document.getElementById('envelope');
+const hint = env ? env.nextElementSibling : null;
+if (env) {
+  env.addEventListener('click', () => {
+    env.classList.toggle('open');
+    if (hint) hint.style.display = 'none';
+  });
+}
+
+/* Dust */
+const dustEl = document.getElementById('dust');
+for (let i = 0; i < 20; i++) {
+  const p = document.createElement('div');
+  p.className = 'dust-particle';
+  const size = 3 + Math.random() * 7;
+  p.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;
+    animation-duration:${1.2+Math.random()*1.5}s;
+    animation-delay:${Math.random()*0.5}s;`;
+  dustEl.appendChild(p);
+}
+setTimeout(() => dustEl.remove(), 3200);
+
+/* Countdown */
+const target = new Date('2026-05-16T15:00:00');
+const els = {
+  d: document.getElementById('cd-d'),
+  h: document.getElementById('cd-h'),
+  m: document.getElementById('cd-m'),
+  s: document.getElementById('cd-s'),
+};
+function pad(n) { return String(n).padStart(2,'0'); }
+function flip(el, val) {
+  const p = pad(val);
+  if (el && el.textContent !== p) {
+    el.textContent = p;
+    el.classList.remove('flip');
+    void el.offsetWidth;
+    el.classList.add('flip');
+  }
+}
+function tick() {
+  const diff = Math.max(0, target - new Date());
+  flip(els.d, Math.floor(diff / 86400000));
+  flip(els.h, Math.floor((diff % 86400000) / 3600000));
+  flip(els.m, Math.floor((diff % 3600000)  / 60000));
+  flip(els.s, Math.floor((diff % 60000)    / 1000));
+}
+tick(); setInterval(tick, 1000);
+
+/* Tumbleweed loop */
+const tw = document.getElementById('tw');
+function resetTumble() {
+  tw.style.animation = 'none';
+  void tw.offsetWidth;
+  tw.style.animation = 'tumble 3.5s cubic-bezier(0.4,0,0.6,1) forwards';
+}
+tw.addEventListener('animationend', () => setTimeout(resetTumble, 4500));
+</script>
+
+</body>
+</html>
