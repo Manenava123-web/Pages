@@ -1,118 +1,1084 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La Buena Vibra - Menú Digital</title>
-    <style>
-        body {
-            font-family: 'Georgia', serif;
-            background-color: #3e4420;
-            margin: 0;
-            padding: 0;
-            text-align: center;
-            color: white;
-        }
-        .menu-container {
-            max-width: 600px;
-            margin: 30px auto;
-            background-color: #f5e1c0;
-            border-radius: 15px;
-            box-shadow: 0px 6px 15px rgba(0,0,0,0.4);
-            overflow: hidden;
-            padding: 20px;
-            border: 5px solid #8b5a2b;
-        }
-        .menu-header {
-            font-size: 32px;
-            font-weight: bold;
-            color: #4b5320;
-            margin-bottom: 15px;
-            border-bottom: 3px solid #8b5a2b;
-            padding-bottom: 10px;
-        }
-        .menu-item {
-            background-color: #8b5a2b;
-            color: white;
-            padding: 15px;
-            text-align: left;
-            font-size: 22px;
-            font-weight: bold;
-            cursor: pointer;
-            border-bottom: 2px solid #4b5320;
-            transition: background 0.3s, color 0.3s;
-            border-radius: 8px;
-            margin: 5px;
-        }
-        .menu-item:hover {
-            background-color: #4b5320;
-            color: #f5e1c0;
-        }
-        .menu-content {
-            display: none;
-            background-color: #f5e1c0;
-            padding: 15px;
-            text-align: left;
-            border-radius: 8px;
-            box-shadow: inset 0px 2px 5px rgba(0,0,0,0.2);
-        }
-        .menu-content a {
-            display: block;
-            color: #8b5a2b;
-            text-decoration: none;
-            font-size: 18px;
-            padding: 8px 0;
-            font-weight: bold;
-        }
-        .menu-content a:hover {
-            text-decoration: underline;
-            color: #4b5320;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NovaPro MX — Software & Diseño Digital</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black:   #0a0a0a;
+    --white:   #fafafa;
+    --gray-1:  #111111;
+    --gray-2:  #1c1c1c;
+    --gray-3:  #2e2e2e;
+    --gray-4:  #555555;
+    --gray-5:  #999999;
+    --accent:  #e8b84b;
+    --accent2: #4a8fa8;
+    --accent3: #c4522a;
+    --text:    #e8e4dc;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* ── Noise grain ── */
+  body::after {
+    content: '';
+    position: fixed; inset: 0; z-index: 1000;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+
+  /* ══════════════════════════
+     NAV
+  ══════════════════════════ */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 48px;
+    background: linear-gradient(to bottom, rgba(10,10,10,0.95) 0%, transparent 100%);
+    backdrop-filter: blur(2px);
+  }
+  .nav-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    color: var(--white);
+    text-decoration: none;
+    letter-spacing: -0.5px;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-links {
+    display: flex; gap: 32px; list-style: none;
+  }
+  .nav-links a {
+    font-size: 13px; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--gray-5);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--white); }
+
+  /* ══════════════════════════
+     HERO
+  ══════════════════════════ */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    justify-content: center;
+    padding: 120px 48px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Grid lines background */
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(232,184,75,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(232,184,75,0.04) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(ellipse at 60% 40%, black 20%, transparent 70%);
+  }
+
+  /* Glow orb */
+  .hero-orb {
+    position: absolute;
+    top: 15%; right: -10%;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(232,184,75,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-orb2 {
+    position: absolute;
+    bottom: 0; left: -5%;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(74,143,168,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-tag {
+    font-size: 11px; letter-spacing: 5px;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 24px;
+    opacity: 0; animation: fadeUp 0.8s ease forwards 0.2s;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .hero-tag::before {
+    content: '';
+    width: 32px; height: 1px; background: var(--accent);
+  }
+
+  .hero-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(48px, 8vw, 96px);
+    line-height: 1;
+    letter-spacing: -2px;
+    color: var(--white);
+    max-width: 800px;
+    opacity: 0; animation: fadeUp 0.8s ease forwards 0.4s;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    margin-top: 28px;
+    font-size: 17px; font-weight: 300;
+    color: var(--gray-5); line-height: 1.7;
+    max-width: 480px;
+    opacity: 0; animation: fadeUp 0.8s ease forwards 0.6s;
+  }
+
+  .hero-ctas {
+    margin-top: 48px;
+    display: flex; gap: 16px; flex-wrap: wrap;
+    opacity: 0; animation: fadeUp 0.8s ease forwards 0.8s;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: var(--black);
+    padding: 14px 32px;
+    font-size: 13px; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase;
+    text-decoration: none; border-radius: 2px;
+    transition: background 0.2s, transform 0.2s;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-primary:hover { background: #f0c85a; transform: translateY(-2px); }
+  .btn-ghost {
+    border: 1px solid var(--gray-3);
+    color: var(--text); padding: 14px 32px;
+    font-size: 13px; letter-spacing: 1px;
+    text-transform: uppercase; text-decoration: none;
+    border-radius: 2px;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-ghost:hover { border-color: var(--gray-5); color: var(--white); }
+
+  /* Scroll indicator */
+  .scroll-hint {
+    position: absolute; bottom: 40px; left: 48px;
+    display: flex; align-items: center; gap: 12px;
+    font-size: 11px; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--gray-4);
+    opacity: 0; animation: fadeUp 0.8s ease forwards 1.2s;
+  }
+  .scroll-line {
+    width: 40px; height: 1px; background: var(--gray-3);
+    position: relative; overflow: hidden;
+  }
+  .scroll-line::after {
+    content: '';
+    position: absolute; top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: var(--accent);
+    animation: scrollSlide 2s ease-in-out infinite;
+  }
+  @keyframes scrollSlide {
+    0%   { left: -100%; }
+    50%  { left: 0; }
+    100% { left: 100%; }
+  }
+
+  /* Stats row */
+  .hero-stats {
+    position: absolute; bottom: 40px; right: 48px;
+    display: flex; gap: 48px;
+    opacity: 0; animation: fadeUp 0.8s ease forwards 1s;
+  }
+  .stat-item { text-align: right; }
+  .stat-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px; color: var(--white);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 10px; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--gray-4);
+    margin-top: 4px;
+  }
+
+  /* ══════════════════════════
+     SERVICES
+  ══════════════════════════ */
+  .services {
+    padding: 120px 48px;
+    position: relative;
+  }
+  .section-header {
+    display: flex; align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 64px;
+    border-bottom: 1px solid var(--gray-3);
+    padding-bottom: 24px;
+  }
+  .section-label {
+    font-size: 10px; letter-spacing: 5px;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(32px, 5vw, 52px);
+    color: var(--white); line-height: 1.1;
+    letter-spacing: -1px;
+  }
+  .section-count {
+    font-family: 'DM Serif Display', serif;
+    font-size: 72px; color: var(--gray-3);
+    line-height: 1; letter-spacing: -3px;
+    flex-shrink: 0;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--gray-3);
+    border: 1px solid var(--gray-3);
+  }
+  .service-card {
+    background: var(--gray-1);
+    padding: 48px 36px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+    cursor: default;
+  }
+  .service-card:hover { background: var(--gray-2); }
+  .service-card::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0;
+    width: 0; height: 2px;
+    background: var(--accent);
+    transition: width 0.4s ease;
+  }
+  .service-card:hover::after { width: 100%; }
+
+  .service-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 13px; color: var(--gray-4);
+    letter-spacing: 2px; margin-bottom: 32px;
+  }
+  .service-icon {
+    width: 48px; height: 48px; margin-bottom: 24px;
+  }
+  .service-icon svg { width: 100%; height: 100%; }
+  .service-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 24px; color: var(--white);
+    line-height: 1.2; margin-bottom: 16px;
+  }
+  .service-desc {
+    font-size: 14px; color: var(--gray-5);
+    line-height: 1.7; font-weight: 300;
+  }
+  .service-tag {
+    display: inline-block;
+    margin-top: 24px;
+    font-size: 10px; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--accent);
+    border: 1px solid rgba(232,184,75,0.3);
+    padding: 4px 12px; border-radius: 1px;
+  }
+
+  /* ══════════════════════════
+     WORK / PROJECTS
+  ══════════════════════════ */
+  .work {
+    padding: 120px 48px;
+    background: var(--gray-1);
+  }
+  .work-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 0;
+  }
+  .project-card {
+    position: relative;
+    border: 1px solid var(--gray-3);
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--gray-2);
+    transition: border-color 0.3s, transform 0.3s;
+    text-decoration: none;
+  }
+  .project-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-4px);
+  }
+  .project-thumb {
+    height: 220px;
+    position: relative;
+    overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .pt-invite  { background: linear-gradient(135deg, #3b1f0c, #9b5530); }
+  .pt-pos     { background: linear-gradient(135deg, #0d1f2d, #1a4060); }
+  .pt-web     { background: linear-gradient(135deg, #0a1a0a, #1a401a); }
+
+  .project-thumb-content {
+    text-align: center; padding: 20px;
+  }
+  .pt-label {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px; color: rgba(255,255,255,0.9);
+    margin-bottom: 8px;
+  }
+  .pt-sublabel {
+    font-size: 11px; letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+  }
+
+  /* Overlay arrow */
+  .project-card:hover .project-thumb::after {
+    opacity: 1;
+  }
+  .project-thumb::after {
+    content: '→';
+    position: absolute; top: 16px; right: 20px;
+    font-size: 20px; color: var(--accent);
+    opacity: 0; transition: opacity 0.3s;
+  }
+
+  .project-info { padding: 28px; }
+  .project-cat {
+    font-size: 10px; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .project-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px; color: var(--white);
+    margin-bottom: 10px;
+  }
+  .project-desc {
+    font-size: 13px; color: var(--gray-5);
+    line-height: 1.6; font-weight: 300;
+  }
+  .project-tags {
+    margin-top: 16px; display: flex; gap: 8px; flex-wrap: wrap;
+  }
+  .tag {
+    font-size: 10px; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--gray-4);
+    border: 1px solid var(--gray-3);
+    padding: 3px 10px; border-radius: 1px;
+  }
+
+  /* Featured project (full width) */
+  .project-card.featured {
+    grid-column: 1 / -1;
+    display: grid; grid-template-columns: 1fr 1fr;
+  }
+  .project-card.featured .project-thumb { height: 100%; min-height: 260px; }
+
+  /* ══════════════════════════
+     PRO POS HIGHLIGHT
+  ══════════════════════════ */
+  .propos {
+    padding: 120px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .propos-inner {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 80px; align-items: center;
+  }
+  .propos-visual {
+    position: relative;
+  }
+  .pos-screen {
+    background: var(--gray-1);
+    border: 1px solid var(--gray-3);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+  }
+  .pos-bar {
+    height: 36px;
+    background: var(--gray-2);
+    border-bottom: 1px solid var(--gray-3);
+    display: flex; align-items: center;
+    padding: 0 16px; gap: 8px;
+  }
+  .pos-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+  }
+  .pos-dot:nth-child(1) { background: #ff5f56; }
+  .pos-dot:nth-child(2) { background: #ffbd2e; }
+  .pos-dot:nth-child(3) { background: #27c93f; }
+  .pos-title-bar {
+    flex: 1; text-align: center;
+    font-size: 11px; letter-spacing: 2px;
+    color: var(--gray-4); text-transform: uppercase;
+  }
+  .pos-body { padding: 24px; }
+  .pos-stat-row {
+    display: grid; grid-template-columns: repeat(3,1fr); gap: 12px;
+    margin-bottom: 20px;
+  }
+  .pos-stat {
+    background: var(--gray-2); border-radius: 6px;
+    padding: 14px; text-align: center;
+    border: 1px solid var(--gray-3);
+  }
+  .pos-stat-val {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px; color: var(--accent);
+  }
+  .pos-stat-lbl {
+    font-size: 9px; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--gray-4);
+    margin-top: 4px;
+  }
+  .pos-row {
+    display: flex; align-items: center;
+    padding: 10px 0; border-bottom: 1px solid var(--gray-3);
+    gap: 12px;
+  }
+  .pos-row:last-child { border-bottom: none; }
+  .pos-row-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--accent); flex-shrink: 0;
+  }
+  .pos-row-name { font-size: 13px; color: var(--text); flex: 1; }
+  .pos-row-val  { font-size: 13px; color: var(--accent); font-weight: 500; }
+
+  .propos-content .section-label { margin-bottom: 12px; }
+  .propos-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(32px, 4vw, 48px);
+    color: var(--white); line-height: 1.1;
+    letter-spacing: -1px; margin-bottom: 20px;
+  }
+  .propos-desc {
+    font-size: 15px; color: var(--gray-5);
+    line-height: 1.8; font-weight: 300;
+    margin-bottom: 32px;
+  }
+  .feature-list { list-style: none; }
+  .feature-list li {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 0; border-bottom: 1px solid var(--gray-3);
+    font-size: 14px; color: var(--text); font-weight: 300;
+  }
+  .feature-list li::before {
+    content: '✦';
+    color: var(--accent); font-size: 10px; flex-shrink: 0;
+  }
+
+  /* ══════════════════════════
+     CONTACT
+  ══════════════════════════ */
+  .contact {
+    padding: 120px 48px;
+    background: var(--gray-1);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .contact::before {
+    content: '';
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px; height: 600px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(232,184,75,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .contact-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(36px, 6vw, 72px);
+    color: var(--white); line-height: 1;
+    letter-spacing: -2px; margin-bottom: 20px;
+  }
+  .contact-title em { color: var(--accent); font-style: italic; }
+  .contact-sub {
+    font-size: 16px; color: var(--gray-5);
+    max-width: 480px; margin: 0 auto 48px;
+    line-height: 1.7; font-weight: 300;
+  }
+  .contact-btns {
+    display: flex; gap: 16px;
+    justify-content: center; flex-wrap: wrap;
+  }
+  .btn-whatsapp {
+    background: #25d366;
+    color: #fff; padding: 16px 36px;
+    font-size: 13px; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase;
+    text-decoration: none; border-radius: 2px;
+    display: inline-flex; align-items: center; gap: 10px;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .btn-whatsapp:hover { background: #20bc5a; transform: translateY(-2px); }
+  .btn-whatsapp svg { width: 18px; height: 18px; }
+
+  /* ══════════════════════════
+     FOOTER
+  ══════════════════════════ */
+  footer {
+    padding: 32px 48px;
+    border-top: 1px solid var(--gray-3);
+    display: flex; align-items: center;
+    justify-content: space-between;
+  }
+  .footer-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 16px; color: var(--white);
+  }
+  .footer-logo span { color: var(--accent); }
+  .footer-copy {
+    font-size: 12px; color: var(--gray-4);
+    letter-spacing: 1px;
+  }
+
+
+  /* ══════════════════════════
+     ABOUT / CV
+  ══════════════════════════ */
+  .about {
+    padding: 120px 48px;
+    background: var(--black);
+  }
+  .about-inner {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .about-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(32px, 4vw, 48px);
+    color: var(--white); line-height: 1.1;
+    letter-spacing: -1px; margin: 12px 0 20px;
+  }
+  .about-title em { color: var(--accent); font-style: italic; }
+  .about-desc {
+    font-size: 15px; color: var(--gray-5);
+    line-height: 1.8; font-weight: 300;
+    margin-bottom: 32px;
+  }
+  .about-contact-row {
+    display: flex; flex-direction: column; gap: 12px;
+    border-top: 1px solid var(--gray-3);
+    padding-top: 24px;
+  }
+  .about-contact-item {
+    display: flex; gap: 16px; align-items: baseline;
+  }
+  .aci-label {
+    font-size: 10px; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--gray-4);
+    min-width: 72px; flex-shrink: 0;
+  }
+  .aci-value {
+    font-size: 14px; color: var(--text);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  a.aci-value:hover { color: var(--accent); }
+
+  .cv-block { margin-bottom: 36px; }
+  .cv-block-title {
+    font-size: 10px; letter-spacing: 4px;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--gray-3);
+  }
+  .skills-grid {
+    display: flex; flex-wrap: wrap; gap: 8px;
+  }
+  .skill-pill {
+    background: var(--gray-2);
+    border: 1px solid var(--gray-3);
+    color: var(--text);
+    font-size: 12px; font-weight: 400;
+    padding: 6px 14px; border-radius: 2px;
+    letter-spacing: 0.5px;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .skill-pill:hover { border-color: var(--accent); color: var(--accent); }
+
+  .courses-list { display: flex; flex-direction: column; gap: 0; }
+  .course-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--gray-3);
+    font-size: 13px; color: var(--gray-5);
+    font-weight: 300;
+    transition: color 0.2s;
+  }
+  .course-item:hover { color: var(--text); }
+  .course-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 768px) {
+    .about { padding: 80px 24px; }
+    .about-inner { grid-template-columns: 1fr; gap: 40px; }
+  }
+
+  /* ══════════════════════════
+     FLOATING WA BUTTON
+  ══════════════════════════ */
+  .wa-float {
+    position: fixed; bottom: 28px; right: 28px;
+    z-index: 500;
+    width: 56px; height: 56px;
+    background: #25d366; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 8px 24px rgba(37,211,102,0.4);
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    animation: waPulse 3s ease-in-out infinite;
+  }
+  .wa-float:hover {
+    transform: scale(1.1);
+    box-shadow: 0 12px 32px rgba(37,211,102,0.5);
+  }
+  .wa-float svg { width: 28px; height: 28px; fill: white; }
+  @keyframes waPulse {
+    0%,100% { box-shadow: 0 8px 24px rgba(37,211,102,0.4); }
+    50%      { box-shadow: 0 8px 40px rgba(37,211,102,0.65); }
+  }
+
+  /* ══════════════════════════
+     ANIMATIONS
+  ══════════════════════════ */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ══════════════════════════
+     RESPONSIVE
+  ══════════════════════════ */
+  @media (max-width: 768px) {
+    nav { padding: 18px 24px; }
+    .nav-links { display: none; }
+    .hero, .services, .work, .propos, .contact { padding-left: 24px; padding-right: 24px; }
+    .hero-stats { display: none; }
+    .services-grid { grid-template-columns: 1fr; }
+    .work-grid { grid-template-columns: 1fr; }
+    .project-card.featured { grid-template-columns: 1fr; }
+    .project-card.featured .project-thumb { min-height: 200px; }
+    .propos-inner { grid-template-columns: 1fr; gap: 40px; }
+    footer { flex-direction: column; gap: 12px; text-align: center; }
+  }
+</style>
 </head>
 <body>
-    <div class="menu-container">
-        <div class="menu-header">La Buena Vibra - Menú</div>
-        <div class="menu-item" onclick="toggleMenu('waffles')">🧇 Waffles</div>
-        <div class="menu-content" id="waffles">
-            <a href="#">Waffle Clásico - $50</a>
-            <a href="#">Waffle con Frutas - $60</a>
-            <a href="#">Waffle con Miel de Maple - $55</a>
-        </div>
-        <div class="menu-item" onclick="toggleMenu('panquesitos')">🧁 Panquesitos de Avena con Philadelphia</div>
-        <div class="menu-content" id="panquesitos">
-            <a href="#">Panquesito Individual - $40</a>
-            <a href="#">Pack de 3 Panquesitos - $110</a>
-        </div>
-        <div class="menu-item" onclick="toggleMenu('te')">🍵 Té de Infusión</div>
-        <div class="menu-content" id="te">
-            <a href="#">Manzanilla - $35</a>
-            <a href="#">Menta - $35</a>
-            <a href="#">Frutos Rojos - $40</a>
-        </div>
-        <div class="menu-item" onclick="toggleMenu('malteadas')">🥤 Malteadas</div>
-        <div class="menu-content" id="malteadas">
-            <a href="#">Vainilla - $50</a>
-            <a href="#">Chocolate - $55</a>
-            <a href="#">Fresa - $55</a>
-        </div>
-        <div class="menu-item" onclick="toggleMenu('infusiones')">🍶 Infusiones de Sabor</div>
-        <div class="menu-content" id="infusiones">
-            <a href="#">Limón y Jengibre - $45</a>
-            <a href="#">Hibisco y Naranja - $45</a>
-            <a href="#">Canela y Manzana - $50</a>
-        </div>
+
+<!-- Floating WhatsApp -->
+<a class="wa-float" href="https://wa.me/527471099555" target="_blank" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg>
+</a>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">Nova<span>Pro</span> MX</a>
+  <ul class="nav-links">
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#proyectos">Proyectos</a></li>
+    <li><a href="#propos">Pro POS</a></li>
+    <li><a href="#sobre-mi">Sobre mí</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-orb"></div>
+  <div class="hero-orb2"></div>
+
+  <p class="hero-tag">Software & Diseño Digital</p>
+  <h1 class="hero-title">
+    Soluciones digitales<br>para negocios <em>reales</em>
+  </h1>
+  <p class="hero-sub">
+    Invitaciones digitales con impacto, diseño web profesional y software de punto de venta para llevar tu negocio al siguiente nivel.
+  </p>
+  <div class="hero-ctas">
+    <a href="https://wa.me/527471099555" class="btn-primary" target="_blank">
+      Cotizar proyecto →
+    </a>
+    <a href="#proyectos" class="btn-ghost">Ver proyectos</a>
+  </div>
+
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    Scroll
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat-item">
+      <div class="stat-num">3+</div>
+      <div class="stat-label">Servicios</div>
     </div>
-    <script>
-        function toggleMenu(id) {
-            var content = document.getElementById(id);
-            if (content.style.display === "block") {
-                content.style.display = "none";
-            } else {
-                content.style.display = "block";
-            }
-        }
-    </script>
-	
+    <div class="stat-item">
+      <div class="stat-num">MX</div>
+      <div class="stat-label">Basado en Guerrero</div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="servicios">
+  <div class="section-header reveal">
+    <div>
+      <p class="section-label">Lo que ofrecemos</p>
+      <h2 class="section-title">Nuestros<br>servicios</h2>
+    </div>
+    <div class="section-count">03</div>
+  </div>
+
+  <div class="services-grid">
+    <!-- Invitaciones -->
+    <div class="service-card reveal">
+      <div class="service-num">01</div>
+      <div class="service-icon">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="10" width="40" height="28" rx="3" stroke="#e8b84b" stroke-width="1.5"/>
+          <path d="M4 13 L24 27 L44 13" stroke="#e8b84b" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="36" cy="34" r="8" fill="#1c1c1c" stroke="#e8b84b" stroke-width="1"/>
+          <path d="M33 34 L35.5 36.5 L39.5 31.5" stroke="#e8b84b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h3 class="service-name">Invitaciones<br>Digitales</h3>
+      <p class="service-desc">Diseños animados y personalizados para bodas, XV años, cumpleaños y eventos especiales. Entrega por link, listas para compartir.</p>
+      <span class="service-tag">Desde $300 MXN</span>
+    </div>
+
+    <!-- Pro POS -->
+    <div class="service-card reveal">
+      <div class="service-num">02</div>
+      <div class="service-icon">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="8" y="6" width="32" height="24" rx="3" stroke="#e8b84b" stroke-width="1.5"/>
+          <rect x="16" y="32" width="16" height="4" fill="#e8b84b" opacity="0.3"/>
+          <rect x="12" y="38" width="24" height="4" rx="1" stroke="#e8b84b" stroke-width="1.5"/>
+          <line x1="14" y1="14" x2="22" y2="14" stroke="#e8b84b" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="14" y1="19" x2="34" y2="19" stroke="#e8b84b" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
+          <circle cx="32" cy="13" r="4" fill="#e8b84b" opacity="0.2" stroke="#e8b84b" stroke-width="1"/>
+          <path d="M30 13 L31.5 14.5 L34.5 11" stroke="#e8b84b" stroke-width="1" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <h3 class="service-name">Pro POS<br>Punto de Venta</h3>
+      <p class="service-desc">Sistema de punto de venta para tiendas y negocios locales. Control de inventario, ventas, cortes y reportes desde cualquier dispositivo.</p>
+      <span class="service-tag">Software a la medida</span>
+    </div>
+
+    <!-- Diseño Web -->
+    <div class="service-card reveal">
+      <div class="service-num">03</div>
+      <div class="service-icon">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="8" width="40" height="28" rx="3" stroke="#e8b84b" stroke-width="1.5"/>
+          <line x1="4" y1="16" x2="44" y2="16" stroke="#e8b84b" stroke-width="1" opacity="0.4"/>
+          <circle cx="10" cy="12" r="1.5" fill="#e8b84b" opacity="0.6"/>
+          <circle cx="16" cy="12" r="1.5" fill="#e8b84b" opacity="0.6"/>
+          <circle cx="22" cy="12" r="1.5" fill="#e8b84b" opacity="0.6"/>
+          <rect x="10" y="22" width="12" height="8" rx="1" fill="#e8b84b" opacity="0.15" stroke="#e8b84b" stroke-width="1"/>
+          <line x1="26" y1="24" x2="38" y2="24" stroke="#e8b84b" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
+          <line x1="26" y1="28" x2="34" y2="28" stroke="#e8b84b" stroke-width="1" stroke-linecap="round" opacity="0.3"/>
+          <line x1="16" y1="40" x2="32" y2="40" stroke="#e8b84b" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+        </svg>
+      </div>
+      <h3 class="service-name">Diseño<br>Web</h3>
+      <p class="service-desc">Páginas web y landing pages modernas, rápidas y optimizadas. Ideal para negocios, restaurantes, eventos y portafolios personales.</p>
+      <span class="service-tag">Diseño profesional</span>
+    </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section class="work" id="proyectos">
+  <div class="section-header reveal">
+    <div>
+      <p class="section-label">Portafolio</p>
+      <h2 class="section-title">Proyectos<br>recientes</h2>
+    </div>
+    <div class="section-count">✦</div>
+  </div>
+
+  <div class="work-grid">
+    <!-- Featured: Invitación vaquera -->
+    <div class="project-card featured reveal">
+      <div class="project-thumb pt-invite">
+        <div class="project-thumb-content">
+          <div class="pt-label" style="font-family:'DM Serif Display',serif;font-style:italic;color:var(--accent);">WANTED</div>
+          <div class="pt-sublabel">Invitación Vaquera</div>
+          <!-- Mini hat SVG -->
+          <svg viewBox="0 0 160 80" fill="none" width="120" style="margin-top:12px;opacity:0.8">
+            <path d="M38 60 Q72 68 110 68 Q148 68 172 60 Q165 72 110 76 Q55 72 38 60Z" fill="#4a2510"/>
+            <path d="M52 60 Q50 36 54 24 Q80 10 106 24 Q110 36 108 60Z" fill="#5a3018"/>
+            <path d="M54 54 Q80 48 106 54" stroke="#e0a830" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+      <div class="project-info">
+        <p class="project-cat">Invitación Digital</p>
+        <h3 class="project-name">Cumpleaños Vaquero — Efraín Arcos</h3>
+        <p class="project-desc">Invitación digital con animaciones tipo "Wanted", badge de Sheriff, cuenta regresiva en vivo, mapa interactivo y sobre con sello de cera. Tema western elegante.</p>
+        <div class="project-tags">
+          <span class="tag">HTML5</span>
+          <span class="tag">CSS Animations</span>
+          <span class="tag">JavaScript</span>
+          <span class="tag">GitHub Pages</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pro POS -->
+    <div class="project-card reveal">
+      <div class="project-thumb pt-pos">
+        <div class="project-thumb-content">
+          <div class="pt-label">Pro POS</div>
+          <div class="pt-sublabel">Point of Sale System</div>
+          <div style="margin-top:14px;display:flex;gap:8px;justify-content:center;">
+            <div style="background:rgba(232,184,75,0.15);border:1px solid rgba(232,184,75,0.3);border-radius:4px;padding:8px 12px;font-size:11px;color:var(--accent);letter-spacing:1px;">VENTAS</div>
+            <div style="background:rgba(232,184,75,0.15);border:1px solid rgba(232,184,75,0.3);border-radius:4px;padding:8px 12px;font-size:11px;color:var(--accent);letter-spacing:1px;">INVENTARIO</div>
+          </div>
+        </div>
+      </div>
+      <div class="project-info">
+        <p class="project-cat">Software</p>
+        <h3 class="project-name">Pro POS — Sistema de Ventas</h3>
+        <p class="project-desc">Sistema de punto de venta para negocios locales. Control de inventario, reportes de ventas y gestión de productos.</p>
+        <div class="project-tags">
+          <span class="tag">Sistema POS</span>
+          <span class="tag">Negocios</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Diseño web -->
+    <div class="project-card reveal">
+      <div class="project-thumb pt-web">
+        <div class="project-thumb-content">
+          <div class="pt-label">Web</div>
+          <div class="pt-sublabel">Diseño & Desarrollo</div>
+          <div style="margin-top:14px;display:flex;flex-direction:column;gap:6px;width:120px;margin-left:auto;margin-right:auto;">
+            <div style="height:8px;background:rgba(107,143,113,0.5);border-radius:2px;"></div>
+            <div style="height:8px;background:rgba(107,143,113,0.3);border-radius:2px;width:80%;"></div>
+            <div style="height:8px;background:rgba(107,143,113,0.2);border-radius:2px;width:60%;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="project-info">
+        <p class="project-cat">Diseño Web</p>
+        <h3 class="project-name">Páginas web a medida</h3>
+        <p class="project-desc">Landing pages y sitios web para negocios locales, optimizados para móvil y listos para compartir.</p>
+        <div class="project-tags">
+          <span class="tag">HTML/CSS</span>
+          <span class="tag">Responsive</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRO POS -->
+<section class="propos" id="propos">
+  <div class="propos-inner reveal">
+    <div class="propos-visual">
+      <div class="pos-screen">
+        <div class="pos-bar">
+          <div class="pos-dot"></div>
+          <div class="pos-dot"></div>
+          <div class="pos-dot"></div>
+          <div class="pos-title-bar">Pro POS — Point of Sale</div>
+        </div>
+        <div class="pos-body">
+          <div class="pos-stat-row">
+            <div class="pos-stat">
+              <div class="pos-stat-val">$4,280</div>
+              <div class="pos-stat-lbl">Hoy</div>
+            </div>
+            <div class="pos-stat">
+              <div class="pos-stat-val">38</div>
+              <div class="pos-stat-lbl">Ventas</div>
+            </div>
+            <div class="pos-stat">
+              <div class="pos-stat-val">126</div>
+              <div class="pos-stat-lbl">Productos</div>
+            </div>
+          </div>
+          <div class="pos-row">
+            <div class="pos-row-dot" style="background:#4a8fa8"></div>
+            <div class="pos-row-name">Refresco 600ml</div>
+            <div class="pos-row-val">$18.00</div>
+          </div>
+          <div class="pos-row">
+            <div class="pos-row-dot" style="background:#6b8f71"></div>
+            <div class="pos-row-name">Pan de caja Bimbo</div>
+            <div class="pos-row-val">$52.00</div>
+          </div>
+          <div class="pos-row">
+            <div class="pos-row-dot"></div>
+            <div class="pos-row-name">Jabón Roma 500g</div>
+            <div class="pos-row-val">$24.50</div>
+          </div>
+          <div class="pos-row">
+            <div class="pos-row-dot" style="background:#c4522a"></div>
+            <div class="pos-row-name">Aceite 1L</div>
+            <div class="pos-row-val">$38.00</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="propos-content">
+      <p class="section-label">Producto estrella</p>
+      <h2 class="propos-title">Pro POS<br>Lleva el control<br>de tu negocio</h2>
+      <p class="propos-desc">Sistema de punto de venta diseñado para tiendas, abarrotes y negocios locales en México. Simple, rápido y confiable.</p>
+      <ul class="feature-list">
+        <li>Control de inventario en tiempo real</li>
+        <li>Registro de ventas y cortes de caja</li>
+        <li>Reportes y estadísticas de ventas</li>
+        <li>Compatible con cualquier dispositivo</li>
+        <li>Soporte y actualizaciones incluidas</li>
+      </ul>
+      <div style="margin-top:32px;">
+        <a href="https://wa.me/527471099555?text=Hola,%20me%20interesa%20el%20sistema%20Pro%20POS" class="btn-primary" target="_blank">
+          Solicitar demo →
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT / CV -->
+<section class="about" id="sobre-mi">
+  <div class="about-inner reveal">
+    <div class="about-left">
+      <p class="section-label">Sobre mí</p>
+      <h2 class="about-title">José Manuel Rodríguez Nava<br><em>Desarrollador &<br>Diseñador Digital</em></h2>
+      <p class="about-desc">
+        Originario de Chilapa de Álvarez, Guerrero. Apasionado por las Tecnologías de la Información, con experiencia en desarrollo backend, frontend, bases de datos, APIs REST y arquitecturas en la nube.
+      </p>
+      <div class="about-contact-row">
+        <div class="about-contact-item">
+          <span class="aci-label">Correo</span>
+          <a href="mailto:jose-94-nava@hotmail.com" class="aci-value">jose-94-nava@hotmail.com</a>
+        </div>
+        <div class="about-contact-item">
+          <span class="aci-label">Teléfono</span>
+          <a href="https://wa.me/527471099555" class="aci-value">747 109 9555</a>
+        </div>
+        <div class="about-contact-item">
+          <span class="aci-label">Ubicación</span>
+          <span class="aci-value">Chilapa de Álvarez, Gro.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-right">
+      <div class="cv-block">
+        <p class="cv-block-title">Habilidades técnicas</p>
+        <div class="skills-grid">
+          <div class="skill-pill">Java Backend</div>
+          <div class="skill-pill">Java Frontend</div>
+          <div class="skill-pill">MySQL</div>
+          <div class="skill-pill">Oracle DB</div>
+          <div class="skill-pill">Hadoop</div>
+          <div class="skill-pill">API REST</div>
+          <div class="skill-pill">SOAP / RESTful</div>
+          <div class="skill-pill">Microservicios</div>
+          <div class="skill-pill">Bootstrap</div>
+          <div class="skill-pill">Swagger</div>
+          <div class="skill-pill">Apigee</div>
+          <div class="skill-pill">Linux</div>
+          <div class="skill-pill">Redes</div>
+          <div class="skill-pill">HTML / CSS / JS</div>
+        </div>
+      </div>
+      <div class="cv-block">
+        <p class="cv-block-title">Certificaciones & Cursos</p>
+        <div class="courses-list">
+          <div class="course-item"><span class="course-dot" style="background:var(--accent)"></span><span>Administrador BigData</span></div>
+          <div class="course-item"><span class="course-dot" style="background:var(--accent)"></span><span>BigData Engineer</span></div>
+          <div class="course-item"><span class="course-dot" style="background:var(--accent2)"></span><span>Desarrollo de APIs con Apigee — Nivel 1</span></div>
+          <div class="course-item"><span class="course-dot" style="background:var(--accent2)"></span><span>Fundamentos Java 8 y Java 10 — NETEC</span></div>
+          <div class="course-item"><span class="course-dot" style="background:var(--accent2)"></span><span>Fundamentos de BigData Hadoop</span></div>
+          <div class="course-item"><span class="course-dot" style="background:var(--accent3)"></span><span>Fundamentos de Scrum</span></div>
+          <div class="course-item"><span class="course-dot" style="background:var(--accent3)"></span><span>Fundamentos AWS</span></div>
+          <div class="course-item"><span class="course-dot" style="background:var(--accent3)"></span><span>AZ-900 Microsoft Azure</span></div>
+          <div class="course-item"><span class="course-dot" style="background:var(--accent)"></span><span>OpenShift</span></div>
+          <div class="course-item"><span class="course-dot" style="background:var(--accent)"></span><span>Quarkus Framework</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contacto">
+  <p class="section-label reveal" style="margin-bottom:16px;">¿Listo para empezar?</p>
+  <h2 class="contact-title reveal">Hablemos de<br>tu <em>proyecto</em></h2>
+  <p class="contact-sub reveal">¿Tienes un evento próximo o necesitas digitalizar tu negocio? Escríbeme y con gusto te ayudo.</p>
+  <div class="contact-btns reveal">
+    <a href="https://wa.me/527471099555" class="btn-whatsapp" target="_blank">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+      </svg>
+      WhatsApp directo
+    </a>
+    <a href="https://wa.me/527471099555?text=Hola,%20quiero%20cotizar%20una%20invitaci%C3%B3n%20digital" class="btn-ghost" target="_blank">
+      Cotizar invitación
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Nova<span>Pro</span> MX</div>
+  <div class="footer-copy">© 2026 NovaPro MX — Software & Diseño Digital · Guerrero, México</div>
+</footer>
+
+<script>
+/* Scroll reveal */
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 80);
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+reveals.forEach(el => observer.observe(el));
+</script>
+
 </body>
 </html>
