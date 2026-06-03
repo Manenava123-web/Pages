@@ -514,11 +514,173 @@ table.amigable tbody td { padding: 16px 18px; font-size: 16px; color: var(--gris
 .pantalla-exito p  { font-size: 18px; color: var(--gris-400); max-width: 400px; }
 
 /* ===== RESPONSIVE ===== */
+
+/* --- Tablet (≤ 900px) --- */
 @media (max-width: 900px) {
-  .menu-grid { grid-template-columns: 1fr 1fr; }
-  .pos-layout { grid-template-columns: 1fr; }
+  .menu-grid        { grid-template-columns: 1fr 1fr; }
+  .pos-layout       { grid-template-columns: 1fr; }
   .tarjetas-resumen { grid-template-columns: 1fr 1fr; }
-  .flujo-pasos { grid-template-columns: 1fr 1fr; }
+  .flujo-pasos      { grid-template-columns: 1fr 1fr; }
+  .paso::after      { display: none; }
+  .grid-reportes    { grid-template-columns: 1fr !important; }
+  .carrito-panel    { height: auto; }
+  .productos-lista  { max-height: none; overflow-y: visible; }
+}
+
+/* --- Móvil (≤ 640px) --- */
+@media (max-width: 640px) {
+  html { font-size: 15px; }
+
+  /* Contenido */
+  .contenido { padding: 12px; }
+
+  /* Barra superior */
+  .barra-top { padding: 0 12px; height: 60px; gap: 8px; }
+  .barra-top .titulo-pagina { font-size: 16px; }
+  .barra-top .usuario-nombre { display: none; }
+  .barra-top .btn-regresar { padding: 8px 10px; font-size: 13px; }
+  .barra-top .avatar { width: 36px; height: 36px; font-size: 14px; }
+
+  /* Login */
+  .login-caja { padding: 30px 20px; }
+  .login-logo .icono { font-size: 50px; }
+  .login-logo h1 { font-size: 22px; }
+  .login-logo p  { font-size: 14px; }
+
+  /* Saludo */
+  .saludo { padding: 16px; gap: 12px; margin-bottom: 16px; border-radius: var(--radio-sm); }
+  .saludo .icono-saludo { font-size: 36px; }
+  .saludo h2 { font-size: 18px; }
+  .saludo p  { font-size: 14px; }
+
+  /* Menú tiles */
+  .menu-grid { gap: 10px; }
+  .menu-tile { padding: 20px 12px; gap: 8px; border-radius: var(--radio-sm); }
+  .menu-tile .tile-icono { width: 60px; height: 60px; font-size: 28px; border-radius: 14px; }
+  .menu-tile h3 { font-size: 16px; }
+  .menu-tile p  { font-size: 12px; line-height: 1.4; }
+
+  /* Membresías en clientes — grid inline → 2 cols */
+  .grid-mem { grid-template-columns: 1fr 1fr !important; gap: 10px !important; }
+
+  /* Sección título */
+  .seccion-titulo { gap: 10px; margin-bottom: 14px; }
+  .seccion-titulo .s-icono { width: 46px; height: 46px; font-size: 20px; }
+  .seccion-titulo h2 { font-size: 19px; }
+  .seccion-titulo p  { font-size: 13px; }
+
+  /* Tarjetas resumen */
+  .tarjetas-resumen { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .tarjeta-resumen { padding: 14px 12px; }
+  .tarjeta-resumen .tr-icono  { font-size: 26px; margin-bottom: 6px; }
+  .tarjeta-resumen .tr-numero { font-size: 24px; }
+  .tarjeta-resumen .tr-etiqueta { font-size: 11px; }
+  .tarjeta-resumen .tr-sub { font-size: 12px; }
+
+  /* Cabecera de tabla */
+  .tabla-amigable-wrap .tabla-cabecera {
+    flex-direction: column; align-items: flex-start; gap: 10px; padding: 14px 14px;
+  }
+  .tabla-amigable-wrap .tabla-cabecera h3 { font-size: 15px; }
+  .tabla-amigable-wrap .tabla-cabecera .btn-grande {
+    width: 100%; justify-content: center;
+  }
+
+  /* Tabla → scroll horizontal */
+  .tabla-amigable-wrap { overflow-x: auto; border-radius: var(--radio-sm); }
+  table.amigable { min-width: 480px; }
+  table.amigable thead th { padding: 10px 10px; font-size: 11px; }
+  table.amigable tbody td { padding: 12px 10px; font-size: 14px; }
+
+  /* POS — selector de cliente */
+  .selector-cliente { flex-direction: column; gap: 10px; padding: 14px; }
+  .selector-cliente select { width: 100%; min-width: unset; font-size: 16px; }
+  .descuento-badge { width: 100%; text-align: center; font-size: 15px; padding: 12px; }
+
+  /* POS — productos */
+  .prod-item { padding: 12px 10px; gap: 10px; flex-wrap: wrap; }
+  .prod-item .pi-icono  { font-size: 26px; }
+  .prod-item .pi-nombre { font-size: 15px; }
+  .prod-item .pi-precio { font-size: 16px; }
+  .prod-item .btn-agregar { padding: 10px 14px; font-size: 14px; flex: 1; }
+
+  /* Carrito */
+  .carrito-panel { margin-top: 14px; }
+  .carrito-cuerpo { max-height: 260px; overflow-y: auto; }
+  .cart-fila { padding: 12px 10px; gap: 8px; }
+  .cart-fila .cf-nombre { font-size: 13px; }
+  .cf-precio { font-size: 15px; min-width: 52px; }
+  .carrito-pie { padding: 12px; }
+  .total-fila { font-size: 14px; }
+  .total-fila.gran-total { font-size: 18px; }
+  .btn-cobrar { font-size: 17px; padding: 16px; }
+  .btn-apartar { font-size: 14px; padding: 12px; }
+
+  /* Tabs pedido */
+  .tabs-pedido { width: 100%; }
+  .tab-pedido { flex: 1; text-align: center; padding: 12px 8px; font-size: 14px; }
+
+  /* Flujo pasos */
+  .flujo-pasos { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .paso { padding: 14px 8px; }
+  .paso .paso-icono  { font-size: 26px; margin-bottom: 6px; }
+  .paso .paso-nombre { font-size: 13px; }
+  .paso .paso-status { font-size: 11px; }
+
+  /* Formularios */
+  .fg-fila.dos  { grid-template-columns: 1fr; }
+  .fg-fila.tres { grid-template-columns: 1fr; }
+  .form-grande  { padding: 18px 14px; border-radius: var(--radio-sm); }
+  .form-grande h3 { font-size: 17px; }
+  .fg-campo label { font-size: 14px; }
+  .fg-campo input, .fg-campo select { font-size: 16px; padding: 12px 14px; }
+
+  /* Filtros de reporte */
+  .filtros-periodo { gap: 8px; }
+  .btn-periodo { padding: 10px 14px; font-size: 14px; }
+
+  /* Gráfica */
+  .grafica-contenedor { padding: 16px; }
+  .grafica-contenedor h3 { font-size: 15px; margin-bottom: 14px; }
+  .barras { height: 120px; gap: 6px; }
+  .barra-item .barra-fill span { font-size: 10px; padding-top: 4px; }
+  .barra-item .barra-etiqueta { font-size: 12px; }
+
+  /* Botones grandes */
+  .btn-grande { padding: 12px 16px; font-size: 15px; }
+
+  /* Modal → Bottom sheet */
+  .modal-fondo { align-items: flex-end; padding: 0; }
+  .modal-caja {
+    border-radius: 20px 20px 0 0;
+    padding: 20px 18px 32px;
+    max-width: 100%;
+    max-height: 92vh;
+    overflow-y: auto;
+  }
+  .modal-header { margin-bottom: 18px; }
+  .modal-header h3 { font-size: 18px; }
+  .modal-pie { flex-direction: column; gap: 10px; margin-top: 20px; }
+  .modal-pie .btn-grande { width: 100%; justify-content: center; font-size: 16px; }
+
+  /* Alertas */
+  .alerta { font-size: 14px; padding: 12px 12px; gap: 10px; }
+  .alerta .alerta-icono { font-size: 18px; }
+
+  /* Config interruptor */
+  .interruptor { flex-wrap: wrap; gap: 10px; }
+}
+
+/* --- Móvil muy pequeño (≤ 380px) --- */
+@media (max-width: 380px) {
+  .contenido { padding: 10px; }
+  .menu-grid { gap: 8px; }
+  .menu-tile { padding: 16px 10px; }
+  .menu-tile .tile-icono { width: 52px; height: 52px; font-size: 24px; }
+  .menu-tile h3 { font-size: 14px; }
+  .menu-tile p  { display: none; }
+  .tarjetas-resumen { grid-template-columns: 1fr; }
+  .barra-top .titulo-pagina { font-size: 14px; }
 }
 </style>
 </head>
@@ -674,7 +836,7 @@ table.amigable tbody td { padding: 16px 18px; font-size: 16px; color: var(--gris
     <div class="titulo-pagina" id="tituloPagina">🌿 HerbaControl</div>
     <div class="usuario-info">
       <div class="avatar">A</div>
-      <span>Admin</span>
+      <span class="usuario-nombre">Admin</span>
     </div>
   </header>
 
@@ -753,7 +915,7 @@ table.amigable tbody td { padding: 16px 18px; font-size: 16px; color: var(--gris
       </div>
 
       <!-- Tarjetas membresía -->
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px;">
+      <div class="grid-mem" style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px;">
         <div style="background:var(--azul-claro);border:2px solid #90CAF9;border-radius:var(--radio);padding:22px 18px;text-align:center;">
           <div style="font-size:36px;margin-bottom:8px;">🔵</div>
           <div style="font-size:30px;font-weight:900;color:var(--azul);">25%</div>
@@ -1278,7 +1440,7 @@ table.amigable tbody td { padding: 16px 18px; font-size: 16px; color: var(--gris
         </div>
       </div>
 
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+      <div class="grid-reportes" style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
         <div class="tabla-amigable-wrap">
           <div class="tabla-cabecera" style="background:var(--azul);"><h3>🏆 Productos más vendidos</h3></div>
           <table class="amigable">
