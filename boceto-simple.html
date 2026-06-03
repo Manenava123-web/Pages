@@ -1,0 +1,1543 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HerbaControl — Versión Fácil</title>
+<style>
+/* ===== BASE ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --verde:        #00913F;
+  --verde-oscuro: #006B2E;
+  --verde-claro:  #E6F4EC;
+  --verde-borde:  #B2DFCB;
+  --naranja:      #E8650A;
+  --naranja-claro:#FEF0E6;
+  --rojo:         #C62828;
+  --rojo-claro:   #FFEBEE;
+  --azul:         #1565C0;
+  --azul-claro:   #E3F2FD;
+  --gris-50:      #F7F8FA;
+  --gris-100:     #ECEEF1;
+  --gris-200:     #D8DCE2;
+  --gris-400:     #8E97A3;
+  --gris-600:     #505A66;
+  --gris-800:     #2C3540;
+  --blanco:       #FFFFFF;
+  --sombra:       0 2px 10px rgba(0,0,0,.10);
+  --sombra-lg:    0 6px 24px rgba(0,0,0,.13);
+  --radio:        14px;
+  --radio-sm:     8px;
+}
+html {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-size: 17px;
+  color: var(--gris-800);
+  background: var(--gris-50);
+}
+body { min-height: 100vh; }
+button { cursor: pointer; font-family: inherit; }
+input, select, textarea { font-family: inherit; }
+
+/* ===== UTILIDADES ===== */
+.oculto { display: none !important; }
+
+/* ===== LOGIN ===== */
+.pantalla-login {
+  min-height: 100vh;
+  background: linear-gradient(160deg, var(--verde-oscuro) 0%, #00c956 100%);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+}
+.login-caja {
+  background: white; border-radius: 20px; padding: 48px 44px;
+  width: 100%; max-width: 440px;
+  box-shadow: var(--sombra-lg);
+}
+.login-logo { text-align: center; margin-bottom: 32px; }
+.login-logo .icono { font-size: 64px; display: block; }
+.login-logo h1 { font-size: 28px; font-weight: 800; color: var(--verde-oscuro); margin-top: 10px; }
+.login-logo p  { font-size: 16px; color: var(--gris-400); margin-top: 6px; }
+
+.campo-grupo { margin-bottom: 20px; }
+.campo-grupo label { display: block; font-size: 16px; font-weight: 700; color: var(--gris-600); margin-bottom: 8px; }
+.campo-grupo input {
+  width: 100%; padding: 15px 18px; border: 2px solid var(--gris-200);
+  border-radius: var(--radio-sm); font-size: 17px; outline: none;
+  transition: border-color .15s;
+}
+.campo-grupo input:focus { border-color: var(--verde); }
+
+.btn-ingresar {
+  width: 100%; padding: 17px; border-radius: var(--radio-sm);
+  background: var(--verde); color: white;
+  font-size: 19px; font-weight: 800; border: none;
+  transition: background .15s; margin-top: 6px;
+}
+.btn-ingresar:hover { background: var(--verde-oscuro); }
+.login-ayuda { text-align: center; color: var(--gris-400); font-size: 14px; margin-top: 16px; }
+
+/* ===== APP WRAPPER ===== */
+.app { display: flex; flex-direction: column; min-height: 100vh; }
+
+/* ===== BARRA SUPERIOR ===== */
+.barra-top {
+  background: var(--verde-oscuro); color: white;
+  padding: 0 28px; height: 72px;
+  display: flex; align-items: center; gap: 16px;
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 3px 12px rgba(0,0,0,.2);
+}
+.barra-top .btn-regresar {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 18px; border-radius: var(--radio-sm);
+  background: rgba(255,255,255,.15); color: white;
+  font-size: 16px; font-weight: 700; border: none;
+  transition: background .15s; white-space: nowrap;
+}
+.barra-top .btn-regresar:hover { background: rgba(255,255,255,.25); }
+.barra-top .titulo-pagina { font-size: 20px; font-weight: 800; flex: 1; }
+.barra-top .usuario-info {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 15px; font-weight: 600;
+}
+.barra-top .avatar {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: rgba(255,255,255,.25);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px; font-weight: 800;
+}
+
+/* ===== CONTENIDO PRINCIPAL ===== */
+.contenido { flex: 1; padding: 28px; max-width: 1100px; width: 100%; margin: 0 auto; }
+
+/* ===== PANTALLAS ===== */
+.pantalla { display: none; }
+.pantalla.activa { display: block; }
+
+/* ===== MENÚ PRINCIPAL ===== */
+.saludo {
+  background: white; border-radius: var(--radio); padding: 28px 32px;
+  border: 2px solid var(--verde-borde);
+  display: flex; align-items: center; gap: 20px;
+  margin-bottom: 28px;
+}
+.saludo .icono-saludo { font-size: 52px; }
+.saludo h2 { font-size: 26px; font-weight: 800; color: var(--verde-oscuro); }
+.saludo p  { font-size: 17px; color: var(--gris-400); margin-top: 4px; }
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+.menu-tile {
+  background: white; border-radius: var(--radio); padding: 32px 24px;
+  border: 2px solid var(--gris-100);
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center; gap: 14px; cursor: pointer;
+  transition: transform .15s, box-shadow .15s, border-color .15s;
+  box-shadow: var(--sombra);
+}
+.menu-tile:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--sombra-lg);
+  border-color: var(--verde-borde);
+}
+.menu-tile .tile-icono {
+  width: 80px; height: 80px; border-radius: 20px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 38px;
+}
+.menu-tile h3 { font-size: 19px; font-weight: 800; color: var(--gris-800); }
+.menu-tile p  { font-size: 14px; color: var(--gris-400); line-height: 1.5; }
+.menu-tile .tile-badge {
+  background: var(--naranja); color: white;
+  font-size: 13px; font-weight: 700; padding: 4px 12px; border-radius: 20px;
+}
+/* Colores de tiles */
+.tile-verde .tile-icono { background: var(--verde-claro); }
+.tile-naranja .tile-icono { background: var(--naranja-claro); }
+.tile-azul .tile-icono { background: var(--azul-claro); }
+.tile-morado .tile-icono { background: #F3E5F5; }
+.tile-cafe .tile-icono { background: #FFF8E1; }
+.tile-gris .tile-icono { background: var(--gris-100); }
+
+/* ===== SECCIÓN GENÉRICA ===== */
+.seccion-titulo {
+  display: flex; align-items: center; gap: 16px;
+  margin-bottom: 24px;
+}
+.seccion-titulo .s-icono {
+  width: 60px; height: 60px; border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px; background: var(--verde-claro); flex-shrink: 0;
+}
+.seccion-titulo h2 { font-size: 24px; font-weight: 800; color: var(--gris-800); }
+.seccion-titulo p  { font-size: 15px; color: var(--gris-400); margin-top: 3px; }
+
+/* ===== BOTONES GRANDES ===== */
+.btn-grande {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 15px 26px; border-radius: var(--radio-sm);
+  font-size: 17px; font-weight: 800; border: none;
+  transition: all .15s; cursor: pointer;
+}
+.btn-grande-verde { background: var(--verde); color: white; }
+.btn-grande-verde:hover { background: var(--verde-oscuro); }
+.btn-grande-naranja { background: var(--naranja); color: white; }
+.btn-grande-naranja:hover { background: #c4540a; }
+.btn-grande-gris { background: var(--gris-100); color: var(--gris-800); border: 2px solid var(--gris-200); }
+.btn-grande-gris:hover { background: var(--gris-200); }
+.btn-grande-rojo { background: var(--rojo-claro); color: var(--rojo); border: 2px solid #FFCDD2; }
+.btn-grande-rojo:hover { background: #FFCDD2; }
+
+/* ===== TARJETAS INFO ===== */
+.tarjetas-resumen {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px;
+}
+.tarjeta-resumen {
+  background: white; border-radius: var(--radio); padding: 22px 20px;
+  border: 2px solid var(--gris-100); box-shadow: var(--sombra);
+}
+.tarjeta-resumen .tr-icono { font-size: 32px; margin-bottom: 8px; }
+.tarjeta-resumen .tr-numero { font-size: 32px; font-weight: 900; color: var(--gris-800); }
+.tarjeta-resumen .tr-etiqueta { font-size: 14px; font-weight: 700; color: var(--gris-400); text-transform: uppercase; letter-spacing: .04em; margin-top: 2px; }
+.tarjeta-resumen .tr-sub { font-size: 14px; color: var(--gris-400); margin-top: 4px; }
+.tarjeta-resumen.verde { border-color: var(--verde-borde); background: var(--verde-claro); }
+.tarjeta-resumen.naranja { border-color: #FFCC80; background: var(--naranja-claro); }
+.tarjeta-resumen.azul { border-color: #90CAF9; background: var(--azul-claro); }
+
+/* ===== TABLA AMIGABLE ===== */
+.tabla-amigable-wrap {
+  background: white; border-radius: var(--radio);
+  border: 2px solid var(--gris-100); overflow: hidden; box-shadow: var(--sombra);
+}
+.tabla-amigable-wrap .tabla-cabecera {
+  background: var(--verde-oscuro); color: white; padding: 16px 22px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.tabla-amigable-wrap .tabla-cabecera h3 { font-size: 18px; font-weight: 800; }
+table.amigable { width: 100%; border-collapse: collapse; }
+table.amigable thead th {
+  background: var(--gris-50); padding: 14px 18px; text-align: left;
+  font-size: 14px; font-weight: 800; color: var(--gris-600); text-transform: uppercase;
+  letter-spacing: .04em; border-bottom: 2px solid var(--gris-100);
+}
+table.amigable tbody tr { border-bottom: 2px solid var(--gris-50); }
+table.amigable tbody tr:last-child { border-bottom: none; }
+table.amigable tbody tr:hover { background: var(--verde-claro); }
+table.amigable tbody td { padding: 16px 18px; font-size: 16px; color: var(--gris-800); vertical-align: middle; }
+
+/* ===== ETIQUETAS MEMBRESÍA ===== */
+.mem {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 14px; border-radius: 30px; font-size: 15px; font-weight: 800;
+}
+.mem-dist  { background: var(--azul-claro);    color: var(--azul); }
+.mem-cons  { background: var(--verde-claro);   color: var(--verde-oscuro); }
+.mem-const { background: var(--naranja-claro); color: var(--naranja); }
+.mem-may   { background: #F3E5F5;              color: #6A1B9A; }
+
+/* ===== ESTADO BADGE ===== */
+.estado {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 14px; border-radius: 30px; font-size: 14px; font-weight: 800;
+}
+.estado-verde  { background: var(--verde-claro);  color: var(--verde-oscuro); }
+.estado-naranja{ background: var(--naranja-claro); color: var(--naranja); }
+.estado-rojo   { background: var(--rojo-claro);   color: var(--rojo); }
+.estado-gris   { background: var(--gris-100);     color: var(--gris-600); }
+
+/* ===== FORMULARIOS GRANDES ===== */
+.form-grande { background: white; border-radius: var(--radio); padding: 28px 30px; border: 2px solid var(--gris-100); box-shadow: var(--sombra); margin-bottom: 20px; }
+.form-grande h3 { font-size: 20px; font-weight: 800; color: var(--gris-800); margin-bottom: 22px; padding-bottom: 14px; border-bottom: 2px solid var(--gris-100); }
+.fg-fila { display: grid; gap: 18px; margin-bottom: 18px; }
+.fg-fila.dos { grid-template-columns: 1fr 1fr; }
+.fg-fila.tres { grid-template-columns: 1fr 1fr 1fr; }
+.fg-campo { display: flex; flex-direction: column; gap: 8px; }
+.fg-campo label { font-size: 15px; font-weight: 700; color: var(--gris-600); }
+.fg-campo input, .fg-campo select {
+  padding: 14px 16px; border: 2px solid var(--gris-200);
+  border-radius: var(--radio-sm); font-size: 17px; outline: none;
+  transition: border-color .15s; background: white;
+}
+.fg-campo input:focus, .fg-campo select:focus { border-color: var(--verde); }
+.fg-campo .ayuda { font-size: 13px; color: var(--gris-400); }
+
+/* ===== PUNTO DE VENTA ===== */
+.pos-layout { display: grid; grid-template-columns: 1.5fr 1fr; gap: 20px; }
+
+.selector-cliente {
+  background: var(--verde-claro); border: 2px solid var(--verde-borde);
+  border-radius: var(--radio); padding: 20px 22px; margin-bottom: 18px;
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+}
+.selector-cliente .sc-label { font-size: 16px; font-weight: 800; color: var(--verde-oscuro); white-space: nowrap; }
+.selector-cliente select {
+  flex: 1; padding: 13px 16px; border: 2px solid var(--verde-borde);
+  border-radius: var(--radio-sm); font-size: 17px; font-weight: 700;
+  color: var(--verde-oscuro); background: white; outline: none; min-width: 200px;
+}
+.descuento-badge {
+  background: var(--verde); color: white;
+  font-size: 17px; font-weight: 900; padding: 10px 18px; border-radius: var(--radio-sm);
+  white-space: nowrap;
+}
+
+.productos-titulo { font-size: 18px; font-weight: 800; color: var(--gris-800); margin-bottom: 14px; }
+.productos-lista { display: flex; flex-direction: column; gap: 10px; max-height: calc(100vh - 360px); overflow-y: auto; padding-right: 4px; }
+.prod-item {
+  background: white; border: 2px solid var(--gris-100);
+  border-radius: var(--radio-sm); padding: 16px 18px;
+  display: flex; align-items: center; gap: 14px;
+  cursor: pointer; transition: all .15s;
+}
+.prod-item:hover { border-color: var(--verde); background: var(--verde-claro); }
+.prod-item .pi-icono { font-size: 34px; flex-shrink: 0; }
+.prod-item .pi-info { flex: 1; }
+.prod-item .pi-nombre { font-size: 17px; font-weight: 800; }
+.prod-item .pi-stock { font-size: 14px; color: var(--gris-400); margin-top: 2px; }
+.prod-item .pi-precio-orig { font-size: 13px; color: var(--gris-400); text-decoration: line-through; }
+.prod-item .pi-precio { font-size: 19px; font-weight: 900; color: var(--verde-oscuro); }
+.prod-item .btn-agregar {
+  padding: 12px 18px; background: var(--verde); color: white;
+  border-radius: var(--radio-sm); font-size: 16px; font-weight: 800; border: none;
+  flex-shrink: 0; transition: background .15s;
+}
+.prod-item .btn-agregar:hover { background: var(--verde-oscuro); }
+
+/* CARRITO */
+.carrito-panel {
+  background: white; border-radius: var(--radio);
+  border: 2px solid var(--gris-100); display: flex; flex-direction: column;
+  height: calc(100vh - 140px); overflow: hidden; box-shadow: var(--sombra);
+}
+.carrito-header {
+  background: var(--verde-oscuro); color: white; padding: 18px 20px;
+}
+.carrito-header h3 { font-size: 19px; font-weight: 800; }
+.carrito-header p { font-size: 14px; opacity: .75; margin-top: 3px; }
+.carrito-cuerpo { flex: 1; overflow-y: auto; padding: 14px; }
+.carrito-vacio {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  height: 100%; color: var(--gris-400); text-align: center; gap: 12px;
+}
+.carrito-vacio .cv-icono { font-size: 56px; opacity: .4; }
+.carrito-vacio p { font-size: 16px; font-weight: 600; }
+
+.cart-fila {
+  display: flex; align-items: center; gap: 10px;
+  padding: 14px 12px; border-radius: var(--radio-sm); margin-bottom: 8px;
+  background: var(--gris-50); border: 2px solid var(--gris-100);
+}
+.cart-fila .cf-icono { font-size: 28px; flex-shrink: 0; }
+.cart-fila .cf-nombre { flex: 1; font-size: 15px; font-weight: 700; }
+.cf-controles { display: flex; align-items: center; gap: 8px; }
+.cf-btn {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: var(--verde-claro); color: var(--verde-oscuro);
+  font-size: 20px; font-weight: 800; border: 2px solid var(--verde-borde);
+  display: flex; align-items: center; justify-content: center;
+}
+.cf-cant { font-size: 18px; font-weight: 900; min-width: 24px; text-align: center; }
+.cf-precio { font-size: 17px; font-weight: 900; color: var(--verde-oscuro); min-width: 70px; text-align: right; }
+
+.carrito-pie { padding: 16px; border-top: 2px solid var(--gris-100); background: var(--gris-50); }
+.total-fila { display: flex; justify-content: space-between; padding: 6px 0; font-size: 16px; color: var(--gris-600); }
+.total-fila.descuento { color: var(--verde-oscuro); font-weight: 700; }
+.total-fila.gran-total {
+  font-size: 22px; font-weight: 900; color: var(--gris-800);
+  border-top: 2px solid var(--gris-200); padding-top: 12px; margin-top: 6px;
+}
+.btn-cobrar {
+  width: 100%; padding: 18px; border-radius: var(--radio-sm);
+  background: var(--verde); color: white; font-size: 20px; font-weight: 900;
+  border: none; margin-top: 12px; transition: background .15s;
+}
+.btn-cobrar:hover { background: var(--verde-oscuro); }
+.btn-apartar {
+  width: 100%; padding: 14px; border-radius: var(--radio-sm);
+  background: white; color: var(--gris-800); font-size: 16px; font-weight: 700;
+  border: 2px solid var(--gris-200); margin-top: 8px;
+}
+
+/* ===== INVENTARIO ===== */
+.stock-barra-wrap { display: flex; align-items: center; gap: 10px; }
+.stock-barra { width: 100px; height: 10px; background: var(--gris-100); border-radius: 5px; overflow: hidden; }
+.stock-barra-fill { height: 100%; border-radius: 5px; }
+.stock-num { font-size: 17px; font-weight: 800; }
+
+/* ===== PEDIDOS ===== */
+.tabs-pedido {
+  display: flex; gap: 6px; background: var(--gris-100);
+  padding: 6px; border-radius: var(--radio-sm); width: fit-content; margin-bottom: 22px;
+}
+.tab-pedido {
+  padding: 12px 24px; border-radius: 8px; font-size: 16px; font-weight: 700;
+  color: var(--gris-600); cursor: pointer; transition: all .15s;
+}
+.tab-pedido.activo { background: white; color: var(--verde-oscuro); box-shadow: var(--sombra); }
+
+.flujo-pasos {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 24px;
+}
+.paso {
+  text-align: center; padding: 20px 14px; border-radius: var(--radio-sm);
+  border: 2px solid var(--gris-100); position: relative;
+}
+.paso.hecho   { border-color: var(--verde);   background: var(--verde-claro); }
+.paso.actual  { border-color: var(--naranja); background: var(--naranja-claro); }
+.paso .paso-icono { font-size: 32px; margin-bottom: 8px; }
+.paso .paso-nombre { font-size: 15px; font-weight: 800; color: var(--gris-800); }
+.paso .paso-status { font-size: 13px; color: var(--gris-400); margin-top: 4px; }
+.paso.hecho .paso-status  { color: var(--verde-oscuro); font-weight: 700; }
+.paso.actual .paso-status { color: var(--naranja); font-weight: 700; }
+.paso::after {
+  content: '→'; position: absolute; right: -16px; top: 50%;
+  transform: translateY(-50%); color: var(--gris-200); font-size: 22px;
+}
+.paso:last-child::after { display: none; }
+
+/* ===== REPORTES ===== */
+.filtros-periodo {
+  display: flex; gap: 10px; margin-bottom: 22px; flex-wrap: wrap;
+}
+.btn-periodo {
+  padding: 13px 22px; border-radius: var(--radio-sm);
+  font-size: 16px; font-weight: 700; border: 2px solid var(--gris-200);
+  background: white; color: var(--gris-600); cursor: pointer; transition: all .15s;
+}
+.btn-periodo.activo { background: var(--verde); color: white; border-color: var(--verde); }
+.btn-periodo:hover { border-color: var(--verde); }
+
+.grafica-contenedor {
+  background: white; border-radius: var(--radio); padding: 24px;
+  border: 2px solid var(--gris-100); box-shadow: var(--sombra); margin-bottom: 20px;
+}
+.grafica-contenedor h3 { font-size: 18px; font-weight: 800; margin-bottom: 18px; color: var(--gris-800); }
+.barras {
+  display: flex; align-items: flex-end; gap: 10px;
+  height: 170px; padding-bottom: 0;
+}
+.barra-item { display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 1; }
+.barra-item .barra-fill {
+  width: 100%; border-radius: 6px 6px 0 0; background: var(--verde);
+  transition: height .4s ease; min-height: 4px;
+  display: flex; align-items: flex-start; justify-content: center; padding-top: 6px;
+}
+.barra-item .barra-fill span { color: white; font-size: 12px; font-weight: 800; }
+.barra-item .barra-etiqueta { font-size: 14px; color: var(--gris-400); font-weight: 600; }
+
+/* ===== ALERTA ===== */
+.alerta {
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 16px 18px; border-radius: var(--radio-sm); margin-bottom: 14px;
+  font-size: 16px; font-weight: 600;
+}
+.alerta-rojo   { background: var(--rojo-claro);   color: var(--rojo);    border-left: 4px solid var(--rojo); }
+.alerta-naranja{ background: var(--naranja-claro); color: var(--naranja); border-left: 4px solid var(--naranja); }
+.alerta-verde  { background: var(--verde-claro);   color: var(--verde-oscuro); border-left: 4px solid var(--verde); }
+.alerta .alerta-icono { font-size: 22px; flex-shrink: 0; margin-top: 1px; }
+
+/* ===== MODAL ===== */
+.modal-fondo {
+  position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 300;
+  display: flex; align-items: center; justify-content: center; padding: 20px;
+  opacity: 0; visibility: hidden; transition: all .2s;
+}
+.modal-fondo.abierto { opacity: 1; visibility: visible; }
+.modal-caja {
+  background: white; border-radius: var(--radio); padding: 34px 32px;
+  width: 100%; max-width: 520px;
+  transform: translateY(20px); transition: transform .2s;
+  box-shadow: var(--sombra-lg);
+}
+.modal-fondo.abierto .modal-caja { transform: translateY(0); }
+.modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+.modal-header h3 { font-size: 22px; font-weight: 800; }
+.modal-cerrar {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--gris-100); border: none; font-size: 18px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.modal-cerrar:hover { background: var(--gris-200); }
+.modal-pie { display: flex; justify-content: flex-end; gap: 12px; margin-top: 28px; }
+
+/* ===== CONFIRMAR COBRO ===== */
+.cobro-resumen {
+  background: var(--verde-claro); border: 2px solid var(--verde-borde);
+  border-radius: var(--radio-sm); padding: 22px 20px; margin-bottom: 20px;
+}
+.cobro-fila { display: flex; justify-content: space-between; font-size: 17px; padding: 5px 0; color: var(--gris-600); }
+.cobro-fila.total { font-size: 26px; font-weight: 900; color: var(--verde-oscuro); padding-top: 12px; border-top: 2px solid var(--verde-borde); margin-top: 8px; }
+.metodo-pago { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+.metodo-btn {
+  padding: 18px; border-radius: var(--radio-sm); border: 2px solid var(--gris-200);
+  background: white; font-size: 17px; font-weight: 800; cursor: pointer;
+  display: flex; align-items: center; gap: 10px; transition: all .15s;
+}
+.metodo-btn.activo { border-color: var(--verde); background: var(--verde-claro); color: var(--verde-oscuro); }
+.metodo-btn:hover { border-color: var(--verde); }
+
+/* ===== CONFIG ===== */
+.config-seccion { margin-bottom: 20px; }
+.interruptor {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 18px; background: var(--gris-50); border-radius: var(--radio-sm);
+  border: 2px solid var(--gris-100); margin-bottom: 10px;
+}
+.interruptor-info h4 { font-size: 17px; font-weight: 700; }
+.interruptor-info p  { font-size: 14px; color: var(--gris-400); }
+.switch-grande { cursor: pointer; }
+.sw-pista {
+  width: 56px; height: 30px; border-radius: 15px; background: var(--gris-200);
+  position: relative; transition: background .2s;
+}
+.sw-pista::after {
+  content: ''; position: absolute; top: 4px; left: 4px;
+  width: 22px; height: 22px; border-radius: 50%; background: white;
+  transition: transform .2s; box-shadow: 0 2px 4px rgba(0,0,0,.2);
+}
+.sw-pista.on { background: var(--verde); }
+.sw-pista.on::after { transform: translateX(26px); }
+
+/* ===== ÉXITO ===== */
+.pantalla-exito {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; text-align: center; padding: 60px 20px;
+  gap: 16px;
+}
+.pantalla-exito .exito-icono { font-size: 88px; }
+.pantalla-exito h2 { font-size: 28px; font-weight: 900; color: var(--verde-oscuro); }
+.pantalla-exito p  { font-size: 18px; color: var(--gris-400); max-width: 400px; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .menu-grid { grid-template-columns: 1fr 1fr; }
+  .pos-layout { grid-template-columns: 1fr; }
+  .tarjetas-resumen { grid-template-columns: 1fr 1fr; }
+  .flujo-pasos { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================
+     PANTALLA LOGIN
+============================= -->
+<div class="pantalla-login" id="loginPantalla">
+  <div class="login-caja">
+    <div class="login-logo">
+      <span class="icono">🌿</span>
+      <h1>HerbaControl</h1>
+      <p>Sistema de gestión Herbalife</p>
+    </div>
+
+    <div class="campo-grupo">
+      <label for="usuario">👤 Usuario</label>
+      <input type="text" id="usuario" value="admin@herbalife.com" placeholder="Su correo o usuario">
+    </div>
+    <div class="campo-grupo">
+      <label for="clave">🔒 Contraseña</label>
+      <input type="password" id="clave" value="••••••••" placeholder="Su contraseña">
+    </div>
+    <button class="btn-ingresar" onclick="entrar()">
+      Entrar al sistema →
+    </button>
+    <p class="login-ayuda">Presione "Entrar al sistema" para continuar la demostración</p>
+  </div>
+</div>
+
+<!-- ============================
+     MODAL: NUEVO CLIENTE
+============================= -->
+<div class="modal-fondo" id="modalNuevoCliente">
+  <div class="modal-caja">
+    <div class="modal-header">
+      <h3>👤 Registrar nuevo cliente</h3>
+      <button class="modal-cerrar" onclick="cerrarModal('modalNuevoCliente')">✕</button>
+    </div>
+
+    <div class="fg-fila dos" style="margin-bottom:16px;">
+      <div class="fg-campo">
+        <label>Nombre completo</label>
+        <input type="text" value="Ana García López">
+      </div>
+      <div class="fg-campo">
+        <label>Teléfono</label>
+        <input type="tel" value="555 123 4567">
+      </div>
+    </div>
+
+    <div class="fg-campo" style="margin-bottom:16px;">
+      <label>Tipo de membresía (descuento)</label>
+      <select>
+        <option>🔵 Distribuidor — descuento del 25%</option>
+        <option selected>🟢 Consultor — descuento del 35%</option>
+        <option>🟠 Constructor — descuento del 42%</option>
+        <option>🏆 Mayorista — descuento del 50%</option>
+      </select>
+      <span class="ayuda" style="font-size:14px;color:var(--gris-400);">El sistema aplica el descuento automáticamente en cada venta.</span>
+    </div>
+
+    <div class="alerta alerta-verde">
+      <span class="alerta-icono">💡</span>
+      <span>Con membresía <strong>Consultor</strong>, el cliente obtiene <strong>35% de descuento</strong> en cada compra de bodega.</span>
+    </div>
+
+    <div class="modal-pie">
+      <button class="btn-grande btn-grande-gris" onclick="cerrarModal('modalNuevoCliente')">Cancelar</button>
+      <button class="btn-grande btn-grande-verde" onclick="cerrarModal('modalNuevoCliente')">💾 Guardar cliente</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: COBRO EXITOSO -->
+<div class="modal-fondo" id="modalCobroExitoso">
+  <div class="modal-caja" style="text-align:center;">
+    <div style="font-size:80px;margin-bottom:16px;">✅</div>
+    <h3 style="font-size:26px;font-weight:900;color:var(--verde-oscuro);margin-bottom:10px;">¡Venta registrada!</h3>
+    <p style="font-size:17px;color:var(--gris-400);margin-bottom:28px;">La venta de <strong>$1,400 MXN</strong> a<br><strong>María González</strong> fue registrada correctamente.</p>
+    <div class="alerta alerta-verde" style="text-align:left;">
+      <span class="alerta-icono">📦</span>
+      <span>Inventario actualizado. Se descontaron <strong>4 productos</strong> del stock.</span>
+    </div>
+    <div class="modal-pie" style="justify-content:center;margin-top:20px;">
+      <button class="btn-grande btn-grande-verde" onclick="cerrarModal('modalCobroExitoso');irA('pantalla-pos')">Nueva venta</button>
+      <button class="btn-grande btn-grande-gris" onclick="cerrarModal('modalCobroExitoso');irA('pantalla-inicio')">Ir al inicio</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: NUEVO ENCARGO -->
+<div class="modal-fondo" id="modalEncargo">
+  <div class="modal-caja">
+    <div class="modal-header">
+      <h3>📋 Nuevo encargo de cliente</h3>
+      <button class="modal-cerrar" onclick="cerrarModal('modalEncargo')">✕</button>
+    </div>
+    <div class="fg-fila dos" style="margin-bottom:16px;">
+      <div class="fg-campo">
+        <label>Cliente</label>
+        <select>
+          <option>María González</option>
+          <option>Roberto Sánchez</option>
+          <option selected>Laura Martínez</option>
+        </select>
+      </div>
+      <div class="fg-campo">
+        <label>Producto solicitado</label>
+        <select>
+          <option selected>Proteína Plus 750g</option>
+          <option>Colágeno Premium</option>
+          <option>Multivitamínico</option>
+        </select>
+      </div>
+    </div>
+    <div class="fg-fila tres" style="margin-bottom:16px;">
+      <div class="fg-campo">
+        <label>Cantidad</label>
+        <input type="number" value="2">
+      </div>
+      <div class="fg-campo">
+        <label>Anticipo ($MXN)</label>
+        <input type="number" value="150">
+      </div>
+      <div class="fg-campo">
+        <label>Fecha esperada</label>
+        <input type="date" value="2026-06-10">
+      </div>
+    </div>
+    <div class="alerta alerta-naranja">
+      <span class="alerta-icono">⚠️</span>
+      <span>Producto <strong>sin existencia</strong> en bodega. El encargo quedará en espera hasta que llegue el pedido a Herbalife.</span>
+    </div>
+    <div class="modal-pie">
+      <button class="btn-grande btn-grande-gris" onclick="cerrarModal('modalEncargo')">Cancelar</button>
+      <button class="btn-grande btn-grande-naranja" onclick="cerrarModal('modalEncargo')">📋 Registrar encargo</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================
+     APP PRINCIPAL
+============================= -->
+<div class="app oculto" id="appPrincipal">
+
+  <!-- BARRA SUPERIOR -->
+  <header class="barra-top">
+    <button class="btn-regresar oculto" id="btnRegresar" onclick="irA('pantalla-inicio')">
+      ← Inicio
+    </button>
+    <div class="titulo-pagina" id="tituloPagina">🌿 HerbaControl</div>
+    <div class="usuario-info">
+      <div class="avatar">A</div>
+      <span>Admin</span>
+    </div>
+  </header>
+
+  <!-- CONTENIDO -->
+  <div class="contenido">
+
+    <!-- === PANTALLA INICIO === -->
+    <div class="pantalla activa" id="pantalla-inicio">
+      <div class="saludo">
+        <div class="icono-saludo">👋</div>
+        <div>
+          <h2>¡Buenos días, Administrador!</h2>
+          <p>Lunes 2 de junio de 2026 — ¿Qué desea hacer hoy?</p>
+        </div>
+      </div>
+
+      <div class="menu-grid">
+        <div class="menu-tile tile-verde" onclick="irA('pantalla-clientes')">
+          <div class="tile-icono">👥</div>
+          <h3>Clientes</h3>
+          <p>Ver, registrar y gestionar clientes con su membresía y descuento.</p>
+        </div>
+        <div class="menu-tile tile-naranja" onclick="irA('pantalla-pos')">
+          <div class="tile-icono">🛒</div>
+          <h3>Cobrar venta</h3>
+          <p>Registrar una venta con descuento automático por membresía.</p>
+        </div>
+        <div class="menu-tile tile-azul" onclick="irA('pantalla-pedidos')">
+          <div class="tile-icono">📦</div>
+          <h3>Pedidos</h3>
+          <p>Encargos de clientes y reabastecimiento de bodega.</p>
+          <span class="tile-badge">3 pendientes</span>
+        </div>
+        <div class="menu-tile tile-cafe" onclick="irA('pantalla-inventario')">
+          <div class="tile-icono">🏬</div>
+          <h3>Inventario</h3>
+          <p>Ver existencias de productos y alertas de stock bajo.</p>
+        </div>
+        <div class="menu-tile tile-morado" onclick="irA('pantalla-reportes')">
+          <div class="tile-icono">📊</div>
+          <h3>Reportes</h3>
+          <p>Resumen de ventas, clientes y movimientos del negocio.</p>
+        </div>
+        <div class="menu-tile tile-gris" onclick="irA('pantalla-config')">
+          <div class="tile-icono">⚙️</div>
+          <h3>Configuración</h3>
+          <p>Ajustar precios, membresías, usuarios y datos del negocio.</p>
+        </div>
+      </div>
+
+      <!-- Alertas del día -->
+      <div style="margin-top:24px;">
+        <div class="alerta alerta-rojo">
+          <span class="alerta-icono">🔴</span>
+          <span><strong>Aloe 1L Original</strong> está casi agotado — solo quedan <strong>2 piezas</strong>. Se recomienda hacer un pedido pronto.</span>
+        </div>
+        <div class="alerta alerta-naranja">
+          <span class="alerta-icono">🟠</span>
+          <span>El cliente <strong>Laura Martínez</strong> tiene un encargo de <strong>Proteína Plus</strong> pendiente de llegada.</span>
+        </div>
+        <div class="alerta alerta-verde">
+          <span class="alerta-icono">✅</span>
+          <span>Se realizaron <strong>5 ventas</strong> hoy por un total de <strong>$2,870 MXN</strong>.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- === PANTALLA CLIENTES === -->
+    <div class="pantalla" id="pantalla-clientes">
+      <div class="seccion-titulo">
+        <div class="s-icono">👥</div>
+        <div>
+          <h2>Clientes</h2>
+          <p>134 clientes registrados — descuento aplicado automáticamente en cada venta</p>
+        </div>
+      </div>
+
+      <!-- Tarjetas membresía -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px;">
+        <div style="background:var(--azul-claro);border:2px solid #90CAF9;border-radius:var(--radio);padding:22px 18px;text-align:center;">
+          <div style="font-size:36px;margin-bottom:8px;">🔵</div>
+          <div style="font-size:30px;font-weight:900;color:var(--azul);">25%</div>
+          <div style="font-size:16px;font-weight:800;margin-top:4px;">Distribuidor</div>
+          <div style="font-size:14px;color:var(--gris-400);margin-top:4px;">42 clientes</div>
+        </div>
+        <div style="background:var(--verde-claro);border:2px solid var(--verde-borde);border-radius:var(--radio);padding:22px 18px;text-align:center;">
+          <div style="font-size:36px;margin-bottom:8px;">🟢</div>
+          <div style="font-size:30px;font-weight:900;color:var(--verde-oscuro);">35%</div>
+          <div style="font-size:16px;font-weight:800;margin-top:4px;">Consultor</div>
+          <div style="font-size:14px;color:var(--gris-400);margin-top:4px;">51 clientes</div>
+        </div>
+        <div style="background:var(--naranja-claro);border:2px solid #FFCC80;border-radius:var(--radio);padding:22px 18px;text-align:center;">
+          <div style="font-size:36px;margin-bottom:8px;">🟠</div>
+          <div style="font-size:30px;font-weight:900;color:var(--naranja);">42%</div>
+          <div style="font-size:16px;font-weight:800;margin-top:4px;">Constructor</div>
+          <div style="font-size:14px;color:var(--gris-400);margin-top:4px;">28 clientes</div>
+        </div>
+        <div style="background:#F3E5F5;border:2px solid #CE93D8;border-radius:var(--radio);padding:22px 18px;text-align:center;">
+          <div style="font-size:36px;margin-bottom:8px;">🏆</div>
+          <div style="font-size:30px;font-weight:900;color:#6A1B9A;">50%</div>
+          <div style="font-size:16px;font-weight:800;margin-top:4px;">Mayorista</div>
+          <div style="font-size:14px;color:var(--gris-400);margin-top:4px;">13 clientes</div>
+        </div>
+      </div>
+
+      <div class="tabla-amigable-wrap">
+        <div class="tabla-cabecera">
+          <h3>📋 Lista de clientes</h3>
+          <button class="btn-grande btn-grande-verde btn-sm" style="font-size:15px;padding:10px 18px;" onclick="abrirModal('modalNuevoCliente')">
+            + Nuevo cliente
+          </button>
+        </div>
+        <table class="amigable">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Teléfono</th>
+              <th>Membresía</th>
+              <th>Descuento</th>
+              <th>Saldo a favor</th>
+              <th>Última compra</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong style="font-size:17px;">María González</strong></td>
+              <td>555 234 5678</td>
+              <td><span class="mem mem-may">🏆 Mayorista</span></td>
+              <td><strong style="font-size:18px;color:var(--verde-oscuro);">50%</strong></td>
+              <td>$320.00</td>
+              <td>Hoy, 10:45</td>
+              <td><button class="btn-grande btn-grande-gris" style="font-size:14px;padding:10px 16px;">Ver historial</button></td>
+            </tr>
+            <tr>
+              <td><strong style="font-size:17px;">Roberto Sánchez</strong></td>
+              <td>555 345 6789</td>
+              <td><span class="mem mem-const">🟠 Constructor</span></td>
+              <td><strong style="font-size:18px;color:var(--verde-oscuro);">42%</strong></td>
+              <td>$0.00</td>
+              <td>Hoy, 10:12</td>
+              <td><button class="btn-grande btn-grande-gris" style="font-size:14px;padding:10px 16px;">Ver historial</button></td>
+            </tr>
+            <tr>
+              <td><strong style="font-size:17px;">Laura Martínez</strong></td>
+              <td>555 456 7890</td>
+              <td><span class="mem mem-cons">🟢 Consultor</span></td>
+              <td><strong style="font-size:18px;color:var(--verde-oscuro);">35%</strong></td>
+              <td>$150.50</td>
+              <td>Hoy, 09:38</td>
+              <td><button class="btn-grande btn-grande-gris" style="font-size:14px;padding:10px 16px;">Ver historial</button></td>
+            </tr>
+            <tr>
+              <td><strong style="font-size:17px;">Carlos Reyes</strong></td>
+              <td>555 567 8901</td>
+              <td><span class="mem mem-dist">🔵 Distribuidor</span></td>
+              <td><strong style="font-size:18px;color:var(--verde-oscuro);">25%</strong></td>
+              <td>$80.00</td>
+              <td>Hoy, 09:15</td>
+              <td><button class="btn-grande btn-grande-gris" style="font-size:14px;padding:10px 16px;">Ver historial</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- === PANTALLA COBRAR VENTA === -->
+    <div class="pantalla" id="pantalla-pos">
+      <div class="seccion-titulo">
+        <div class="s-icono" style="background:var(--naranja-claro);">🛒</div>
+        <div>
+          <h2>Cobrar venta</h2>
+          <p>Seleccione el cliente y los productos. El descuento se aplica solo.</p>
+        </div>
+      </div>
+
+      <div class="pos-layout">
+        <!-- Productos -->
+        <div>
+          <!-- Selector cliente -->
+          <div class="selector-cliente">
+            <span class="sc-label">👤 Cliente:</span>
+            <select onchange="cambiarDescuento(this)">
+              <option data-desc="50" data-mem="Mayorista">María González — Mayorista</option>
+              <option data-desc="42" data-mem="Constructor">Roberto Sánchez — Constructor</option>
+              <option data-desc="35" data-mem="Consultor">Laura Martínez — Consultor</option>
+              <option data-desc="25" data-mem="Distribuidor">Carlos Reyes — Distribuidor</option>
+            </select>
+            <div class="descuento-badge" id="badgeDescuento">🏷️ 50% de descuento</div>
+          </div>
+
+          <div class="productos-titulo">📦 Productos disponibles en bodega</div>
+          <div class="productos-lista">
+            <div class="prod-item">
+              <div class="pi-icono">🍫</div>
+              <div class="pi-info">
+                <div class="pi-nombre">Formula 1 Chocolate 550g</div>
+                <div class="pi-stock">📦 18 piezas en bodega</div>
+              </div>
+              <div style="text-align:right;">
+                <div class="pi-precio-orig">Precio Herbalife: $700</div>
+                <div class="pi-precio">$350 para cliente</div>
+              </div>
+              <button class="btn-agregar">+ Agregar</button>
+            </div>
+            <div class="prod-item">
+              <div class="pi-icono">🍦</div>
+              <div class="pi-info">
+                <div class="pi-nombre">Formula 1 Vainilla 550g</div>
+                <div class="pi-stock">📦 12 piezas en bodega</div>
+              </div>
+              <div style="text-align:right;">
+                <div class="pi-precio-orig">Precio Herbalife: $700</div>
+                <div class="pi-precio">$350 para cliente</div>
+              </div>
+              <button class="btn-agregar">+ Agregar</button>
+            </div>
+            <div class="prod-item">
+              <div class="pi-icono">💪</div>
+              <div class="pi-info">
+                <div class="pi-nombre">Proteína Plus 750g</div>
+                <div class="pi-stock">📦 8 piezas en bodega</div>
+              </div>
+              <div style="text-align:right;">
+                <div class="pi-precio-orig">Precio Herbalife: $980</div>
+                <div class="pi-precio">$490 para cliente</div>
+              </div>
+              <button class="btn-agregar">+ Agregar</button>
+            </div>
+            <div class="prod-item">
+              <div class="pi-icono">🌿</div>
+              <div class="pi-info">
+                <div class="pi-nombre">Aloe Mango 1 litro</div>
+                <div class="pi-stock">📦 6 piezas en bodega</div>
+              </div>
+              <div style="text-align:right;">
+                <div class="pi-precio-orig">Precio Herbalife: $360</div>
+                <div class="pi-precio">$180 para cliente</div>
+              </div>
+              <button class="btn-agregar">+ Agregar</button>
+            </div>
+            <div class="prod-item">
+              <div class="pi-icono">🍵</div>
+              <div class="pi-info">
+                <div class="pi-nombre">Té Herbal 102g</div>
+                <div class="pi-stock">📦 22 piezas en bodega</div>
+              </div>
+              <div style="text-align:right;">
+                <div class="pi-precio-orig">Precio Herbalife: $580</div>
+                <div class="pi-precio">$290 para cliente</div>
+              </div>
+              <button class="btn-agregar">+ Agregar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Carrito -->
+        <div class="carrito-panel">
+          <div class="carrito-header">
+            <h3>🧾 Resumen de la venta</h3>
+            <p>María González — Mayorista 50%</p>
+          </div>
+          <div class="carrito-cuerpo">
+            <div class="cart-fila">
+              <div class="cf-icono">🍫</div>
+              <div class="cf-nombre">F1 Chocolate<br><span style="font-size:13px;font-weight:400;color:var(--gris-400);">$700 → 50% = $350 c/u</span></div>
+              <div class="cf-controles">
+                <button class="cf-btn">−</button>
+                <span class="cf-cant">2</span>
+                <button class="cf-btn">+</button>
+              </div>
+              <div class="cf-precio">$710</div>
+            </div>
+            <div class="cart-fila">
+              <div class="cf-icono">💪</div>
+              <div class="cf-nombre">Proteína Plus<br><span style="font-size:13px;font-weight:400;color:var(--gris-400);">$980 → 50% = $490 c/u</span></div>
+              <div class="cf-controles">
+                <button class="cf-btn">−</button>
+                <span class="cf-cant">1</span>
+                <button class="cf-btn">+</button>
+              </div>
+              <div class="cf-precio">$495</div>
+            </div>
+            <div class="cart-fila">
+              <div class="cf-icono">🌿</div>
+              <div class="cf-nombre">Aloe Mango<br><span style="font-size:13px;font-weight:400;color:var(--gris-400);">$360 → 50% = $180 c/u</span></div>
+              <div class="cf-controles">
+                <button class="cf-btn">−</button>
+                <span class="cf-cant">1</span>
+                <button class="cf-btn">+</button>
+              </div>
+              <div class="cf-precio">$185</div>
+            </div>
+          </div>
+          <div class="carrito-pie">
+            <div class="total-fila">
+              <span>Precio Herbalife</span><span>$2,760</span>
+            </div>
+            <div class="total-fila descuento">
+              <span>Descuento Mayorista (50%)</span><span style="color:var(--verde-oscuro)">− $1,380</span>
+            </div>
+            <div class="total-fila">
+              <span>Cargo fijo (4 productos × $5)</span><span>+ $20</span>
+            </div>
+            <div class="total-fila gran-total">
+              <span>Total a cobrar</span><span>$1,400</span>
+            </div>
+            <button class="btn-cobrar" onclick="abrirModal('modalCobroExitoso')">
+              ✅ Cobrar $1,400 MXN
+            </button>
+            <button class="btn-apartar">📌 Dejar apartado (pagar después)</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- === PANTALLA PEDIDOS === -->
+    <div class="pantalla" id="pantalla-pedidos">
+      <div class="seccion-titulo">
+        <div class="s-icono" style="background:var(--azul-claro);">📦</div>
+        <div>
+          <h2>Pedidos</h2>
+          <p>Encargos de clientes y reabastecimiento de bodega</p>
+        </div>
+      </div>
+
+      <div class="tabs-pedido">
+        <div class="tab-pedido activo">📋 Encargos de clientes</div>
+        <div class="tab-pedido">🏭 Compra a Herbalife</div>
+      </div>
+
+      <!-- Estado del pedido -->
+      <div style="background:white;border-radius:var(--radio);padding:24px;border:2px solid var(--gris-100);box-shadow:var(--sombra);margin-bottom:20px;">
+        <div style="font-size:17px;font-weight:800;color:var(--gris-800);margin-bottom:16px;">¿Cómo funciona un encargo?</div>
+        <div class="flujo-pasos">
+          <div class="paso hecho">
+            <div class="paso-icono">📋</div>
+            <div class="paso-nombre">1. Encargo</div>
+            <div class="paso-status">✓ El cliente pide un producto</div>
+          </div>
+          <div class="paso hecho">
+            <div class="paso-icono">💳</div>
+            <div class="paso-nombre">2. Anticipo</div>
+            <div class="paso-status">✓ Se registra un anticipo</div>
+          </div>
+          <div class="paso actual">
+            <div class="paso-icono">🚚</div>
+            <div class="paso-nombre">3. Pedido</div>
+            <div class="paso-status">Se pide a Herbalife</div>
+          </div>
+          <div class="paso">
+            <div class="paso-icono">🎁</div>
+            <div class="paso-nombre">4. Entrega</div>
+            <div class="paso-status">Cobro del saldo</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tabla-amigable-wrap">
+        <div class="tabla-cabecera">
+          <h3>📋 Encargos pendientes (3)</h3>
+          <button class="btn-grande btn-grande-naranja" style="font-size:15px;padding:10px 18px;" onclick="abrirModal('modalEncargo')">
+            + Nuevo encargo
+          </button>
+        </div>
+        <table class="amigable">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Cliente</th>
+              <th>Producto</th>
+              <th>Cant.</th>
+              <th>Anticipo</th>
+              <th>Saldo pendiente</th>
+              <th>Fecha esperada</th>
+              <th>Estado</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-weight:800;color:var(--verde-oscuro);">#047</td>
+              <td><strong>María González</strong></td>
+              <td>Proteína Plus 750g</td>
+              <td style="font-size:18px;font-weight:800;">2</td>
+              <td>$150</td>
+              <td style="color:var(--naranja);font-weight:800;font-size:17px;">$830</td>
+              <td>10 junio</td>
+              <td><span class="estado estado-naranja">🚚 En camino</span></td>
+              <td><button class="btn-grande btn-grande-verde" style="font-size:14px;padding:10px 16px;">Entregar</button></td>
+            </tr>
+            <tr>
+              <td style="font-weight:800;color:var(--verde-oscuro);">#046</td>
+              <td><strong>Carlos Reyes</strong></td>
+              <td>Multivitamínico Plus</td>
+              <td style="font-size:18px;font-weight:800;">3</td>
+              <td>$200</td>
+              <td style="color:var(--naranja);font-weight:800;font-size:17px;">$430</td>
+              <td>12 junio</td>
+              <td><span class="estado estado-gris">📬 Solicitado</span></td>
+              <td><button class="btn-grande btn-grande-gris" style="font-size:14px;padding:10px 16px;">Ver más</button></td>
+            </tr>
+            <tr>
+              <td style="font-weight:800;color:var(--verde-oscuro);">#045</td>
+              <td><strong>Laura Martínez</strong></td>
+              <td>Colágeno Premium</td>
+              <td style="font-size:18px;font-weight:800;">1</td>
+              <td>$0</td>
+              <td style="color:var(--naranja);font-weight:800;font-size:17px;">$680</td>
+              <td>15 junio</td>
+              <td><span class="estado estado-gris">⏳ Pendiente</span></td>
+              <td><button class="btn-grande btn-grande-gris" style="font-size:14px;padding:10px 16px;">Ver más</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- === PANTALLA INVENTARIO === -->
+    <div class="pantalla" id="pantalla-inventario">
+      <div class="seccion-titulo">
+        <div class="s-icono" style="background:#FFF8E1;">🏬</div>
+        <div>
+          <h2>Inventario</h2>
+          <p>Productos disponibles en bodega en este momento</p>
+        </div>
+      </div>
+
+      <div class="tarjetas-resumen">
+        <div class="tarjeta-resumen verde">
+          <div class="tr-icono">📦</div>
+          <div class="tr-numero">62</div>
+          <div class="tr-etiqueta">Piezas en bodega</div>
+          <div class="tr-sub">14 productos diferentes</div>
+        </div>
+        <div class="tarjeta-resumen naranja">
+          <div class="tr-icono">⚠️</div>
+          <div class="tr-numero">4</div>
+          <div class="tr-etiqueta">Stock bajo</div>
+          <div class="tr-sub">Necesitan reabastecimiento</div>
+        </div>
+        <div class="tarjeta-resumen azul">
+          <div class="tr-icono">📊</div>
+          <div class="tr-numero">8,240</div>
+          <div class="tr-etiqueta">Puntos acumulados</div>
+          <div class="tr-sub">Por ventas registradas</div>
+        </div>
+      </div>
+
+      <div class="alerta alerta-rojo" style="margin-bottom:6px;">
+        <span class="alerta-icono">🔴</span>
+        <strong>Aloe 1L Original — solo 2 piezas.</strong>&nbsp;Se recomienda hacer pedido urgente.
+      </div>
+      <div class="alerta alerta-naranja" style="margin-bottom:20px;">
+        <span class="alerta-icono">🟠</span>
+        <strong>Formula 1 Fresa — solo 5 piezas.</strong>&nbsp;Stock bajo.
+      </div>
+
+      <div class="tabla-amigable-wrap">
+        <div class="tabla-cabecera">
+          <h3>📋 Existencias por producto</h3>
+          <button class="btn-grande btn-grande-verde" style="font-size:15px;padding:10px 18px;">
+            📥 Registrar entrada
+          </button>
+        </div>
+        <table class="amigable">
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th>Piezas</th>
+              <th>Nivel de stock</th>
+              <th>Precio Herbalife</th>
+              <th>Última entrada</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>🍫 Formula 1 Chocolate</strong></td>
+              <td style="font-size:20px;font-weight:900;">18</td>
+              <td>
+                <div class="stock-barra-wrap">
+                  <div class="stock-barra"><div class="stock-barra-fill" style="width:75%;background:var(--verde)"></div></div>
+                  <span class="stock-num" style="color:var(--verde-oscuro);">✅ OK</span>
+                </div>
+              </td>
+              <td>$700</td>
+              <td style="color:var(--gris-400);">1 jun</td>
+            </tr>
+            <tr>
+              <td><strong>🍓 Formula 1 Fresa</strong></td>
+              <td style="font-size:20px;font-weight:900;color:var(--naranja);">5</td>
+              <td>
+                <div class="stock-barra-wrap">
+                  <div class="stock-barra"><div class="stock-barra-fill" style="width:20%;background:var(--naranja)"></div></div>
+                  <span class="stock-num" style="color:var(--naranja);">⚠️ Bajo</span>
+                </div>
+              </td>
+              <td>$700</td>
+              <td style="color:var(--gris-400);">1 jun</td>
+            </tr>
+            <tr>
+              <td><strong>🌿 Aloe 1L Original</strong></td>
+              <td style="font-size:20px;font-weight:900;color:var(--rojo);">2</td>
+              <td>
+                <div class="stock-barra-wrap">
+                  <div class="stock-barra"><div class="stock-barra-fill" style="width:8%;background:var(--rojo)"></div></div>
+                  <span class="stock-num" style="color:var(--rojo);">🔴 Crítico</span>
+                </div>
+              </td>
+              <td>$360</td>
+              <td style="color:var(--gris-400);">18 may</td>
+            </tr>
+            <tr>
+              <td><strong>💪 Proteína Plus 750g</strong></td>
+              <td style="font-size:20px;font-weight:900;">8</td>
+              <td>
+                <div class="stock-barra-wrap">
+                  <div class="stock-barra"><div class="stock-barra-fill" style="width:40%;background:#F5A623)"></div></div>
+                  <span class="stock-num" style="color:#956000;">⚡ Medio</span>
+                </div>
+              </td>
+              <td>$980</td>
+              <td style="color:var(--gris-400);">18 may</td>
+            </tr>
+            <tr>
+              <td><strong>🍵 Té Herbal 102g</strong></td>
+              <td style="font-size:20px;font-weight:900;">22</td>
+              <td>
+                <div class="stock-barra-wrap">
+                  <div class="stock-barra"><div class="stock-barra-fill" style="width:88%;background:var(--verde)"></div></div>
+                  <span class="stock-num" style="color:var(--verde-oscuro);">✅ OK</span>
+                </div>
+              </td>
+              <td>$580</td>
+              <td style="color:var(--gris-400);">1 jun</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- === PANTALLA REPORTES === -->
+    <div class="pantalla" id="pantalla-reportes">
+      <div class="seccion-titulo">
+        <div class="s-icono" style="background:#F3E5F5;">📊</div>
+        <div>
+          <h2>Reportes</h2>
+          <p>Resumen de ventas y movimientos del negocio</p>
+        </div>
+      </div>
+
+      <div class="filtros-periodo">
+        <button class="btn-periodo">Hoy</button>
+        <button class="btn-periodo activo">Esta semana</button>
+        <button class="btn-periodo">Este mes</button>
+        <button class="btn-periodo" style="margin-left:auto;">📥 Descargar Excel</button>
+        <button class="btn-periodo">🖨️ Imprimir</button>
+      </div>
+
+      <div class="tarjetas-resumen" style="margin-bottom:20px;">
+        <div class="tarjeta-resumen verde">
+          <div class="tr-icono">💰</div>
+          <div class="tr-numero">$12,480</div>
+          <div class="tr-etiqueta">Ventas esta semana</div>
+        </div>
+        <div class="tarjeta-resumen naranja">
+          <div class="tr-icono">🧾</div>
+          <div class="tr-numero">47</div>
+          <div class="tr-etiqueta">Ventas realizadas</div>
+        </div>
+        <div class="tarjeta-resumen azul">
+          <div class="tr-icono">📈</div>
+          <div class="tr-numero">$265</div>
+          <div class="tr-etiqueta">Venta promedio</div>
+        </div>
+      </div>
+
+      <div class="grafica-contenedor">
+        <h3>💰 Ventas por día (semana actual)</h3>
+        <div class="barras">
+          <div class="barra-item">
+            <div class="barra-fill" style="height:62%;"><span>$1,800</span></div>
+            <div class="barra-etiqueta">Lun</div>
+          </div>
+          <div class="barra-item">
+            <div class="barra-fill" style="height:75%;"><span>$2,100</span></div>
+            <div class="barra-etiqueta">Mar</div>
+          </div>
+          <div class="barra-item">
+            <div class="barra-fill" style="height:50%;"><span>$1,450</span></div>
+            <div class="barra-etiqueta">Mié</div>
+          </div>
+          <div class="barra-item">
+            <div class="barra-fill" style="height:88%;"><span>$2,480</span></div>
+            <div class="barra-etiqueta">Jue</div>
+          </div>
+          <div class="barra-item">
+            <div class="barra-fill" style="height:100%;background:var(--naranja);"><span>$2,870</span></div>
+            <div class="barra-etiqueta" style="color:var(--naranja);font-weight:800;">Hoy ★</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+        <div class="tabla-amigable-wrap">
+          <div class="tabla-cabecera" style="background:var(--azul);"><h3>🏆 Productos más vendidos</h3></div>
+          <table class="amigable">
+            <thead><tr><th>Producto</th><th>Piezas</th><th>Total</th></tr></thead>
+            <tbody>
+              <tr><td>🍫 F1 Chocolate</td><td style="font-weight:800;">38</td><td style="color:var(--verde-oscuro);font-weight:800;">$13,300</td></tr>
+              <tr><td>💪 Proteína Plus</td><td style="font-weight:800;">24</td><td style="color:var(--verde-oscuro);font-weight:800;">$11,760</td></tr>
+              <tr><td>🌿 Aloe Mango</td><td style="font-weight:800;">19</td><td style="color:var(--verde-oscuro);font-weight:800;">$3,420</td></tr>
+              <tr><td>🍵 Té Herbal</td><td style="font-weight:800;">15</td><td style="color:var(--verde-oscuro);font-weight:800;">$4,350</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="tabla-amigable-wrap">
+          <div class="tabla-cabecera" style="background:#6A1B9A;"><h3>👥 Clientes que más compran</h3></div>
+          <table class="amigable">
+            <thead><tr><th>Cliente</th><th>Membresía</th><th>Total</th></tr></thead>
+            <tbody>
+              <tr><td><strong>María González</strong></td><td><span class="mem mem-may" style="font-size:13px;">Mayorista</span></td><td style="color:var(--verde-oscuro);font-weight:800;">$4,200</td></tr>
+              <tr><td><strong>Roberto Sánchez</strong></td><td><span class="mem mem-const" style="font-size:13px;">Constructor</span></td><td style="color:var(--verde-oscuro);font-weight:800;">$2,640</td></tr>
+              <tr><td><strong>Laura Martínez</strong></td><td><span class="mem mem-cons" style="font-size:13px;">Consultor</span></td><td style="color:var(--verde-oscuro);font-weight:800;">$1,840</td></tr>
+              <tr><td><strong>Carlos Reyes</strong></td><td><span class="mem mem-dist" style="font-size:13px;">Distribuidor</span></td><td style="color:var(--verde-oscuro);font-weight:800;">$1,160</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- === PANTALLA CONFIG === -->
+    <div class="pantalla" id="pantalla-config">
+      <div class="seccion-titulo">
+        <div class="s-icono" style="background:var(--gris-100);">⚙️</div>
+        <div>
+          <h2>Configuración</h2>
+          <p>Ajustes generales del sistema</p>
+        </div>
+      </div>
+
+      <div class="form-grande">
+        <h3>🏢 Datos del negocio</h3>
+        <div class="fg-fila dos" style="margin-bottom:18px;">
+          <div class="fg-campo">
+            <label>Nombre del negocio</label>
+            <input type="text" value="Distribuciones Herbalife GDL">
+          </div>
+          <div class="fg-campo">
+            <label>Teléfono de contacto</label>
+            <input type="tel" value="33 1234 5678">
+          </div>
+        </div>
+        <div class="fg-fila dos" style="margin-bottom:18px;">
+          <div class="fg-campo">
+            <label>Cargo fijo por producto (en pesos)</label>
+            <input type="number" value="5">
+            <span class="ayuda">Este cargo se suma al precio de cada producto vendido.</span>
+          </div>
+          <div class="fg-campo">
+            <label>Avisar cuando queden menos de (piezas)</label>
+            <input type="number" value="6">
+            <span class="ayuda">El sistema avisará cuando un producto esté por agotarse.</span>
+          </div>
+        </div>
+        <button class="btn-grande btn-grande-verde">💾 Guardar cambios</button>
+      </div>
+
+      <div class="form-grande">
+        <h3>💳 Descuentos por membresía</h3>
+        <div style="display:grid;gap:12px;">
+          <div class="interruptor">
+            <div style="display:flex;align-items:center;gap:14px;">
+              <span style="font-size:28px;">🔵</span>
+              <div class="interruptor-info">
+                <h4>Distribuidor</h4>
+                <p>Nivel de entrada</p>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:14px;">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <input type="number" value="25" style="width:70px;padding:10px;border:2px solid var(--gris-200);border-radius:8px;font-size:17px;font-weight:800;text-align:center;">
+                <span style="font-size:17px;font-weight:700;">%</span>
+              </div>
+              <label class="switch-grande">
+                <div class="sw-pista on"></div>
+              </label>
+            </div>
+          </div>
+          <div class="interruptor">
+            <div style="display:flex;align-items:center;gap:14px;">
+              <span style="font-size:28px;">🟢</span>
+              <div class="interruptor-info">
+                <h4>Consultor</h4>
+                <p>Supervisor de éxito</p>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:14px;">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <input type="number" value="35" style="width:70px;padding:10px;border:2px solid var(--gris-200);border-radius:8px;font-size:17px;font-weight:800;text-align:center;">
+                <span style="font-size:17px;font-weight:700;">%</span>
+              </div>
+              <label class="switch-grande">
+                <div class="sw-pista on"></div>
+              </label>
+            </div>
+          </div>
+          <div class="interruptor">
+            <div style="display:flex;align-items:center;gap:14px;">
+              <span style="font-size:28px;">🟠</span>
+              <div class="interruptor-info">
+                <h4>Constructor</h4>
+                <p>Consultor calificado</p>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:14px;">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <input type="number" value="42" style="width:70px;padding:10px;border:2px solid var(--gris-200);border-radius:8px;font-size:17px;font-weight:800;text-align:center;">
+                <span style="font-size:17px;font-weight:700;">%</span>
+              </div>
+              <label class="switch-grande">
+                <div class="sw-pista on"></div>
+              </label>
+            </div>
+          </div>
+          <div class="interruptor">
+            <div style="display:flex;align-items:center;gap:14px;">
+              <span style="font-size:28px;">🏆</span>
+              <div class="interruptor-info">
+                <h4>Mayorista</h4>
+                <p>Distribuidor principal</p>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:14px;">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <input type="number" value="50" style="width:70px;padding:10px;border:2px solid var(--gris-200);border-radius:8px;font-size:17px;font-weight:800;text-align:center;">
+                <span style="font-size:17px;font-weight:700;">%</span>
+              </div>
+              <label class="switch-grande">
+                <div class="sw-pista on"></div>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:18px;">
+          <button class="btn-grande btn-grande-verde">💾 Guardar descuentos</button>
+        </div>
+      </div>
+
+      <div class="form-grande">
+        <h3>👤 Usuarios del sistema</h3>
+        <div class="tabla-amigable-wrap">
+          <table class="amigable">
+            <thead><tr><th>Usuario</th><th>Rol</th><th>Último ingreso</th><th>Estado</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>admin@herbalife.com</strong></td>
+                <td><span class="estado estado-verde">👑 Administrador</span></td>
+                <td>Hoy 10:45</td>
+                <td><span class="estado estado-verde">Activo</span></td>
+              </tr>
+              <tr>
+                <td>operador@herbalife.com</td>
+                <td><span class="estado estado-gris">🛍️ Operador</span></td>
+                <td>Ayer 16:20</td>
+                <td><span class="estado estado-verde">Activo</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="margin-top:16px;">
+          <button class="btn-grande btn-grande-gris">+ Agregar usuario</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /contenido -->
+</div><!-- /app -->
+
+<script>
+  /* ===== LOGIN ===== */
+  function entrar() {
+    document.getElementById('loginPantalla').style.display = 'none';
+    document.getElementById('appPrincipal').classList.remove('oculto');
+  }
+
+  /* ===== NAVEGACIÓN ===== */
+  const titulos = {
+    'pantalla-inicio':    { titulo: '🌿 HerbaControl',      regresar: false },
+    'pantalla-clientes':  { titulo: '👥 Clientes',           regresar: true  },
+    'pantalla-pos':       { titulo: '🛒 Cobrar venta',       regresar: true  },
+    'pantalla-pedidos':   { titulo: '📦 Pedidos',            regresar: true  },
+    'pantalla-inventario':{ titulo: '🏬 Inventario',         regresar: true  },
+    'pantalla-reportes':  { titulo: '📊 Reportes',           regresar: true  },
+    'pantalla-config':    { titulo: '⚙️ Configuración',      regresar: true  },
+  };
+
+  function irA(id) {
+    document.querySelectorAll('.pantalla').forEach(p => p.classList.remove('activa'));
+    const pantalla = document.getElementById(id);
+    if (pantalla) pantalla.classList.add('activa');
+
+    const cfg = titulos[id] || { titulo: id, regresar: true };
+    document.getElementById('tituloPagina').textContent = cfg.titulo;
+    const btnReg = document.getElementById('btnRegresar');
+    if (cfg.regresar) {
+      btnReg.classList.remove('oculto');
+    } else {
+      btnReg.classList.add('oculto');
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  /* ===== MODALES ===== */
+  function abrirModal(id) {
+    document.getElementById(id).classList.add('abierto');
+  }
+  function cerrarModal(id) {
+    document.getElementById(id).classList.remove('abierto');
+  }
+  document.querySelectorAll('.modal-fondo').forEach(m => {
+    m.addEventListener('click', e => { if (e.target === m) m.classList.remove('abierto'); });
+  });
+
+  /* ===== CAMBIAR DESCUENTO ===== */
+  function cambiarDescuento(sel) {
+    const opt = sel.options[sel.selectedIndex];
+    const desc = opt.getAttribute('data-desc');
+    document.getElementById('badgeDescuento').textContent = '🏷️ ' + desc + '% de descuento';
+  }
+
+  /* ===== FILTROS PERÍODO ===== */
+  document.querySelectorAll('.btn-periodo').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const parent = this.closest('.filtros-periodo');
+      parent.querySelectorAll('.btn-periodo').forEach(b => {
+        if (b.style.marginLeft !== 'auto' && b !== this) b.classList.remove('activo');
+      });
+      if (!this.style.marginLeft) this.classList.toggle('activo');
+    });
+  });
+
+  /* ===== TABS PEDIDOS ===== */
+  document.querySelectorAll('.tab-pedido').forEach(tab => {
+    tab.addEventListener('click', function() {
+      document.querySelectorAll('.tab-pedido').forEach(t => t.classList.remove('activo'));
+      this.classList.add('activo');
+    });
+  });
+
+  /* ===== INTERRUPTORES ===== */
+  document.querySelectorAll('.sw-pista').forEach(sw => {
+    sw.addEventListener('click', () => sw.classList.toggle('on'));
+  });
+
+  /* ===== TILES MEMBRESÍA CLIC ===== */
+  document.querySelectorAll('.tier-card').forEach(c => {
+    c.addEventListener('click', function() {
+      document.querySelectorAll('.tier-card').forEach(x => x.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>
