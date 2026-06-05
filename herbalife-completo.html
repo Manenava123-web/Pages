@@ -1004,13 +1004,48 @@ table.data-table th.num {
   font-weight: 500;
 }
 
-table.data-table td.actions { white-space: nowrap; }
+table.data-table td.actions {
+  white-space: nowrap;
+  padding: 0.45rem 0.55rem;
+  vertical-align: middle;
+  width: 1%;
+}
 
 table.data-table .actions-inner {
-  display: flex;
-  gap: 0.35rem;
-  flex-wrap: wrap;
+  display: inline-flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 0.3rem;
+  align-items: center;
   justify-content: flex-end;
+}
+
+/* Botones de acción en tabla: compactos en fila (no bloques apilados) */
+table.data-table .bloom-btn,
+table.data-table .btn,
+table.data-table a.btn {
+  min-height: 2.125rem;
+  padding: 0.3rem 0.55rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.2;
+  gap: 0.28rem;
+  border-radius: 8px;
+  white-space: nowrap;
+}
+
+table.data-table .bloom-btn--ghost {
+  padding: 0.3rem 0.5rem;
+}
+
+table.data-table .bloom-btn .hx {
+  --hx-size: 0.95rem;
+}
+
+table.data-table .btn-sm {
+  min-height: 2.125rem;
+  padding: 0.3rem 0.55rem;
+  font-size: 0.78rem;
 }
 
 table.data-table tfoot td {
@@ -2367,8 +2402,11 @@ body.menu-open .menu-toggle span:nth-child(3) {
 }
 
 @media (max-width: 480px) {
-  .analytics-kpis { grid-template-columns: 1fr; }
-  .analytics-kpi:nth-child(1) { grid-column: span 1; }
+  .analytics-kpis { grid-template-columns: 1fr; gap: 1rem; }
+  .analytics-kpi:nth-child(1) {
+    grid-column: 1 / -1;
+    grid-row: auto;
+  }
   .stats-grid { grid-template-columns: 1fr 1fr; }
   .actions-grid { grid-template-columns: 1fr; }
   .user-pill > div:not(.avatar) { display: none; }
@@ -3430,11 +3468,14 @@ body.menu-open .menu-toggle span:nth-child(3) {
 @media (max-width: 640px) {
   .analytics-kpis {
     grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 1rem;
   }
 
   .analytics-kpi.kpi-hero,
   .analytics-kpi:first-child {
-    grid-column: span 1;
+    grid-column: 1 / -1;
+    grid-row: auto;
   }
 
   .field-grid--2 {
@@ -3443,12 +3484,21 @@ body.menu-open .menu-toggle span:nth-child(3) {
 
   .insights-toolbar {
     width: 100%;
-    justify-content: space-between;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
   }
 
   .period-pills {
-    flex: 1;
-    justify-content: center;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+  }
+
+  .period-pill {
+    width: 100%;
+    min-height: 44px;
   }
 }
 
@@ -3916,9 +3966,11 @@ textarea.bloom-control:focus {
 }
 
 .bloom-seg-item {
-  flex: 1;
-  min-width: 0;
+  flex: 1 1 0;
+  min-width: 3.75rem;
   cursor: pointer;
+  position: relative;
+  display: flex;
 }
 
 .bloom-seg-item input {
@@ -3928,18 +3980,23 @@ textarea.bloom-control:focus {
 }
 
 .bloom-seg-face {
-  display: block;
+  display: flex;
+  flex: 1;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  padding: 0.55rem 0.4rem;
+  padding: 0.55rem 0.35rem;
   border-radius: 10px;
   font-size: 0.72rem;
   font-weight: 700;
   color: #5a6f62;
-  line-height: 1.25;
+  line-height: 1.3;
   transition: background 0.2s, color 0.2s, box-shadow 0.2s;
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  white-space: normal;
+  word-break: keep-all;
 }
 
 .bloom-seg-face em {
@@ -4244,7 +4301,7 @@ textarea.bloom-control:focus {
 
   .bloom-sheet {
     width: 100%;
-    max-height: 94vh;
+    max-height: min(94vh, 94dvh);
     border-radius: 20px 20px 0 0;
   }
 
@@ -4262,20 +4319,1045 @@ textarea.bloom-control:focus {
     min-height: 120px;
   }
 
+  .bloom-foot {
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    padding: 1rem 1.15rem calc(1rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  .bloom-foot .btn,
+  .bloom-foot .btn-ghost-bloom {
+    flex: 1 1 calc(50% - 0.35rem);
+    min-height: 48px;
+    justify-content: center;
+  }
+
   .bloom-row {
     grid-template-columns: 1fr;
   }
 
+  .bloom-seg {
+    flex-wrap: wrap;
+  }
+
+  .bloom-seg-item {
+    flex: 1 1 calc(50% - 0.35rem);
+    min-width: calc(50% - 0.35rem);
+  }
+
   .bloom-seg-face {
-    font-size: 0.65rem;
+    font-size: 0.72rem;
+    min-height: 3.1rem;
   }
 
   .bloom-seg-face em {
-    font-size: 0.82rem;
+    font-size: 0.9rem;
   }
 }
 
-/* ═══ SPA monolito + refuerzo responsive ═══ */
+/* === herbalife-senior-ux.css === */
+/* ═══════════════════════════════════════════════════════════
+   Herbalife Gestión — Usabilidad para tercera edad
+   Texto legible · áreas táctiles amplias · alto contraste
+   ═══════════════════════════════════════════════════════════ */
+
+:root {
+  --touch-min: 48px;
+  --touch-comfort: 52px;
+  --text: #1a211c;
+  --text-2: #3a4840;
+  --text-3: #56665c;
+  --line-body: 1.65;
+  --focus-color: #266431;
+  --bottom-nav-h: 4.75rem;
+}
+
+html {
+  font-size: 18px;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  line-height: var(--line-body);
+  letter-spacing: 0.015em;
+}
+
+/* ─── Enlaces y foco siempre visible ─── */
+a:focus-visible,
+button:focus-visible,
+.btn:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+.sidebar-nav a:focus-visible,
+.bottom-nav-item:focus-visible,
+.period-pill:focus-visible,
+.tab-btn:focus-visible,
+.bloom-seg-item:focus-within .bloom-seg-face {
+  outline: 3px solid var(--focus-color);
+  outline-offset: 2px;
+}
+
+.form-control:focus,
+.bloom-control:focus {
+  outline: 3px solid var(--focus-color);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(38, 100, 49, 0.2);
+}
+
+/* ─── Botones: texto grande y zona de toque ─── */
+.btn {
+  min-height: var(--touch-min);
+  padding: 0.85rem 1.4rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 12px;
+  gap: 0.55rem;
+}
+
+.btn-sm {
+  min-height: 44px;
+  padding: 0.55rem 1rem;
+  font-size: 0.95rem;
+}
+
+table.data-table .btn-sm {
+  min-height: 2.25rem;
+  padding: 0.35rem 0.6rem;
+  font-size: 0.82rem;
+}
+
+.btn:hover {
+  transform: none;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+/* ─── Navegación lateral ─── */
+.sidebar-nav a {
+  min-height: var(--touch-comfort);
+  padding: 0.95rem 1.15rem;
+  font-size: 1.02rem;
+  font-weight: 500;
+  gap: 0.9rem;
+}
+
+.nav-icon {
+  width: 44px;
+  height: 44px;
+  font-size: 1.1rem;
+}
+
+.sidebar-footer a {
+  min-height: var(--touch-min);
+  font-size: 0.95rem;
+  padding: 0.5rem 0;
+}
+
+.brand-name {
+  font-size: 1.2rem;
+}
+
+.brand-tag {
+  font-size: 0.78rem;
+}
+
+/* ─── Barra inferior móvil ─── */
+.bottom-nav {
+  height: var(--bottom-nav-h);
+  padding: 0.45rem 0.35rem calc(0.45rem + env(safe-area-inset-bottom));
+}
+
+.bottom-nav-item {
+  min-height: 52px;
+  padding: 0.45rem 0.25rem;
+  font-size: 0.78rem;
+  gap: 0.25rem;
+}
+
+.bottom-nav-item .bn-icon {
+  font-size: 1.35rem;
+}
+
+.bottom-nav-item .hx-wrap {
+  width: 44px;
+  height: 44px;
+}
+
+/* ─── Topbar y menú hamburguesa ─── */
+.menu-toggle {
+  width: var(--touch-min);
+  height: var(--touch-min);
+  min-width: var(--touch-min);
+  min-height: var(--touch-min);
+}
+
+.topbar {
+  padding: 1rem 1.25rem;
+}
+
+.topbar h1 {
+  font-size: 1.45rem;
+  line-height: 1.3;
+}
+
+.topbar h1 span {
+  font-size: 0.85rem;
+}
+
+.user-pill {
+  font-size: 0.95rem;
+}
+
+.user-pill .avatar,
+.avatar {
+  width: 48px;
+  height: 48px;
+  font-size: 1rem;
+}
+
+.role-badge {
+  font-size: 0.8rem;
+}
+
+/* ─── Formularios ─── */
+label,
+.form-group label,
+.bloom-field > label {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.45rem;
+}
+
+.form-control,
+.bloom-control,
+.studio-field input,
+.studio-field select,
+.studio-field textarea {
+  min-height: var(--touch-comfort);
+  padding: 0.85rem 1.1rem;
+  font-size: 1.05rem;
+  border-width: 2px;
+  border-radius: 12px;
+}
+
+select.form-control,
+select.bloom-control {
+  padding-right: 2.75rem;
+  background-size: 14px;
+}
+
+.help-text,
+.bloom-field .help-text {
+  font-size: 0.92rem;
+  color: var(--text-2);
+  line-height: 1.5;
+  margin-top: 0.45rem;
+}
+
+.form-check {
+  min-height: var(--touch-min);
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.form-check input[type="checkbox"],
+.form-check input[type="radio"] {
+  width: 1.35rem;
+  height: 1.35rem;
+  flex-shrink: 0;
+}
+
+.form-check label {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/* ─── Tablas legibles ─── */
+.data-table th,
+.data-table td,
+table th,
+table td {
+  padding: 1rem 1.15rem;
+  font-size: 0.98rem;
+  line-height: 1.45;
+}
+
+.data-table th {
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.cell-name {
+  font-size: 1.02rem;
+  font-weight: 600;
+}
+
+.cell-sub {
+  font-size: 0.9rem;
+  color: var(--text-2);
+}
+
+/* ─── Badges y etiquetas ─── */
+.badge {
+  font-size: 0.88rem;
+  padding: 0.4rem 0.8rem;
+  font-weight: 600;
+}
+
+/* ─── KPIs y analítica ─── */
+.kpi-label,
+.analytics-kpi .kpi-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.kpi-value {
+  font-size: clamp(1.85rem, 5vw, 2.5rem);
+  letter-spacing: -0.02em;
+}
+
+.kpi-trend {
+  font-size: 0.92rem;
+}
+
+.analytics-header h2,
+.section-heading,
+.card-title {
+  font-size: 1.2rem;
+}
+
+.analytics-header p {
+  font-size: 0.98rem;
+}
+
+.period-pill,
+.tab-btn {
+  min-height: 44px;
+  padding: 0.65rem 1.15rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.analytics-period {
+  font-size: 0.95rem;
+}
+
+/* ─── Tarjetas de acción y hub ─── */
+.action-card,
+.bloom-card-btn,
+.hub-card {
+  border-width: 2px;
+}
+
+.action-card {
+  min-height: 88px;
+  padding: 1.15rem 1.25rem;
+}
+
+.action-card-title,
+.action-card strong {
+  font-size: 1.05rem;
+}
+
+.action-card-desc {
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.hub-card h2 {
+  font-size: 1.25rem;
+}
+
+.hub-card p {
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+.hub-hero h1 {
+  font-size: clamp(2rem, 6vw, 2.75rem);
+  line-height: 1.15;
+}
+
+.hero-sub {
+  font-size: 1.1rem;
+  line-height: 1.55;
+}
+
+.module-tag {
+  font-size: 0.82rem;
+}
+
+/* ─── Login ─── */
+.auth-card {
+  padding: 2.25rem 2rem;
+}
+
+.auth-card .brand-header h1 {
+  font-size: 1.65rem;
+}
+
+.auth-card .brand-header p {
+  font-size: 1.05rem;
+}
+
+.alert {
+  font-size: 1rem;
+  padding: 1rem 1.2rem;
+  line-height: 1.5;
+  gap: 0.65rem;
+}
+
+/* ─── Bloom forms ─── */
+.bloom-head-text h2 {
+  font-size: clamp(1.25rem, 3vw, 1.55rem);
+}
+
+.bloom-head-text p {
+  font-size: 0.95rem;
+}
+
+.bloom-close {
+  width: var(--touch-min);
+  height: var(--touch-min);
+  min-width: var(--touch-min);
+  min-height: var(--touch-min);
+}
+
+/* Bloom grande solo fuera de tablas (tabla = compacto en herbalife.css) */
+.topbar .bloom-btn,
+.topbar-actions .bloom-btn {
+  min-height: var(--touch-min);
+  font-size: 0.95rem;
+  padding: 0.65rem 1.1rem;
+}
+
+table.data-table .bloom-btn,
+table.data-table .btn,
+table.data-table .btn-sm,
+table.data-table a.btn {
+  min-height: 2.25rem;
+  padding: 0.35rem 0.6rem;
+  font-size: 0.82rem;
+  gap: 0.3rem;
+}
+
+table.data-table .actions-inner {
+  flex-wrap: nowrap;
+}
+
+/* Selector de membresía (4 niveles) — legible sin romper la fila */
+.bloom-seg {
+  gap: 0.5rem;
+  padding: 0.5rem;
+  flex-wrap: nowrap;
+}
+
+.bloom-seg-item {
+  flex: 1 1 0;
+  min-width: 4.25rem;
+  min-height: 0;
+  display: flex;
+  position: relative;
+}
+
+.bloom-seg-face {
+  flex: 1;
+  width: 100%;
+  min-height: 3.25rem;
+  padding: 0.6rem 0.35rem;
+  font-size: 0.78rem;
+  line-height: 1.3;
+  white-space: normal;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-overflow: unset;
+}
+
+.bloom-seg-face em {
+  font-size: 1.05rem;
+  margin-bottom: 0.12rem;
+  line-height: 1.1;
+}
+
+.bloom-preview-tier {
+  font-size: 0.82rem;
+  padding: 0.35rem 0.65rem;
+}
+
+.bloom-preview-pct {
+  font-size: 1.35rem;
+}
+
+.bloom-preview-foot {
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* Gráfica «Por membresía» */
+.chart-viz--split {
+  grid-template-columns: minmax(128px, 148px) 1fr;
+  gap: 1.2rem;
+  align-items: center;
+}
+
+.chart-ring {
+  width: 140px;
+  height: 140px;
+}
+
+.rank-row {
+  font-size: 0.88rem;
+  grid-template-columns: 12px minmax(3.5rem, 1fr) minmax(2.5rem, auto) auto auto;
+  gap: 0.45rem 0.6rem;
+}
+
+.rank-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.rank-pct,
+.rank-val {
+  font-size: 0.82rem;
+}
+
+@media (max-width: 720px) {
+  .bloom-seg {
+    flex-wrap: wrap;
+  }
+
+  .bloom-seg-item {
+    flex: 1 1 calc(50% - 0.35rem);
+    min-width: calc(50% - 0.35rem);
+  }
+
+  .bloom-seg-face {
+    min-height: 3.5rem;
+    font-size: 0.82rem;
+  }
+
+  .chart-viz--split {
+    grid-template-columns: 1fr;
+  }
+
+  .chart-rank-list {
+    width: 100%;
+  }
+}
+
+.bloom-group-title {
+  font-size: 0.95rem;
+}
+
+.bloom-card-btn {
+  min-height: 72px;
+  padding: 1rem 1.1rem;
+}
+
+.bloom-card-btn-title {
+  font-size: 1.05rem;
+}
+
+.bloom-card-btn-desc {
+  font-size: 0.9rem;
+}
+
+/* ─── Iconos un poco más grandes ─── */
+.hx {
+  --hx-size: 1.35rem;
+}
+
+.hx-wrap {
+  width: 42px;
+  height: 42px;
+}
+
+.sidebar-nav a.active .hx-wrap .hx,
+.hx-wrap .hx {
+  --hx-size: 1.3rem;
+}
+
+/* ─── Búsqueda y filtros ─── */
+.search-bar .form-control,
+.search-bar input {
+  min-height: var(--touch-comfort);
+  font-size: 1.05rem;
+}
+
+/* ─── Gráficas: etiquetas legibles ─── */
+.chart-bar-label,
+.chart-viz .chart-label {
+  font-size: 0.82rem;
+}
+
+/* ─── Base táctil y contenedores seguros ─── */
+button,
+a,
+[role="button"],
+input,
+select,
+textarea,
+.tab-btn,
+.period-pill,
+.bottom-nav-item {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: rgba(38, 100, 49, 0.15);
+}
+
+.app-layout,
+.auth-page,
+.hub-page,
+.hub-hero,
+.hub-grid {
+  padding-left: max(0px, env(safe-area-inset-left));
+  padding-right: max(0px, env(safe-area-inset-right));
+}
+
+.page-body {
+  padding-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
+}
+
+.table-responsive,
+.table-wrap,
+.data-table-wrap,
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  max-width: 100%;
+  overscroll-behavior-x: contain;
+}
+
+@media (max-width: 900px) {
+  .table-responsive::after {
+    content: "Desliza horizontalmente para ver toda la tabla →";
+    display: block;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text-2);
+    text-align: center;
+    padding: 0.5rem 0.25rem 0;
+  }
+}
+
+/* ─── Menos animación (menos distracción) ─── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ═══ Responsive multi-dispositivo (adultos mayores) ═══ */
+
+/* Tablet y pantallas medianas */
+@media (max-width: 1024px) {
+  .page-body {
+    padding: 1.35rem 1.15rem calc(5rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  .sidebar {
+    width: min(88vw, 300px);
+  }
+
+  .sidebar-nav a {
+    min-height: 54px;
+  }
+
+  .cart-panel {
+    position: static;
+    top: auto;
+  }
+
+  .pos-layout {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+}
+
+/* Tablet estrecha: evitar KPIs y gráficos apretados */
+@media (max-width: 768px) {
+  .analytics-kpis {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1rem !important;
+    padding: 1rem !important;
+  }
+
+  .analytics-kpi,
+  .analytics-kpi.kpi-hero,
+  .analytics-kpi:first-child,
+  .analytics-kpi:nth-child(1) {
+    grid-column: unset !important;
+    grid-row: unset !important;
+    width: 100%;
+    flex-shrink: 0;
+  }
+
+  .analytics-charts {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1.15rem !important;
+    padding: 0 1rem 1.15rem !important;
+  }
+
+  .analytics-chart-card {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .analytics-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    padding: 1rem 1.1rem;
+  }
+
+  .analytics-header > div:first-child {
+    width: 100%;
+  }
+
+  .insights-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    gap: 0.75rem;
+  }
+
+  .analytics-period {
+    align-self: flex-start;
+  }
+
+  .period-pills {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.4rem;
+    width: 100%;
+    padding: 0.35rem;
+    border-radius: 12px;
+  }
+
+  .period-pill {
+    width: 100%;
+    min-height: 46px;
+    padding: 0.55rem 1rem;
+    border-radius: 10px;
+    text-align: center;
+  }
+
+  .kpi-sparkline {
+    margin-top: 0.65rem;
+    max-width: 100%;
+  }
+}
+
+/* Móvil */
+@media (max-width: 640px) {
+  html {
+    font-size: 17px;
+  }
+
+  .page-body {
+    padding: 1rem 0.75rem calc(5.5rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  .page-body > * + * {
+    margin-top: 1.35rem;
+  }
+
+  .card,
+  .analytics-section,
+  .insights-board,
+  .table-card {
+    margin-bottom: 1.35rem;
+  }
+
+  .topbar {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0.85rem 0.9rem;
+    gap: 0.85rem;
+  }
+
+  .topbar-left,
+  .topbar > div:first-child {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-width: 0;
+    width: 100%;
+  }
+
+  .topbar h1 {
+    font-size: 1.15rem;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .topbar h1 span {
+    font-size: 0.72rem;
+  }
+
+  .topbar-actions {
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+  }
+
+  .user-pill {
+    width: 100%;
+    justify-content: flex-start;
+    padding: 0.5rem 0;
+  }
+
+  /* Usuario visible (no ocultar nombre en móvil) */
+  .user-pill > div:not(.avatar) {
+    display: block !important;
+    min-width: 0;
+    flex: 1;
+  }
+
+  .user-pill strong {
+    font-size: 0.92rem;
+    display: block;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+    max-width: none;
+  }
+
+  .role-badge {
+    font-size: 0.72rem;
+    margin-top: 0.2rem;
+    display: inline-block;
+  }
+
+  /* Pestañas desplazables con dedo */
+  .tabs {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    width: 100%;
+    max-width: 100%;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 0.4rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tab-btn {
+    flex-shrink: 0;
+    white-space: nowrap;
+    min-height: 46px;
+    margin: 0 0.15rem;
+  }
+
+  /* Búsqueda en columna */
+  .search-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.85rem;
+    padding: 1rem;
+  }
+
+  .search-bar .form-control,
+  .search-bar select,
+  .search-bar input {
+    min-width: 100% !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .search-bar > .btn {
+    width: 100%;
+    margin-top: 0.15rem;
+  }
+
+  /* Botones anchos solo donde ayuda (no en tablas) */
+  .auth-card .btn,
+  .hub-hero .btn-group .btn,
+  .quick-grid .btn,
+  .bloom-foot .btn,
+  .bloom-foot .bloom-btn,
+  .form-row .btn {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .btn-group {
+    width: 100%;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .btn-group .btn {
+    width: 100%;
+    flex: none;
+    min-width: 0;
+  }
+
+  .actions-grid,
+  .actions-grid.bloom-actions {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
+
+  .bloom-card-btn {
+    width: 100%;
+  }
+
+  .table-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .table-toolbar h3 {
+    font-size: 1.05rem;
+  }
+
+  .pos-layout > * + * {
+    margin-top: 1.25rem;
+  }
+
+  .cart-panel {
+    margin-top: 0.5rem;
+  }
+
+  .chart-viz--bars {
+    min-height: 140px;
+  }
+
+  .chart-viz--split {
+    gap: 1.25rem;
+  }
+
+  .rank-row {
+    grid-template-columns: 12px 1fr auto auto;
+    gap: 0.5rem 0.45rem;
+    padding: 0.35rem 0;
+  }
+
+  .rank-val {
+    display: none;
+  }
+
+  .field-grid,
+  .field-grid--2,
+  .form-row,
+  .grid-2 {
+    grid-template-columns: 1fr !important;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hub-grid {
+    grid-template-columns: 1fr !important;
+    padding: 0 0.85rem 2rem;
+  }
+
+  .hub-hero {
+    padding: 3rem 1rem 2rem;
+  }
+
+  .auth-card {
+    margin: 1rem;
+    padding: 1.75rem 1.25rem;
+    width: calc(100% - 2rem);
+    max-width: 100%;
+  }
+
+  .data-table {
+    min-width: 540px;
+  }
+
+  .table-card .actions .btn,
+  .data-table .btn,
+  .data-table .bloom-btn {
+    width: auto;
+    min-height: 2.25rem;
+    padding: 0.35rem 0.55rem;
+    font-size: 0.8rem;
+  }
+
+  table.data-table .actions-inner {
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
+
+  .bottom-nav-item {
+    font-size: 0.76rem;
+  }
+
+  .bottom-nav-item .hx-wrap {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+/* Pantallas muy pequeñas */
+@media (max-width: 380px) {
+  html {
+    font-size: 16px;
+  }
+
+  .bottom-nav-item {
+    font-size: 0.72rem;
+    padding: 0.35rem 0.15rem;
+  }
+
+  .bottom-nav-item .hx-wrap {
+    width: 42px;
+    height: 42px;
+  }
+
+  .brand-name {
+    font-size: 1.05rem;
+  }
+}
+
+/* Landscape en móvil */
+@media (max-height: 520px) and (orientation: landscape) {
+  .bloom-sheet {
+    max-height: 96vh;
+    max-height: 96dvh;
+  }
+
+  .auth-page {
+    padding: 0.75rem;
+  }
+
+  .hub-hero {
+    padding-top: 2rem;
+  }
+}
+
+/* Pantallas grandes: lectura cómoda */
+@media (min-width: 1200px) {
+  .page-body {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* ═══ SPA monolito + refuerzo responsive (alineado senior-ux) ═══ */
 .spa-view { display: none; min-height: 100vh; min-height: 100dvh; }
 .spa-view.is-active { display: block; }
 .spa-view[data-view="dashboard"] .app-layout,
@@ -4286,32 +5368,25 @@ textarea.bloom-control:focus {
 .spa-view[data-view="reportes"] .app-layout,
 .spa-view[data-view="admin"] .app-layout { min-height: 100vh; min-height: 100dvh; }
 
-html { -webkit-text-size-adjust: 100%; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 body { overflow-x: hidden; }
 img { max-width: 100%; height: auto; }
 
-.table-wrap, .data-table-wrap, .table-scroll {
+.table-wrap, .data-table-wrap, .table-scroll, .table-responsive {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   max-width: 100%;
+  overscroll-behavior-x: contain;
 }
-.data-table { min-width: 520px; }
 
 @media (max-width: 1024px) {
-  .page-body { padding-bottom: calc(4.5rem + env(safe-area-inset-bottom, 0px)); }
+  .page-body { padding-bottom: calc(5rem + env(safe-area-inset-bottom, 0px)); }
   .bloom-sheet { max-height: min(92vh, 92dvh); }
 }
+
 @media (max-width: 720px) {
   .bloom-body { grid-template-columns: 1fr !important; }
-  .bloom-preview { display: none; }
-  .analytics-kpis { grid-template-columns: 1fr !important; }
-  .insights-toolbar { flex-wrap: wrap; gap: 0.5rem; }
-  .topbar h1 { font-size: clamp(1rem, 4vw, 1.35rem); }
-  .hub-grid { grid-template-columns: 1fr !important; }
-}
-@media (max-width: 380px) {
-  .hx-wrap { width: 34px; height: 34px; }
-  .bottom-nav-item span:not(.bn-icon) { font-size: 0.62rem; }
+  .bloom-aside { border-left: none; border-top: 1px solid var(--brand-line); }
 }
 
 .spa-view:not(.is-active) .bottom-nav,
@@ -4319,6 +5394,375 @@ img { max-width: 100%; height: auto; }
 .spa-view:not(.is-active) .bloom-card-grid { pointer-events: none; }
 .auth-page .auth-card { width: min(100%, 420px); margin: auto; }
 .hub-page { padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); }
+
+/* ═══════════════════════════════════════════════════════════════════
+   SENIOR UX · Escritorio sin scroll de navegador · ≥1025px
+   ─────────────────────────────────────────────────────────────────
+   El layout de aplicación queda fijo en 100vh; solo el área de
+   contenido (.page-body) tiene scroll interno. Las vistas hub y
+   login son compactas para caber en una pantalla de 768–900px.
+   ═══════════════════════════════════════════════════════════════════ */
+@media (min-width: 1025px) {
+
+  /* ── 1. Ancho de sidebar ligeramente menor ── */
+  :root { --sidebar-w: 238px; }
+
+  /* ── 2. Fuente base 17px — mayor legibilidad para adultos mayores ── */
+  html { font-size: 17px; }
+
+  /* ── 3. App layout fijo en viewport, sin scroll del navegador ── */
+  .app-layout {
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+  }
+  .main-content {
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+  }
+  /* Override min-height de reglas anteriores */
+  .spa-view[data-view="dashboard"] .app-layout,
+  .spa-view[data-view="clientes"] .app-layout,
+  .spa-view[data-view="ventas"] .app-layout,
+  .spa-view[data-view="pedidos"] .app-layout,
+  .spa-view[data-view="inventario"] .app-layout,
+  .spa-view[data-view="reportes"] .app-layout,
+  .spa-view[data-view="admin"] .app-layout {
+    min-height: unset;
+  }
+  .spa-view.is-active { min-height: unset; }
+
+  /* ── 4. Topbar compacto y fijo en la parte superior ── */
+  .topbar {
+    flex-shrink: 0;
+    padding: 0.6rem 1.5rem;
+  }
+  .topbar h1 { font-size: 1.12rem; }
+  .topbar h1 span { font-size: 0.62rem; margin-bottom: 0.08rem; }
+
+  /* ── 5. Cuerpo de página: único área con scroll interno ── */
+  .page-body {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 1rem 1.5rem 1.2rem;
+  }
+
+  /* ── 6. Sidebar compacto ── */
+  .sidebar-brand  { padding: 1rem 0.95rem 0.7rem; }
+  .sidebar-nav    { padding: 0.2rem 0.6rem 0.7rem; }
+  .sidebar-nav a  { padding: 0.58rem 0.85rem; font-size: 0.875rem; gap: 0.65rem; }
+  .nav-icon       { width: 30px; height: 30px; font-size: 0.86rem; }
+  .sidebar-footer { padding: 0.65rem 0.95rem 0.85rem; }
+  .brand-name     { font-size: 0.97rem; }
+  .brand-tag      { font-size: 0.6rem; }
+
+  /* ── 7. Hub page — 6 tarjetas en 2 filas × 3 cols, cabe sin scroll ── */
+  body.hub-page { overflow: hidden; height: 100vh; height: 100dvh; }
+  .spa-view[data-view="hub"].is-active {
+    height: 100vh;
+    height: 100dvh;
+    overflow-y: auto;
+    min-height: unset;
+  }
+  .hero-logo-wrap { margin-bottom: 1rem; animation: none; transform: none; }
+  .brand-logo-frame--hero .brand-logo,
+  .brand-logo-frame--hero .brand-logo-inline { width: 64px; height: 64px; }
+  .brand-logo-frame--hero .brand-logo-inline svg { border-radius: 14px; }
+  .brand-logo-frame--hero { padding: 7px; border-radius: 22px; }
+  .hub-hero { padding: 1.5rem 1.5rem 1rem; }
+  .hub-hero h1 { font-size: clamp(1.4rem, 2.3vw, 1.85rem); margin-bottom: 0.5rem; }
+  .hub-hero .hero-sub { font-size: 0.86rem; margin-bottom: 0.75rem; }
+  .hero-badge { font-size: 0.68rem; margin-bottom: 0.8rem; padding: 0.35rem 0.9rem; }
+  .hub-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.7rem;
+    padding: 0 1.5rem 1rem;
+  }
+  .hub-card { padding: 0.95rem 1.05rem; }
+  .hub-card h2 { font-size: 0.92rem; margin-bottom: 0.3rem; }
+  .hub-card p { font-size: 0.78rem; margin-bottom: 0.65rem; line-height: 1.42; }
+  .hub-card .module-tag { font-size: 0.57rem; margin-bottom: 0.5rem; padding: 0.22rem 0.5rem; }
+  .hub-card:hover { transform: translateY(-3px); }
+  .hub-footer { padding: 0.65rem 1.5rem; font-size: 0.74rem; }
+
+  /* ── 8. Dashboard — analytics compactos ── */
+  .analytics-section  { margin-bottom: 0.75rem; }
+  .analytics-header   { padding: 0.58rem 1rem; }
+  .analytics-header h2 { font-size: 0.87rem; }
+  .analytics-header p  { font-size: 0.69rem; margin-top: 0.1rem; }
+  .analytics-kpis     { grid-template-columns: repeat(4, 1fr); }
+  .analytics-kpi      { padding: 0.72rem 0.9rem; }
+  .analytics-kpi .kpi-label { font-size: 0.62rem; }
+  .analytics-kpi .kpi-value { font-size: 1.4rem; margin: 0.12rem 0 0.08rem; }
+  .analytics-kpi .kpi-trend { font-size: 0.68rem; }
+  .kpi-hero .kpi-value,
+  .analytics-kpi:first-child .kpi-value { font-size: 1.65rem; }
+  .kpi-icon { width: 28px; height: 28px; font-size: 0.9rem; }
+
+  /* ── 9. Gráficas más bajas ── */
+  .chart-viz--bars    { min-height: 105px; }
+  .analytics-chart-card { padding: 0.75rem 0.95rem 0.85rem; }
+  .analytics-chart-card h3 { font-size: 0.79rem; margin-bottom: 0.5rem; }
+  .chart-meta         { font-size: 0.7rem; }
+
+  /* ── 10. Cards y grid del dashboard ── */
+  .grid-2      { gap: 0.72rem; }
+  .card        { padding: 0.8rem 0.95rem; margin-bottom: 0; }
+  .card-title  { font-size: 0.87rem; margin-bottom: 0.5rem; }
+
+  /* ── 11. Accesos rápidos ── */
+  .quick-grid { gap: 0.38rem; }
+  .quick-grid .btn {
+    padding: 0.45rem 0.65rem;
+    font-size: 0.8rem;
+    min-height: 34px;
+  }
+
+  /* ── 12. Tabla de últimas ventas ── */
+  .table-card     { margin-top: 0.7rem; }
+  .table-toolbar  { padding: 0.48rem 0.8rem; }
+  .table-toolbar h3 { font-size: 0.85rem; }
+  .data-table th,
+  .data-table td  { padding: 0.4rem 0.58rem; font-size: 0.82rem; }
+
+  /* ── 13. Encabezados de sección en módulos ── */
+  .section-header { margin-bottom: 0.6rem; }
+  .section-header h2 { font-size: 0.92rem; }
+  .section-header p  { font-size: 0.7rem; }
+
+  /* ── 14. Login / auth cabe en pantalla ── */
+  .auth-card {
+    padding: 1.85rem 1.85rem 1.65rem;
+    max-width: 400px;
+  }
+  .auth-card .brand-header { margin-bottom: 1.4rem; }
+  .auth-card .brand-header h1 { font-size: 1.25rem; margin-top: 0.85rem; }
+}
+
+/* ── Pantallas medianas (1025–1280px): ajuste menor adicional ── */
+@media (min-width: 1025px) and (max-width: 1280px) {
+  .hub-grid { grid-template-columns: repeat(3, 1fr); }
+  .analytics-kpis { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   CORRECCIONES RESPONSIVAS: TABLET Y MÓVIL
+   ─────────────────────────────────────────────────────────────────
+   Contrarresta reglas con !important de bloques anteriores que
+   apilan verticalmente los KPIs y los period pills en pantallas
+   ≤768px, haciéndolos inutilizables en tablet.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── Hub hero: logo y padding compactos en tablet ── */
+@media (max-width: 1024px) {
+  .hub-hero {
+    padding: 2.25rem 1.5rem 1.75rem;
+  }
+  .hero-logo-wrap {
+    margin-bottom: 1.1rem;
+  }
+  .brand-logo-frame--hero .brand-logo,
+  .brand-logo-frame--hero .brand-logo-inline {
+    width: 72px;
+    height: 72px;
+  }
+  .brand-logo-frame--hero {
+    padding: 7px;
+    border-radius: 22px;
+  }
+}
+
+/* ── Hub hero: logo y padding mínimos en móvil ── */
+@media (max-width: 640px) {
+  /* Contenedor del hero sin desbordamiento horizontal */
+  .hub-hero {
+    padding: 1.5rem 1rem 1.1rem;
+    overflow-x: hidden;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  .hero-logo-wrap {
+    margin-bottom: 0.8rem;
+  }
+  .brand-logo-frame--hero .brand-logo,
+  .brand-logo-frame--hero .brand-logo-inline {
+    width: 56px !important;
+    height: 56px !important;
+  }
+  .brand-logo-frame--hero {
+    padding: 6px;
+    border-radius: 18px;
+  }
+  /* Título con tamaño reducido y word-wrap forzado */
+  .hub-hero h1 {
+    font-size: clamp(1.25rem, 6.5vw, 1.75rem) !important;
+    margin-bottom: 0.5rem;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
+  }
+  .hub-hero .hero-sub {
+    font-size: 0.82rem;
+    margin-bottom: 0.7rem;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
+  }
+  .hero-badge {
+    font-size: 0.64rem;
+    padding: 0.28rem 0.75rem;
+    margin-bottom: 0.7rem;
+    max-width: calc(100% - 2rem);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+  }
+  /* Botones del hub: columna compacta */
+  .hub-hero .btn-group {
+    gap: 0.5rem;
+  }
+  .hub-hero .btn-group .btn {
+    padding: 0.62rem 1.2rem;
+    font-size: 0.88rem;
+  }
+  /* Tarjetas del hub: sin overflow */
+  .hub-card {
+    overflow: hidden;
+    max-width: 100%;
+  }
+  .hub-card p {
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+}
+
+/* ── Tablet (601–768px): period pills horizontales y KPIs en 2 col ── */
+@media (max-width: 768px) and (min-width: 601px) {
+  /* KPIs: volver a grid 2×2 en lugar de columna */
+  .analytics-kpis {
+    display: grid !important;
+    flex-direction: unset !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0 !important;
+    padding: 0 !important;
+  }
+  .analytics-kpi,
+  .analytics-kpi.kpi-hero,
+  .analytics-kpi:first-child,
+  .analytics-kpi:nth-child(1) {
+    grid-column: unset !important;
+    grid-row: unset !important;
+    width: auto !important;
+    flex-shrink: unset !important;
+  }
+  /* Hero KPI abarca el ancho completo en tablet */
+  .analytics-kpi.kpi-hero,
+  .analytics-kpi:nth-child(1) {
+    grid-column: 1 / -1 !important;
+  }
+
+  /* Period pills: fila horizontal, no columna */
+  .insights-toolbar {
+    flex-direction: row !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    width: auto !important;
+    gap: 0.5rem !important;
+  }
+  .period-pills {
+    display: flex !important;
+    flex-direction: row !important;
+    grid-template-columns: unset !important;
+    gap: 0.3rem !important;
+    width: auto !important;
+    padding: 0 !important;
+  }
+  .period-pill {
+    width: auto !important;
+    min-height: 36px !important;
+    min-width: 64px !important;
+    padding: 0.35rem 0.75rem !important;
+    font-size: 0.78rem !important;
+  }
+  .analytics-header {
+    flex-direction: row !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    gap: 0.5rem !important;
+    padding: 0.75rem 1rem !important;
+  }
+  .analytics-charts {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+
+/* ── Bottom nav global: siempre fija en pantallas móvil/tablet (≤1024px) ──
+   El nav vive como hijo directo de <body> para garantizar que
+   position:fixed sea relativo al viewport y no a ningún ancestro.
+   Los bottom-nav dentro de los spa-view se ocultan. ── */
+.spa-view .bottom-nav { display: none !important; }
+
+/* Ocultar en hub y login (no son módulos de la app) */
+body.hub-page  #global-bottom-nav,
+body.auth-page #global-bottom-nav { display: none !important; }
+
+@media (max-width: 1024px) {
+  .bottom-nav {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 400 !important;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+  }
+  /* Espacio inferior del cuerpo para que el contenido no quede bajo la barra */
+  .page-body {
+    padding-bottom: calc(var(--bottom-nav-h, 4.25rem) + 0.75rem + env(safe-area-inset-bottom, 0px)) !important;
+  }
+}
+
+/* ── Móvil (≤600px): period pills horizontales, KPIs más compactos ── */
+@media (max-width: 600px) {
+  .insights-toolbar {
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    width: 100% !important;
+    gap: 0.35rem !important;
+  }
+  .period-pills {
+    display: flex !important;
+    flex-direction: row !important;
+    grid-template-columns: unset !important;
+    gap: 0.25rem !important;
+    width: auto !important;
+    padding: 0 !important;
+  }
+  .period-pill {
+    width: auto !important;
+    flex: 1 !important;
+    min-height: 38px !important;
+    padding: 0.35rem 0.5rem !important;
+    font-size: 0.72rem !important;
+    text-align: center !important;
+  }
+  .analytics-kpis {
+    gap: 0 !important;
+    padding: 0 !important;
+  }
+  .analytics-kpi {
+    border-right: none !important;
+    border-bottom: 1px solid var(--border) !important;
+  }
+  .analytics-kpi:last-child {
+    border-bottom: none !important;
+  }
+}
 
   </style>
 </head>
@@ -7451,6 +8895,35 @@ img { max-width: 100%; height: auto; }
     </footer>
   </article>
 </div>
+
+<!-- ── Barra de navegación inferior GLOBAL ──────────────────────────
+     Hijo directo de <body> → position:fixed siempre relativo al viewport.
+     El JS existente (syncNav/highlightBottomNav) actualiza los estados
+     activos de todos los .bottom-nav-item del DOM automáticamente.
+     ────────────────────────────────────────────────────────────────── -->
+<nav class="bottom-nav" id="global-bottom-nav" aria-label="Navegación móvil">
+  <a href="#" data-nav="dashboard" class="bottom-nav-item" data-page="dashboard">
+    <span class="bn-icon"><span class="hx-wrap"><span class="hx hx-home"></span></span></span>
+    <span>Inicio</span>
+  </a>
+  <a href="#" data-nav="clientes" class="bottom-nav-item" data-page="clientes">
+    <span class="bn-icon"><span class="hx-wrap"><span class="hx hx-users"></span></span></span>
+    <span>Clientes</span>
+  </a>
+  <a href="#" data-nav="ventas" class="bottom-nav-item" data-page="ventas">
+    <span class="bn-icon"><span class="hx-wrap"><span class="hx hx-cart"></span></span></span>
+    <span>Ventas</span>
+  </a>
+  <a href="#" data-nav="inventario" class="bottom-nav-item" data-page="inventario">
+    <span class="bn-icon"><span class="hx-wrap"><span class="hx hx-clipboard"></span></span></span>
+    <span>Stock</span>
+  </a>
+  <a href="#" data-nav="reportes" class="bottom-nav-item" data-page="reportes">
+    <span class="bn-icon"><span class="hx-wrap"><span class="hx hx-chart"></span></span></span>
+    <span>Más</span>
+  </a>
+</nav>
+
 <script>
 /**
 
