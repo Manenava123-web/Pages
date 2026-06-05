@@ -5764,6 +5764,75 @@ body.auth-page #global-bottom-nav { display: none !important; }
   }
 }
 
+/* ═══════════════════════════════════════════════════════════════════
+   FUENTES MÓVIL Y TABLET — Legibilidad para adultos mayores
+   Aplica a ≤1024px. La base ya es 17px (regla existente en ≤640px).
+   Se sobreescriben los rem muy pequeños del diseño base.
+   ═══════════════════════════════════════════════════════════════════ */
+@media (max-width: 1024px) {
+
+  /* Base 18px en tablet (el bloque ≤640px ya pone 17px en móvil) */
+  html { font-size: 18px; }
+
+  /* ── Topbar ── */
+  .topbar h1 { font-size: 1.25rem; }
+
+  /* ── KPIs: labels y tendencias ── */
+  .analytics-kpi .kpi-label {
+    font-size: 0.82rem !important;
+  }
+  .analytics-kpi .kpi-trend {
+    font-size: 0.82rem !important;
+  }
+  .analytics-kpi .kpi-value {
+    font-size: 1.55rem !important;
+  }
+  .kpi-hero .kpi-value,
+  .analytics-kpi:first-child .kpi-value {
+    font-size: 1.8rem !important;
+  }
+  .analytics-header h2 { font-size: 1rem; }
+  .analytics-header p  { font-size: 0.82rem; }
+
+  /* ── Gráficas ── */
+  .analytics-chart-card h3 { font-size: 0.92rem; }
+  .chart-meta { font-size: 0.82rem; }
+
+  /* ── Tarjetas ── */
+  .card-title { font-size: 1rem; }
+  .section-header h2 { font-size: 1.05rem; }
+  .section-header p  { font-size: 0.85rem; }
+
+  /* ── Tabla ── */
+  .data-table th,
+  .data-table td { font-size: 0.95rem; }
+  .table-toolbar h3 { font-size: 1rem; }
+
+  /* ── Barra inferior: texto de los ítems ── */
+  .bottom-nav-item {
+    font-size: 0.82rem !important;
+  }
+
+  /* ── Sidebar (visible cuando el menú está abierto) ── */
+  .sidebar-nav a { font-size: 1rem; min-height: 52px; }
+  .brand-name { font-size: 1.1rem; }
+}
+
+/* ── Móvil puro (≤640px): base 18px y ajustes mínimos ── */
+@media (max-width: 640px) {
+  html { font-size: 18px; }
+
+  /* Topbar compacto vertical pero legible */
+  .topbar h1 { font-size: 1.2rem; }
+
+  /* Tabla en módulos */
+  .data-table th,
+  .data-table td { font-size: 0.9rem; }
+
+  /* Hub page: botón Iniciar sesión */
+  .hub-hero .btn { font-size: 1rem; }
+}
+
   </style>
 </head>
 <body class="hub-page" data-module="hub">
