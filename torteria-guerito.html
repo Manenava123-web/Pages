@@ -2,944 +2,973 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Tortería El Güerito — Sistema de Gestión</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --rojo:    #C0392B;
-    --amarillo:#E8A020;
-    --crema:   #F5EDD6;
-    --cafe:    #3D1F0A;
-    --cafe2:   #6B3A1F;
-    --olivo:   #7A8C4A;
-    --gris:    #2C2C2C;
-    --blanco:  #FEFAF3;
-    --sombra:  rgba(61,31,10,0.18);
-  }
+/* ══════════════════════════════════════════
+   VARIABLES & RESET
+══════════════════════════════════════════ */
+:root {
+  --rojo:      #C0392B;
+  --rojo-dark: #9B2D22;
+  --amarillo:  #E8A020;
+  --crema:     #F5EDD6;
+  --cafe:      #3D1F0A;
+  --cafe2:     #6B3A1F;
+  --olivo:     #7A8C4A;
+  --blanco:    #FEFAF3;
+  --sombra:    rgba(61,31,10,0.16);
+  --sidebar-w: 220px;
+  --header-h:  60px;
+  --bottomnav: 64px;
+  --radius:    14px;
+  --radius-sm: 8px;
+}
 
-  * { margin:0; padding:0; box-sizing:border-box; }
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 
-  body {
-    font-family: 'Source Sans 3', sans-serif;
-    background: var(--crema);
-    color: var(--cafe);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
+html { font-size: 16px; }
 
-  /* ── HEADER ───────────────────────────────────────── */
-  header {
-    background: var(--cafe);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 2rem;
-    height: 64px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: 0 4px 18px var(--sombra);
-  }
+body {
+  font-family: 'Source Sans 3', sans-serif;
+  background: var(--crema);
+  color: var(--cafe);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  -webkit-tap-highlight-color: transparent;
+}
 
-  .logo-area {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-  }
+/* ══════════════════════════════════════════
+   HEADER
+══════════════════════════════════════════ */
+header {
+  background: var(--cafe);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.25rem;
+  height: var(--header-h);
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  box-shadow: 0 4px 18px var(--sombra);
+}
 
-  .logo-icon {
-    width: 42px; height: 42px;
-    background: var(--amarillo);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.4rem;
-    box-shadow: 0 0 0 3px var(--rojo);
-    flex-shrink: 0;
-  }
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+.hamburger:hover { background: rgba(255,255,255,0.08); }
+.hamburger span {
+  display: block;
+  width: 22px; height: 2px;
+  background: var(--crema);
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+.hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
 
-  .logo-text {
-    font-family: 'Bebas Neue', cursive;
-    font-size: 1.55rem;
-    color: var(--crema);
-    letter-spacing: 1px;
-    line-height: 1.1;
-  }
-  .logo-sub {
-    font-family: 'Libre Baskerville', serif;
-    font-style: italic;
-    font-size: 0.68rem;
-    color: var(--amarillo);
-    letter-spacing: 2px;
-    text-transform: uppercase;
-  }
+.logo-area {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+.logo-icon {
+  width: 38px; height: 38px;
+  background: var(--amarillo);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.25rem;
+  box-shadow: 0 0 0 3px var(--rojo);
+  flex-shrink: 0;
+}
+.logo-text {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 1.4rem;
+  color: var(--crema);
+  letter-spacing: 1px;
+  line-height: 1.1;
+}
+.logo-sub {
+  font-family: 'Libre Baskerville', serif;
+  font-style: italic;
+  font-size: 0.6rem;
+  color: var(--amarillo);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
 
-  .header-right {
-    display: flex;
-    align-items: center;
-    gap: 1.2rem;
-  }
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+.sucursal-badge {
+  background: var(--rojo);
+  color: #fff;
+  font-size: 0.74rem;
+  font-weight: 600;
+  padding: 4px 11px;
+  border-radius: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  transition: background 0.2s;
+  border: none;
+  font-family: 'Source Sans 3', sans-serif;
+}
+.sucursal-badge:hover, .sucursal-badge:active { background: var(--rojo-dark); }
 
-  .sucursal-badge {
-    background: var(--rojo);
-    color: #fff;
-    font-size: 0.78rem;
-    font-weight: 600;
-    padding: 4px 12px;
-    border-radius: 20px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    transition: background 0.2s;
-  }
-  .sucursal-badge:hover { background: #a93226; }
+.header-date {
+  font-size: 0.75rem;
+  color: #c8b79e;
+}
 
-  .user-avatar {
-    width: 36px; height: 36px;
-    background: var(--cafe2);
-    border: 2px solid var(--amarillo);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    color: var(--crema);
-    font-weight: 700;
-    font-size: 0.85rem;
-    cursor: pointer;
-  }
+.user-avatar {
+  width: 34px; height: 34px;
+  background: var(--cafe2);
+  border: 2px solid var(--amarillo);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--crema);
+  font-weight: 700;
+  font-size: 0.78rem;
+  cursor: pointer;
+  flex-shrink: 0;
+}
 
-  /* ── LAYOUT ───────────────────────────────────────── */
-  .layout {
-    display: flex;
-    flex: 1;
-  }
+/* ══════════════════════════════════════════
+   OVERLAY
+══════════════════════════════════════════ */
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 149;
+  backdrop-filter: blur(2px);
+}
+.overlay.active { display: block; }
 
-  /* ── SIDEBAR ──────────────────────────────────────── */
-  nav {
-    width: 220px;
-    background: var(--cafe);
-    display: flex;
-    flex-direction: column;
-    padding: 1.5rem 0;
-    flex-shrink: 0;
-    border-right: 3px solid var(--amarillo);
-  }
+/* ══════════════════════════════════════════
+   LAYOUT
+══════════════════════════════════════════ */
+.layout {
+  display: flex;
+  margin-top: var(--header-h);
+  min-height: calc(100vh - var(--header-h));
+}
 
-  .nav-section {
-    padding: 0 1.2rem;
-    margin-bottom: 0.3rem;
-  }
+/* ══════════════════════════════════════════
+   SIDEBAR
+══════════════════════════════════════════ */
+nav.sidebar {
+  width: var(--sidebar-w);
+  background: var(--cafe);
+  display: flex;
+  flex-direction: column;
+  padding: 1.2rem 0 2rem;
+  flex-shrink: 0;
+  border-right: 3px solid var(--amarillo);
+  position: sticky;
+  top: var(--header-h);
+  height: calc(100vh - var(--header-h));
+  overflow-y: auto;
+  transition: transform 0.3s ease;
+}
 
-  .nav-label {
-    font-size: 0.62rem;
-    font-weight: 700;
-    letter-spacing: 2.5px;
-    text-transform: uppercase;
-    color: var(--cafe2);
-    padding: 0.8rem 0.5rem 0.3rem;
-  }
+.nav-section { padding: 0 1rem; margin-bottom: 0.2rem; }
 
-  .nav-item {
-    display: flex;
-    align-items: center;
-    gap: 0.7rem;
-    padding: 0.6rem 0.8rem;
-    border-radius: 8px;
-    cursor: pointer;
-    color: #c8b79e;
-    font-size: 0.88rem;
-    font-weight: 600;
-    transition: all 0.2s;
-    margin-bottom: 2px;
-    text-decoration: none;
-  }
-  .nav-item:hover {
-    background: rgba(232,160,32,0.12);
-    color: var(--amarillo);
-  }
-  .nav-item.active {
-    background: var(--amarillo);
-    color: var(--cafe);
-  }
-  .nav-item .icon { font-size: 1.1rem; width: 22px; text-align: center; }
+.nav-label {
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--cafe2);
+  padding: 0.7rem 0.5rem 0.25rem;
+}
 
-  .nav-divider {
-    border: none;
-    border-top: 1px solid var(--cafe2);
-    margin: 0.8rem 1.2rem;
-  }
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  color: #c8b79e;
+  font-size: 0.84rem;
+  font-weight: 600;
+  transition: all 0.2s;
+  margin-bottom: 2px;
+  text-decoration: none;
+  -webkit-user-select: none;
+}
+.nav-item:hover  { background: rgba(232,160,32,0.12); color: var(--amarillo); }
+.nav-item.active { background: var(--amarillo); color: var(--cafe); }
+.nav-item .icon  { font-size: 1rem; width: 20px; text-align: center; flex-shrink: 0; }
 
-  /* ── MAIN CONTENT ─────────────────────────────────── */
-  main {
-    flex: 1;
-    padding: 2rem;
-    overflow-y: auto;
-    background: var(--crema);
-    background-image:
-      radial-gradient(circle at 90% 10%, rgba(232,160,32,0.06) 0%, transparent 50%),
-      radial-gradient(circle at 5% 85%, rgba(192,57,43,0.05) 0%, transparent 40%);
-  }
+.nav-divider {
+  border: none;
+  border-top: 1px solid var(--cafe2);
+  margin: 0.6rem 1rem;
+}
 
-  .page-title {
-    font-family: 'Bebas Neue', cursive;
-    font-size: 2rem;
-    color: var(--cafe);
-    letter-spacing: 1.5px;
-    margin-bottom: 0.2rem;
-  }
-  .page-subtitle {
-    font-family: 'Libre Baskerville', serif;
-    font-style: italic;
-    color: var(--cafe2);
-    font-size: 0.85rem;
-    margin-bottom: 1.8rem;
-  }
+/* ══════════════════════════════════════════
+   MAIN CONTENT
+══════════════════════════════════════════ */
+main {
+  flex: 1;
+  padding: 1.75rem 1.5rem 2rem;
+  overflow-x: hidden;
+  min-width: 0;
+  background: var(--crema);
+  background-image:
+    radial-gradient(circle at 90% 8%, rgba(232,160,32,0.06) 0%, transparent 50%),
+    radial-gradient(circle at 5% 88%, rgba(192,57,43,0.04) 0%, transparent 40%);
+}
 
-  /* ── STAT CARDS ───────────────────────────────────── */
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1.2rem;
-    margin-bottom: 2rem;
-  }
+.page-title {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 1.8rem;
+  color: var(--cafe);
+  letter-spacing: 1.5px;
+  margin-bottom: 0.15rem;
+}
+.page-subtitle {
+  font-family: 'Libre Baskerville', serif;
+  font-style: italic;
+  color: var(--cafe2);
+  font-size: 0.82rem;
+  margin-bottom: 1.5rem;
+}
 
-  .stat-card {
-    background: var(--blanco);
-    border-radius: 14px;
-    padding: 1.4rem 1.2rem;
-    border: 1.5px solid rgba(61,31,10,0.09);
-    box-shadow: 0 2px 12px var(--sombra);
-    position: relative;
-    overflow: hidden;
-    animation: fadeUp 0.5s both;
-  }
-  .stat-card:nth-child(1) { animation-delay: 0.05s; }
-  .stat-card:nth-child(2) { animation-delay: 0.1s; }
-  .stat-card:nth-child(3) { animation-delay: 0.15s; }
-  .stat-card:nth-child(4) { animation-delay: 0.2s; }
+/* ══════════════════════════════════════════
+   STAT CARDS
+══════════════════════════════════════════ */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+}
 
-  @keyframes fadeUp {
-    from { opacity:0; transform: translateY(16px); }
-    to   { opacity:1; transform: translateY(0); }
-  }
+.stat-card {
+  background: var(--blanco);
+  border-radius: var(--radius);
+  padding: 1.2rem 1rem;
+  border: 1.5px solid rgba(61,31,10,0.09);
+  box-shadow: 0 2px 10px var(--sombra);
+  position: relative;
+  overflow: hidden;
+  animation: fadeUp 0.45s both;
+}
+.stat-card:nth-child(1) { animation-delay:.04s }
+.stat-card:nth-child(2) { animation-delay:.08s }
+.stat-card:nth-child(3) { animation-delay:.12s }
+.stat-card:nth-child(4) { animation-delay:.16s }
 
-  .stat-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 5px; height: 100%;
-    border-radius: 14px 0 0 14px;
-  }
-  .stat-card.ventas::before  { background: var(--rojo); }
-  .stat-card.inventario::before { background: var(--olivo); }
-  .stat-card.sucursales::before { background: var(--amarillo); }
-  .stat-card.alertas::before { background: var(--cafe2); }
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(14px); }
+  to   { opacity:1; transform:translateY(0); }
+}
 
-  .stat-icon {
-    font-size: 1.6rem;
-    margin-bottom: 0.6rem;
-    display: block;
-  }
-  .stat-value {
-    font-family: 'Bebas Neue', cursive;
-    font-size: 2.2rem;
-    color: var(--cafe);
-    line-height: 1;
-  }
-  .stat-label {
-    font-size: 0.75rem;
-    color: var(--cafe2);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-top: 2px;
-  }
-  .stat-delta {
-    font-size: 0.78rem;
-    font-weight: 700;
-    margin-top: 0.5rem;
-    display: inline-block;
-    padding: 2px 8px;
-    border-radius: 20px;
-  }
-  .stat-delta.up   { background: #e8f5e9; color: #2e7d32; }
-  .stat-delta.down { background: #fdecea; color: #c62828; }
+.stat-card::before {
+  content:'';
+  position:absolute;
+  top:0; left:0;
+  width:5px; height:100%;
+  border-radius:var(--radius) 0 0 var(--radius);
+}
+.stat-card.ventas::before     { background: var(--rojo); }
+.stat-card.inventario::before { background: var(--olivo); }
+.stat-card.sucursales::before { background: var(--amarillo); }
+.stat-card.alertas::before    { background: var(--cafe2); }
 
-  /* ── GRID 2 COL ───────────────────────────────────── */
-  .two-col {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.4rem;
-    margin-bottom: 1.4rem;
-  }
+.stat-icon  { font-size:1.4rem; margin-bottom:0.4rem; display:block; }
+.stat-value {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 2rem;
+  color: var(--cafe);
+  line-height: 1;
+}
+.stat-label {
+  font-size: 0.7rem;
+  color: var(--cafe2);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin-top: 1px;
+}
+.stat-delta {
+  font-size: 0.72rem;
+  font-weight: 700;
+  margin-top: 0.45rem;
+  display: inline-block;
+  padding: 2px 7px;
+  border-radius: 20px;
+}
+.stat-delta.up   { background:#e8f5e9; color:#2e7d32; }
+.stat-delta.down { background:#fdecea; color:#c62828; }
 
-  /* ── PANEL ────────────────────────────────────────── */
-  .panel {
-    background: var(--blanco);
-    border-radius: 14px;
-    border: 1.5px solid rgba(61,31,10,0.09);
-    box-shadow: 0 2px 12px var(--sombra);
-    overflow: hidden;
-    animation: fadeUp 0.5s 0.25s both;
-  }
+/* ══════════════════════════════════════════
+   SECTION TITLE
+══════════════════════════════════════════ */
+.section-title {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 1.3rem;
+  color: var(--cafe);
+  letter-spacing: 1px;
+  margin: 1.75rem 0 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.section-title::after {
+  content:'';
+  flex:1;
+  height:2px;
+  background: linear-gradient(90deg, var(--amarillo), transparent);
+  border-radius:2px;
+}
 
-  .panel-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1rem 1.3rem;
-    border-bottom: 1.5px solid rgba(61,31,10,0.08);
-  }
-  .panel-title {
-    font-family: 'Bebas Neue', cursive;
-    font-size: 1.15rem;
-    letter-spacing: 1px;
-    color: var(--cafe);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  .panel-action {
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: var(--rojo);
-    cursor: pointer;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    background: none;
-    border: none;
-    font-family: 'Source Sans 3', sans-serif;
-  }
-  .panel-action:hover { text-decoration: underline; }
+/* ══════════════════════════════════════════
+   PANEL
+══════════════════════════════════════════ */
+.panel {
+  background: var(--blanco);
+  border-radius: var(--radius);
+  border: 1.5px solid rgba(61,31,10,0.09);
+  box-shadow: 0 2px 10px var(--sombra);
+  overflow: hidden;
+  animation: fadeUp 0.45s 0.2s both;
+}
 
-  /* ── TABLA POS ────────────────────────────────────── */
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.9rem 1.2rem;
+  border-bottom: 1.5px solid rgba(61,31,10,0.08);
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.panel-title {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 1.08rem;
+  letter-spacing: 1px;
+  color: var(--cafe);
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+.panel-action {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--rojo);
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background: none;
+  border: 1.5px solid rgba(192,57,43,0.25);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-family: 'Source Sans 3', sans-serif;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+.panel-action:hover { background: rgba(192,57,43,0.07); }
+
+/* ══════════════════════════════════════════
+   POS LAYOUT
+══════════════════════════════════════════ */
+.pos-area {
+  display: grid;
+  grid-template-columns: 1fr 290px;
+  gap: 1.2rem;
+  margin-bottom: 1.5rem;
+  animation: fadeUp 0.45s 0.25s both;
+}
+
+.menu-grid {
+  background: var(--blanco);
+  border-radius: var(--radius);
+  border: 1.5px solid rgba(61,31,10,0.09);
+  box-shadow: 0 2px 10px var(--sombra);
+  padding: 1.1rem;
+}
+
+.menu-cats {
+  display: flex;
+  gap: 0.45rem;
+  margin-bottom: 0.9rem;
+  flex-wrap: wrap;
+}
+
+.cat-btn {
+  padding: 5px 13px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.2s;
+  font-family: 'Source Sans 3', sans-serif;
+  white-space: nowrap;
+  -webkit-user-select: none;
+}
+.cat-btn.active               { background: var(--rojo); color:#fff; }
+.cat-btn:not(.active)         { background: rgba(61,31,10,0.06); color:var(--cafe2); border-color:rgba(61,31,10,0.12); }
+.cat-btn:not(.active):hover   { background: var(--amarillo); color:var(--cafe); border-color:var(--amarillo); }
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(61,31,10,0.05);
+  border: 1.5px solid rgba(61,31,10,0.12);
+  border-radius: var(--radius-sm);
+  padding: 0.4rem 0.75rem;
+  margin-bottom: 0.8rem;
+}
+.search-bar input {
+  background: none;
+  border: none;
+  outline: none;
+  font-size: 0.82rem;
+  color: var(--cafe);
+  flex: 1;
+  font-family: 'Source Sans 3', sans-serif;
+}
+.search-bar input::placeholder { color:rgba(61,31,10,0.35); }
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.7rem;
+}
+
+.product-card {
+  border: 2px solid rgba(61,31,10,0.1);
+  border-radius: 10px;
+  padding: 0.8rem 0.5rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-align: center;
+  background: var(--crema);
+  -webkit-user-select: none;
+}
+.product-card:hover, .product-card:active {
+  border-color: var(--amarillo);
+  background: rgba(232,160,32,0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--sombra);
+}
+.product-card .emoji { font-size:1.7rem; display:block; margin-bottom:3px; }
+.product-card .name  { font-size:0.71rem; font-weight:700; color:var(--cafe); line-height:1.2; margin-bottom:2px; }
+.product-card .price { font-family:'Bebas Neue',cursive; font-size:1rem; color:var(--rojo); }
+
+/* ══════════════════════════════════════════
+   CARRITO
+══════════════════════════════════════════ */
+.cart {
+  background: var(--blanco);
+  border-radius: var(--radius);
+  border: 1.5px solid rgba(61,31,10,0.09);
+  box-shadow: 0 2px 10px var(--sombra);
+  display: flex;
+  flex-direction: column;
+  max-height: 520px;
+}
+.cart-header {
+  padding: 0.9rem 1.1rem;
+  border-bottom: 1.5px solid rgba(61,31,10,0.08);
+  font-family: 'Bebas Neue', cursive;
+  font-size: 1.05rem;
+  letter-spacing: 1px;
+  color: var(--cafe);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.cart-badge {
+  background: var(--rojo);
+  color:#fff;
+  border-radius:50%;
+  width:21px; height:21px;
+  font-size:0.72rem;
+  font-family:'Source Sans 3',sans-serif;
+  font-weight:700;
+  display:flex; align-items:center; justify-content:center;
+}
+.cart-items { flex:1; padding:0.7rem 1rem; overflow-y:auto; }
+.cart-row {
+  display:flex;
+  align-items:center;
+  gap:0.5rem;
+  padding:0.5rem 0;
+  border-bottom:1px dashed rgba(61,31,10,0.1);
+  font-size:0.8rem;
+}
+.cart-row .ci-name  { flex:1; color:var(--cafe); font-weight:600; }
+.cart-row .ci-qty   { background:rgba(61,31,10,0.07); border-radius:5px; padding:1px 6px; font-weight:700; color:var(--cafe2); }
+.cart-row .ci-price { font-family:'Bebas Neue',cursive; font-size:0.92rem; color:var(--rojo); min-width:44px; text-align:right; }
+
+.cart-footer { padding:0.9rem 1.1rem; border-top:1.5px solid rgba(61,31,10,0.08); }
+.cart-total {
+  display:flex; justify-content:space-between; align-items:baseline;
+  margin-bottom:0.7rem;
+}
+.cart-total .label  { font-size:0.75rem; font-weight:700; color:var(--cafe2); text-transform:uppercase; }
+.cart-total .amount { font-family:'Bebas Neue',cursive; font-size:1.6rem; color:var(--cafe); }
+
+.cart-subtotals { font-size:0.72rem; color:var(--cafe2); margin-bottom:0.5rem; }
+.cart-subtotals div { display:flex; justify-content:space-between; padding:1px 0; }
+
+.btn-cobrar {
+  width:100%;
+  background: var(--rojo);
+  color:#fff;
+  border:none;
+  border-radius:10px;
+  padding:0.7rem;
+  font-family:'Bebas Neue',cursive;
+  font-size:1.15rem;
+  letter-spacing:2px;
+  cursor:pointer;
+  transition:all 0.2s;
+  box-shadow:0 4px 14px rgba(192,57,43,0.3);
+}
+.btn-cobrar:hover, .btn-cobrar:active { background:var(--rojo-dark); transform:translateY(-1px); }
+
+.btn-secondary {
+  width:100%;
+  background:none;
+  color:var(--cafe2);
+  border:1.5px solid rgba(61,31,10,0.18);
+  border-radius:10px;
+  padding:0.45rem;
+  font-size:0.77rem;
+  font-weight:700;
+  cursor:pointer;
+  margin-top:0.45rem;
+  font-family:'Source Sans 3',sans-serif;
+  transition:all 0.2s;
+}
+.btn-secondary:hover { background:rgba(61,31,10,0.05); }
+
+/* ══════════════════════════════════════════
+   TABLA INVENTARIO
+══════════════════════════════════════════ */
+.table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+table { width:100%; border-collapse:collapse; font-size:0.82rem; min-width:520px; }
+th {
+  text-align:left; padding:0.55rem 0.9rem;
+  font-size:0.66rem; font-weight:700; text-transform:uppercase;
+  letter-spacing:0.6px; color:var(--cafe2);
+  border-bottom:2px solid rgba(61,31,10,0.1);
+  white-space:nowrap;
+}
+td { padding:0.6rem 0.9rem; border-bottom:1px solid rgba(61,31,10,0.06); color:var(--cafe); }
+tr:hover td { background:rgba(232,160,32,0.05); }
+
+.chip {
+  display:inline-block; padding:2px 8px;
+  border-radius:20px; font-size:0.67rem; font-weight:700;
+}
+.chip.tortas  { background:rgba(192,57,43,0.1);   color:var(--rojo); }
+.chip.bebidas { background:rgba(122,140,74,0.12);  color:var(--olivo); }
+.chip.extras  { background:rgba(232,160,32,0.15);  color:#9a6a00; }
+
+.stock-badge {
+  display:inline-block; padding:2px 9px;
+  border-radius:20px; font-size:0.7rem; font-weight:700; white-space:nowrap;
+}
+.stock-ok    { background:#e8f5e9; color:#2e7d32; }
+.stock-low   { background:#fff3e0; color:#e65100; }
+.stock-empty { background:#fdecea; color:#c62828; }
+
+/* ══════════════════════════════════════════
+   TABS
+══════════════════════════════════════════ */
+.tabs {
+  display:flex; gap:0;
+  border-bottom:2px solid rgba(61,31,10,0.1);
+  padding:0 1.1rem;
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+.tabs::-webkit-scrollbar { display:none; }
+
+.tab {
+  padding:0.65rem 1rem;
+  font-size:0.8rem; font-weight:700;
+  color:var(--cafe2); cursor:pointer;
+  border-bottom:3px solid transparent;
+  margin-bottom:-2px;
+  transition:all 0.2s;
+  white-space:nowrap;
+  -webkit-user-select:none;
+}
+.tab.active { color:var(--rojo); border-bottom-color:var(--rojo); }
+.tab:hover:not(.active) { color:var(--cafe); }
+
+/* ══════════════════════════════════════════
+   SUCURSALES
+══════════════════════════════════════════ */
+.sucursales-grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:0.9rem;
+  padding:1.1rem;
+}
+.suc-card {
+  border:1.5px solid rgba(61,31,10,0.1);
+  border-radius:10px; padding:0.9rem;
+  background:var(--crema);
+  transition:all 0.2s; cursor:pointer;
+}
+.suc-card:hover { border-color:var(--amarillo); box-shadow:0 4px 14px var(--sombra); transform:translateY(-2px); }
+.suc-card.principal   { border-left:4px solid var(--rojo); }
+.suc-card.secundaria  { border-left:4px solid var(--amarillo); }
+.suc-name    { font-family:'Bebas Neue',cursive; font-size:0.95rem; letter-spacing:1px; color:var(--cafe); margin-bottom:2px; }
+.suc-address { font-size:0.7rem; color:var(--cafe2); margin-bottom:0.55rem; line-height:1.35; }
+.suc-stats   { display:flex; gap:0.7rem; flex-wrap:wrap; }
+.suc-stat    { text-align:center; }
+.suc-stat .val { font-family:'Bebas Neue',cursive; font-size:1.15rem; color:var(--rojo); display:block; line-height:1; }
+.suc-stat .lbl { font-size:0.6rem; color:var(--cafe2); font-weight:700; text-transform:uppercase; }
+.suc-status    { display:inline-block; width:7px; height:7px; border-radius:50%; background:#4caf50; margin-right:4px; }
+.suc-status.off { background:#9e9e9e; }
+
+/* ══════════════════════════════════════════
+   TWO COL GRID
+══════════════════════════════════════════ */
+.two-col {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1.2rem;
+  margin-bottom:1.2rem;
+}
+
+/* ══════════════════════════════════════════
+   BAR CHART
+══════════════════════════════════════════ */
+.bar-chart { padding:0 1.1rem 1.1rem; }
+.bar-row   { display:flex; align-items:center; gap:0.65rem; margin-bottom:0.55rem; font-size:0.76rem; }
+.bar-label { width:100px; color:var(--cafe2); font-weight:600; text-align:right; flex-shrink:0; }
+.bar-track { flex:1; background:rgba(61,31,10,0.08); border-radius:6px; height:19px; overflow:hidden; min-width:0; }
+.bar-fill  { height:100%; border-radius:6px; display:flex; align-items:center; padding-left:7px; font-size:0.68rem; font-weight:700; color:#fff; }
+.bar-fill.r { background:var(--rojo); }
+.bar-fill.a { background:var(--amarillo); color:var(--cafe); }
+.bar-fill.o { background:var(--olivo); }
+.bar-fill.c { background:var(--cafe2); }
+
+/* ══════════════════════════════════════════
+   ALERTAS
+══════════════════════════════════════════ */
+.alert-item {
+  display:flex; align-items:flex-start; gap:0.7rem;
+  padding:0.65rem 1.1rem;
+  border-bottom:1px solid rgba(61,31,10,0.06);
+  font-size:0.8rem;
+}
+.alert-icon { font-size:1rem; width:26px; text-align:center; flex-shrink:0; margin-top:1px; }
+.alert-text { flex:1; color:var(--cafe); line-height:1.4; }
+.alert-text strong { color:var(--rojo); }
+.alert-time { font-size:0.67rem; color:var(--cafe2); white-space:nowrap; }
+
+/* ══════════════════════════════════════════
+   REPORT MINI CARDS
+══════════════════════════════════════════ */
+.report-row {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1rem;
+  padding:1.1rem;
+}
+.report-mini {
+  background:var(--crema); border-radius:10px;
+  padding:0.9rem; border:1.5px solid rgba(61,31,10,0.1);
+}
+.report-mini .rm-label { font-size:0.68rem; font-weight:700; text-transform:uppercase; letter-spacing:0.4px; color:var(--cafe2); margin-bottom:0.3rem; }
+.report-mini .rm-val   { font-family:'Bebas Neue',cursive; font-size:1.5rem; color:var(--cafe); }
+.report-mini .rm-sub   { font-size:0.7rem; color:var(--olivo); font-weight:700; margin-top:2px; }
+
+/* ══════════════════════════════════════════
+   BOTTOM NAV (mobile only)
+══════════════════════════════════════════ */
+.bottom-nav {
+  display: none;
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: var(--bottomnav);
+  background: var(--cafe);
+  border-top: 3px solid var(--amarillo);
+  z-index: 200;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0 0.5rem;
+}
+.bn-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #c8b79e;
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  -webkit-user-select: none;
+  flex: 1;
+}
+.bn-item .bn-icon { font-size: 1.3rem; line-height: 1; }
+.bn-item.active   { color: var(--amarillo); }
+.bn-item:active   { background: rgba(255,255,255,0.08); }
+
+/* ══════════════════════════════════════════
+   SCROLLBAR
+══════════════════════════════════════════ */
+::-webkit-scrollbar { width:5px; height:5px; }
+::-webkit-scrollbar-track { background:transparent; }
+::-webkit-scrollbar-thumb { background:rgba(61,31,10,0.2); border-radius:10px; }
+
+/* ══════════════════════════════════════════
+   RESPONSIVE — TABLET (≤ 1024px)
+══════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  :root { --sidebar-w: 200px; }
+
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+
   .pos-area {
-    display: grid;
-    grid-template-columns: 1fr 300px;
-    gap: 1.4rem;
-    margin-bottom: 1.4rem;
-    animation: fadeUp 0.5s 0.3s both;
+    grid-template-columns: 1fr;
   }
-
-  .menu-grid {
-    background: var(--blanco);
-    border-radius: 14px;
-    border: 1.5px solid rgba(61,31,10,0.09);
-    box-shadow: 0 2px 12px var(--sombra);
-    padding: 1.3rem;
-  }
-
-  .menu-cats {
-    display: flex;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
-    flex-wrap: wrap;
-  }
-
-  .cat-btn {
-    padding: 5px 14px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 700;
-    cursor: pointer;
-    border: 2px solid transparent;
-    transition: all 0.2s;
-    font-family: 'Source Sans 3', sans-serif;
-  }
-  .cat-btn.active {
-    background: var(--rojo);
-    color: #fff;
-  }
-  .cat-btn:not(.active) {
-    background: rgba(61,31,10,0.06);
-    color: var(--cafe2);
-    border-color: rgba(61,31,10,0.12);
-  }
-  .cat-btn:not(.active):hover {
-    background: var(--amarillo);
-    color: var(--cafe);
-    border-color: var(--amarillo);
-  }
-
-  .products-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.8rem;
-  }
-
-  .product-card {
-    border: 2px solid rgba(61,31,10,0.1);
-    border-radius: 10px;
-    padding: 0.9rem 0.7rem;
-    cursor: pointer;
-    transition: all 0.2s;
-    text-align: center;
-    background: var(--crema);
-  }
-  .product-card:hover {
-    border-color: var(--amarillo);
-    background: rgba(232,160,32,0.1);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 14px var(--sombra);
-  }
-  .product-card .emoji { font-size: 1.8rem; display: block; margin-bottom: 4px; }
-  .product-card .name {
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: var(--cafe);
-    margin-bottom: 2px;
-    line-height: 1.2;
-  }
-  .product-card .price {
-    font-family: 'Bebas Neue', cursive;
-    font-size: 1.05rem;
-    color: var(--rojo);
-  }
-
-  /* ── CARRITO ──────────────────────────────────────── */
   .cart {
-    background: var(--blanco);
-    border-radius: 14px;
-    border: 1.5px solid rgba(61,31,10,0.09);
-    box-shadow: 0 2px 12px var(--sombra);
-    display: flex;
-    flex-direction: column;
+    max-height: none;
   }
 
-  .cart-header {
-    padding: 1rem 1.2rem;
-    border-bottom: 1.5px solid rgba(61,31,10,0.08);
-    font-family: 'Bebas Neue', cursive;
-    font-size: 1.1rem;
-    letter-spacing: 1px;
-    color: var(--cafe);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  .two-col { grid-template-columns: 1fr; }
+
+  .sucursales-grid { grid-template-columns: repeat(2,1fr); }
+
+  .report-row { grid-template-columns: repeat(2,1fr); }
+
+  .products-grid { grid-template-columns: repeat(4,1fr); }
+
+  .header-date { display: none; }
+}
+
+/* ══════════════════════════════════════════
+   RESPONSIVE — MOBILE (≤ 768px)
+══════════════════════════════════════════ */
+@media (max-width: 768px) {
+  html { font-size: 15px; }
+
+  /* Header */
+  .hamburger { display: flex; }
+  .sucursal-badge span:last-child { display:none; } /* hide arrow text */
+
+  /* Sidebar: drawer */
+  nav.sidebar {
+    position: fixed;
+    top: var(--header-h);
+    left: 0;
+    height: calc(100vh - var(--header-h));
+    z-index: 150;
+    transform: translateX(-100%);
+    box-shadow: 4px 0 24px rgba(0,0,0,0.3);
+  }
+  nav.sidebar.open {
+    transform: translateX(0);
   }
 
-  .cart-badge {
-    background: var(--rojo);
-    color: #fff;
-    border-radius: 50%;
-    width: 22px; height: 22px;
-    font-size: 0.75rem;
-    font-family: 'Source Sans 3', sans-serif;
-    font-weight: 700;
-    display: flex; align-items: center; justify-content: center;
-  }
-
-  .cart-items { flex: 1; padding: 0.8rem 1.2rem; overflow-y: auto; }
-
-  .cart-row {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    padding: 0.55rem 0;
-    border-bottom: 1px dashed rgba(61,31,10,0.12);
-    font-size: 0.82rem;
-  }
-  .cart-row .ci-name { flex: 1; color: var(--cafe); font-weight: 600; }
-  .cart-row .ci-qty {
-    background: rgba(61,31,10,0.07);
-    border-radius: 6px;
-    padding: 1px 7px;
-    font-weight: 700;
-    color: var(--cafe2);
-  }
-  .cart-row .ci-price {
-    font-family: 'Bebas Neue', cursive;
-    font-size: 0.95rem;
-    color: var(--rojo);
-    min-width: 48px;
-    text-align: right;
-  }
-
-  .cart-footer { padding: 1rem 1.2rem; border-top: 1.5px solid rgba(61,31,10,0.08); }
-
-  .cart-total {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: 0.8rem;
-  }
-  .cart-total .label { font-size: 0.8rem; font-weight: 700; color: var(--cafe2); text-transform: uppercase; }
-  .cart-total .amount {
-    font-family: 'Bebas Neue', cursive;
-    font-size: 1.7rem;
-    color: var(--cafe);
-  }
-
-  .btn-cobrar {
+  /* Main: full width, bottom padding for nav */
+  .layout { margin-top: var(--header-h); }
+  main {
+    padding: 1.2rem 1rem calc(var(--bottomnav) + 1.2rem);
     width: 100%;
-    background: var(--rojo);
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    padding: 0.75rem;
-    font-family: 'Bebas Neue', cursive;
-    font-size: 1.2rem;
-    letter-spacing: 2px;
-    cursor: pointer;
-    transition: all 0.2s;
-    box-shadow: 0 4px 14px rgba(192,57,43,0.35);
-  }
-  .btn-cobrar:hover {
-    background: #a93226;
-    transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(192,57,43,0.45);
   }
 
-  .btn-secondary {
-    width: 100%;
-    background: none;
-    color: var(--cafe2);
-    border: 1.5px solid rgba(61,31,10,0.2);
-    border-radius: 10px;
-    padding: 0.5rem;
-    font-size: 0.8rem;
-    font-weight: 700;
-    cursor: pointer;
-    margin-top: 0.5rem;
-    font-family: 'Source Sans 3', sans-serif;
-    transition: all 0.2s;
-  }
-  .btn-secondary:hover { background: rgba(61,31,10,0.05); }
+  /* Bottom nav */
+  .bottom-nav { display: flex; }
 
-  /* ── TABLA INVENTARIO ─────────────────────────────── */
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.84rem;
-  }
-  th {
-    text-align: left;
-    padding: 0.6rem 1rem;
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.7px;
-    color: var(--cafe2);
-    border-bottom: 2px solid rgba(61,31,10,0.1);
-  }
-  td {
-    padding: 0.65rem 1rem;
-    border-bottom: 1px solid rgba(61,31,10,0.06);
-    color: var(--cafe);
-  }
-  tr:hover td { background: rgba(232,160,32,0.06); }
+  /* Stats: 2 col on phone */
+  .stats-grid { grid-template-columns: 1fr 1fr; gap:0.75rem; }
+  .stat-value { font-size: 1.6rem; }
+  .stat-icon  { font-size: 1.2rem; margin-bottom:0.25rem; }
 
-  .stock-badge {
-    display: inline-block;
-    padding: 2px 10px;
-    border-radius: 20px;
-    font-size: 0.73rem;
-    font-weight: 700;
-  }
-  .stock-ok    { background: #e8f5e9; color: #2e7d32; }
-  .stock-low   { background: #fff3e0; color: #e65100; }
-  .stock-empty { background: #fdecea; color: #c62828; }
+  /* POS */
+  .pos-area { gap: 1rem; }
+  .products-grid { grid-template-columns: repeat(3,1fr); gap:0.55rem; }
+  .product-card  { padding: 0.65rem 0.3rem; }
+  .product-card .emoji { font-size:1.4rem; }
 
-  /* ── SUCURSALES ───────────────────────────────────── */
-  .sucursales-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-    padding: 1.2rem;
-  }
+  /* Cart horizontal on mobile */
+  .cart { max-height:none; }
 
-  .suc-card {
-    border: 1.5px solid rgba(61,31,10,0.1);
-    border-radius: 10px;
-    padding: 1rem;
-    background: var(--crema);
-    transition: all 0.2s;
-    cursor: pointer;
-  }
-  .suc-card:hover {
-    border-color: var(--amarillo);
-    box-shadow: 0 4px 14px var(--sombra);
-    transform: translateY(-2px);
-  }
-  .suc-card.principal { border-left: 4px solid var(--rojo); }
-  .suc-card.secundaria { border-left: 4px solid var(--amarillo); }
+  /* Sucursales: 1 col */
+  .sucursales-grid { grid-template-columns: 1fr; }
 
-  .suc-name {
-    font-family: 'Bebas Neue', cursive;
-    font-size: 1rem;
-    letter-spacing: 1px;
-    color: var(--cafe);
-    margin-bottom: 2px;
-  }
-  .suc-address {
-    font-size: 0.73rem;
-    color: var(--cafe2);
-    margin-bottom: 0.6rem;
-    line-height: 1.4;
-  }
-  .suc-stats {
-    display: flex;
-    gap: 0.8rem;
-  }
-  .suc-stat {
-    text-align: center;
-  }
-  .suc-stat .val {
-    font-family: 'Bebas Neue', cursive;
-    font-size: 1.25rem;
-    color: var(--rojo);
-    display: block;
-    line-height: 1;
-  }
-  .suc-stat .lbl {
-    font-size: 0.62rem;
-    color: var(--cafe2);
-    font-weight: 700;
-    text-transform: uppercase;
-  }
-  .suc-status {
-    display: inline-block;
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: #4caf50;
-    margin-right: 4px;
-  }
-  .suc-status.off { background: #9e9e9e; }
+  /* Reports: 1 col */
+  .report-row { grid-template-columns: 1fr; }
 
-  /* ── REPORTES ─────────────────────────────────────── */
-  .report-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 1.2rem;
-    padding: 1.2rem;
-  }
+  /* Bar label narrower */
+  .bar-label { width: 80px; font-size:0.68rem; }
 
-  .report-mini {
-    background: var(--crema);
-    border-radius: 10px;
-    padding: 1rem;
-    border: 1.5px solid rgba(61,31,10,0.1);
-  }
-  .report-mini .rm-label {
-    font-size: 0.72rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: var(--cafe2);
-    margin-bottom: 0.4rem;
-  }
-  .report-mini .rm-val {
-    font-family: 'Bebas Neue', cursive;
-    font-size: 1.6rem;
-    color: var(--cafe);
-  }
-  .report-mini .rm-sub {
-    font-size: 0.73rem;
-    color: var(--olivo);
-    font-weight: 700;
-    margin-top: 2px;
-  }
+  /* Page title */
+  .page-title    { font-size:1.5rem; }
+  .page-subtitle { font-size:0.78rem; }
 
-  .bar-chart {
-    padding: 0 1.2rem 1.2rem;
-  }
-  .bar-row {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    margin-bottom: 0.6rem;
-    font-size: 0.78rem;
-  }
-  .bar-label { width: 110px; color: var(--cafe2); font-weight: 600; text-align: right; flex-shrink: 0; }
-  .bar-track {
-    flex: 1;
-    background: rgba(61,31,10,0.08);
-    border-radius: 6px;
-    height: 20px;
-    overflow: hidden;
-  }
-  .bar-fill {
-    height: 100%;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    padding-left: 8px;
-    font-size: 0.7rem;
-    font-weight: 700;
-    color: #fff;
-    transition: width 1s cubic-bezier(.4,0,.2,1);
-  }
-  .bar-fill.r { background: var(--rojo); }
-  .bar-fill.a { background: var(--amarillo); color: var(--cafe); }
-  .bar-fill.o { background: var(--olivo); }
-  .bar-fill.c { background: var(--cafe2); }
+  /* Section title */
+  .section-title { font-size:1.1rem; }
 
-  /* ── ALERTAS ──────────────────────────────────────── */
-  .alert-item {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    padding: 0.7rem 1.2rem;
-    border-bottom: 1px solid rgba(61,31,10,0.06);
-    font-size: 0.82rem;
-  }
-  .alert-icon {
-    font-size: 1.1rem;
-    width: 30px;
-    text-align: center;
-    flex-shrink: 0;
-  }
-  .alert-text { flex: 1; color: var(--cafe); }
-  .alert-text strong { color: var(--rojo); }
-  .alert-time { font-size: 0.7rem; color: var(--cafe2); }
+  /* Panel header */
+  .panel-header { padding:0.75rem 1rem; }
+  .panel-title  { font-size:0.98rem; }
+}
 
-  /* ── TABS ─────────────────────────────────────────── */
-  .tabs {
-    display: flex;
-    gap: 0;
-    border-bottom: 2px solid rgba(61,31,10,0.1);
-    padding: 0 1.2rem;
-  }
-  .tab {
-    padding: 0.7rem 1.2rem;
-    font-size: 0.82rem;
-    font-weight: 700;
-    color: var(--cafe2);
-    cursor: pointer;
-    border-bottom: 3px solid transparent;
-    margin-bottom: -2px;
-    transition: all 0.2s;
-  }
-  .tab.active {
-    color: var(--rojo);
-    border-bottom-color: var(--rojo);
-  }
-  .tab:hover:not(.active) { color: var(--cafe); }
-
-  /* ── SECTION TITLE ────────────────────────────────── */
-  .section-title {
-    font-family: 'Bebas Neue', cursive;
-    font-size: 1.4rem;
-    color: var(--cafe);
-    letter-spacing: 1px;
-    margin: 2rem 0 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-  }
-  .section-title::after {
-    content: '';
-    flex: 1;
-    height: 2px;
-    background: linear-gradient(90deg, var(--amarillo) 0%, transparent 100%);
-    border-radius: 2px;
-  }
-
-  /* ── RESPONSIVE ───────────────────────────────────── */
-  @media (max-width: 1100px) {
-    .stats-grid { grid-template-columns: repeat(2, 1fr); }
-    .two-col, .pos-area { grid-template-columns: 1fr; }
-    .products-grid { grid-template-columns: repeat(4, 1fr); }
-    .sucursales-grid { grid-template-columns: repeat(2, 1fr); }
-    .report-row { grid-template-columns: 1fr 1fr; }
-  }
-
-  /* ── SCROLL PERSONALIZADO ─────────────────────────── */
-  ::-webkit-scrollbar { width: 5px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: rgba(61,31,10,0.2); border-radius: 10px; }
-
-  /* ── CHIP ─────────────────────────────────────────── */
-  .chip {
-    display: inline-block;
-    padding: 2px 9px;
-    border-radius: 20px;
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-  }
-  .chip.tortas { background: rgba(192,57,43,0.1); color: var(--rojo); }
-  .chip.bebidas { background: rgba(122,140,74,0.12); color: var(--olivo); }
-  .chip.extras  { background: rgba(232,160,32,0.15); color: #b37d00; }
-
-  /* ── SEARCH BAR ───────────────────────────────────── */
-  .search-bar {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    background: rgba(61,31,10,0.05);
-    border: 1.5px solid rgba(61,31,10,0.12);
-    border-radius: 8px;
-    padding: 0.4rem 0.8rem;
-    font-size: 0.83rem;
-    color: var(--cafe2);
-    margin-bottom: 0.8rem;
-  }
-  .search-bar input {
-    background: none;
-    border: none;
-    outline: none;
-    font-size: 0.83rem;
-    color: var(--cafe);
-    flex: 1;
-    font-family: 'Source Sans 3', sans-serif;
-  }
-  .search-bar input::placeholder { color: rgba(61,31,10,0.35); }
-
-  .tag-input {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: rgba(61,31,10,0.05);
-    border: 1.5px solid rgba(61,31,10,0.12);
-    border-radius: 8px;
-    padding: 0.5rem 0.8rem;
-    width: 100%;
-    font-size: 0.83rem;
-    font-family: 'Source Sans 3', sans-serif;
-    color: var(--cafe);
-    outline: none;
-    margin-top: 0.4rem;
-  }
+/* ══════════════════════════════════════════
+   RESPONSIVE — SMALL PHONE (≤ 380px)
+══════════════════════════════════════════ */
+@media (max-width: 380px) {
+  .stats-grid { grid-template-columns: 1fr 1fr; gap:0.6rem; }
+  .stat-card  { padding:0.9rem 0.75rem; }
+  .stat-value { font-size:1.4rem; }
+  .products-grid { grid-template-columns: repeat(2,1fr); }
+  .logo-sub { display:none; }
+  .user-avatar { display:none; }
+}
 </style>
 </head>
 <body>
 
 <!-- ═══ HEADER ═══ -->
 <header>
-  <div class="logo-area">
-    <div class="logo-icon">🌮</div>
-    <div>
-      <div class="logo-text">El Güerito</div>
-      <div class="logo-sub">Sistema de Gestión</div>
+  <div style="display:flex;align-items:center;gap:0.7rem;">
+    <div class="hamburger" id="hamburger" aria-label="Menú" role="button">
+      <span></span><span></span><span></span>
+    </div>
+    <div class="logo-area">
+      <div class="logo-icon">🌮</div>
+      <div>
+        <div class="logo-text">El Güerito</div>
+        <div class="logo-sub">Sistema de Gestión</div>
+      </div>
     </div>
   </div>
   <div class="header-right">
-    <div class="sucursal-badge">📍 Sucursal Centro ▾</div>
-    <div style="font-size:0.8rem; color:#c8b79e;">Sábado, 7 Jun 2026</div>
+    <button class="sucursal-badge">📍 Suc. Centro <span>▾</span></button>
+    <div class="header-date">Sáb, 7 Jun 2026</div>
     <div class="user-avatar">GR</div>
   </div>
 </header>
 
+<!-- Overlay para cerrar sidebar en móvil -->
+<div class="overlay" id="overlay"></div>
+
 <div class="layout">
 
   <!-- ═══ SIDEBAR ═══ -->
-  <nav>
+  <nav class="sidebar" id="sidebar">
     <div class="nav-section">
       <div class="nav-label">Principal</div>
-      <a class="nav-item active" href="#">
+      <a class="nav-item active" href="#dashboard">
         <span class="icon">📊</span> Dashboard
       </a>
     </div>
-
     <div class="nav-section">
       <div class="nav-label">Ventas</div>
-      <a class="nav-item" href="#">
-        <span class="icon">🛒</span> Punto de Venta
-      </a>
-      <a class="nav-item" href="#">
-        <span class="icon">🧾</span> Historial de Ventas
-      </a>
-      <a class="nav-item" href="#">
-        <span class="icon">💳</span> Corte de Caja
-      </a>
+      <a class="nav-item" href="#pos"><span class="icon">🛒</span> Punto de Venta</a>
+      <a class="nav-item" href="#"><span class="icon">🧾</span> Historial</a>
+      <a class="nav-item" href="#"><span class="icon">💳</span> Corte de Caja</a>
     </div>
-
     <div class="nav-section">
       <div class="nav-label">Inventario</div>
-      <a class="nav-item" href="#">
-        <span class="icon">📦</span> Productos
-      </a>
-      <a class="nav-item" href="#">
-        <span class="icon">🏷️</span> Categorías
-      </a>
-      <a class="nav-item" href="#">
-        <span class="icon">⬆️</span> Entradas / Salidas
-      </a>
-      <a class="nav-item" href="#">
-        <span class="icon">⚠️</span> Alertas de Stock
-      </a>
+      <a class="nav-item" href="#inventario"><span class="icon">📦</span> Productos</a>
+      <a class="nav-item" href="#"><span class="icon">🏷️</span> Categorías</a>
+      <a class="nav-item" href="#"><span class="icon">⬆️</span> Entradas / Salidas</a>
+      <a class="nav-item" href="#"><span class="icon">⚠️</span> Alertas de Stock</a>
     </div>
-
     <div class="nav-section">
       <div class="nav-label">Sucursales</div>
-      <a class="nav-item" href="#">
-        <span class="icon">🏪</span> Gestión de Sucursales
-      </a>
-      <a class="nav-item" href="#">
-        <span class="icon">👥</span> Personal
-      </a>
-      <a class="nav-item" href="#">
-        <span class="icon">🔄</span> Transferencias
-      </a>
+      <a class="nav-item" href="#sucursales"><span class="icon">🏪</span> Gestión</a>
+      <a class="nav-item" href="#"><span class="icon">👥</span> Personal</a>
+      <a class="nav-item" href="#"><span class="icon">🔄</span> Transferencias</a>
     </div>
-
     <hr class="nav-divider">
-
     <div class="nav-section">
       <div class="nav-label">Reportes</div>
-      <a class="nav-item" href="#">
-        <span class="icon">📈</span> Ventas por Sucursal
-      </a>
-      <a class="nav-item" href="#">
-        <span class="icon">🥇</span> Productos Top
-      </a>
-      <a class="nav-item" href="#">
-        <span class="icon">💰</span> Finanzas
-      </a>
+      <a class="nav-item" href="#reportes"><span class="icon">📈</span> Ventas por Sucursal</a>
+      <a class="nav-item" href="#"><span class="icon">🥇</span> Productos Top</a>
+      <a class="nav-item" href="#"><span class="icon">💰</span> Finanzas</a>
     </div>
-
     <hr class="nav-divider">
-
     <div class="nav-section">
-      <a class="nav-item" href="#">
-        <span class="icon">⚙️</span> Configuración
-      </a>
+      <a class="nav-item" href="#"><span class="icon">⚙️</span> Configuración</a>
     </div>
   </nav>
 
   <!-- ═══ MAIN ═══ -->
   <main>
 
-    <div class="page-title">Panel General</div>
-    <div class="page-subtitle">Resumen de operaciones del día — todas las sucursales</div>
+    <!-- ── DASHBOARD ── -->
+    <div id="dashboard">
+      <div class="page-title">Panel General</div>
+      <div class="page-subtitle">Resumen de operaciones del día — todas las sucursales</div>
 
-    <!-- STATS -->
-    <div class="stats-grid">
-      <div class="stat-card ventas">
-        <span class="stat-icon">💵</span>
-        <div class="stat-value">$18,420</div>
-        <div class="stat-label">Ventas Hoy</div>
-        <span class="stat-delta up">▲ +12% vs ayer</span>
-      </div>
-      <div class="stat-card inventario">
-        <span class="stat-icon">📦</span>
-        <div class="stat-value">342</div>
-        <div class="stat-label">Productos en Stock</div>
-        <span class="stat-delta down">▼ 5 sin stock</span>
-      </div>
-      <div class="stat-card sucursales">
-        <span class="stat-icon">🏪</span>
-        <div class="stat-value">5 / 5</div>
-        <div class="stat-label">Sucursales Activas</div>
-        <span class="stat-delta up">● Todas operando</span>
-      </div>
-      <div class="stat-card alertas">
-        <span class="stat-icon">🔔</span>
-        <div class="stat-value">8</div>
-        <div class="stat-label">Alertas Pendientes</div>
-        <span class="stat-delta down">3 críticas</span>
+      <div class="stats-grid">
+        <div class="stat-card ventas">
+          <span class="stat-icon">💵</span>
+          <div class="stat-value">$18,420</div>
+          <div class="stat-label">Ventas Hoy</div>
+          <span class="stat-delta up">▲ +12% vs ayer</span>
+        </div>
+        <div class="stat-card inventario">
+          <span class="stat-icon">📦</span>
+          <div class="stat-value">342</div>
+          <div class="stat-label">Productos en Stock</div>
+          <span class="stat-delta down">▼ 5 sin stock</span>
+        </div>
+        <div class="stat-card sucursales">
+          <span class="stat-icon">🏪</span>
+          <div class="stat-value">5 / 5</div>
+          <div class="stat-label">Sucursales Activas</div>
+          <span class="stat-delta up">● Todas activas</span>
+        </div>
+        <div class="stat-card alertas">
+          <span class="stat-icon">🔔</span>
+          <div class="stat-value">8</div>
+          <div class="stat-label">Alertas Pendientes</div>
+          <span class="stat-delta down">3 críticas</span>
+        </div>
       </div>
     </div>
 
-    <!-- ═ SECCIÓN POS ═ -->
-    <div class="section-title">🛒 Punto de Venta</div>
+    <!-- ── POS ── -->
+    <div class="section-title" id="pos">🛒 Punto de Venta</div>
 
     <div class="pos-area">
-      <!-- Menú -->
       <div class="menu-grid">
-        <div class="panel-header" style="padding:0 0 0.8rem; border:none;">
-          <div class="panel-title">Seleccionar Productos</div>
+        <div style="font-family:'Bebas Neue',cursive;font-size:1rem;letter-spacing:1px;color:var(--cafe);margin-bottom:0.75rem;">
+          Seleccionar Productos
         </div>
         <div class="menu-cats">
           <button class="cat-btn active">🌮 Tortas</button>
@@ -951,85 +980,29 @@
           🔍 <input type="text" placeholder="Buscar producto...">
         </div>
         <div class="products-grid">
-          <div class="product-card">
-            <span class="emoji">🥖</span>
-            <div class="name">Torta de Milanesa</div>
-            <div class="price">$65</div>
-          </div>
-          <div class="product-card">
-            <span class="emoji">🥩</span>
-            <div class="name">Torta de Bistec</div>
-            <div class="price">$70</div>
-          </div>
-          <div class="product-card">
-            <span class="emoji">🐷</span>
-            <div class="name">Torta de Pierna</div>
-            <div class="price">$60</div>
-          </div>
-          <div class="product-card">
-            <span class="emoji">🍳</span>
-            <div class="name">Torta de Huevo</div>
-            <div class="price">$45</div>
-          </div>
-          <div class="product-card">
-            <span class="emoji">🐔</span>
-            <div class="name">Torta de Pollo</div>
-            <div class="price">$65</div>
-          </div>
-          <div class="product-card">
-            <span class="emoji">🥑</span>
-            <div class="name">Torta Vegetariana</div>
-            <div class="price">$55</div>
-          </div>
-          <div class="product-card">
-            <span class="emoji">🧆</span>
-            <div class="name">Torta Especial</div>
-            <div class="price">$80</div>
-          </div>
-          <div class="product-card">
-            <span class="emoji">🌶️</span>
-            <div class="name">Torta Ahogada</div>
-            <div class="price">$75</div>
-          </div>
-          <div class="product-card">
-            <span class="emoji">🥚</span>
-            <div class="name">Torta Cubana</div>
-            <div class="price">$85</div>
-          </div>
+          <div class="product-card"><span class="emoji">🥖</span><div class="name">Torta Milanesa</div><div class="price">$65</div></div>
+          <div class="product-card"><span class="emoji">🥩</span><div class="name">Torta Bistec</div><div class="price">$70</div></div>
+          <div class="product-card"><span class="emoji">🐷</span><div class="name">Torta Pierna</div><div class="price">$60</div></div>
+          <div class="product-card"><span class="emoji">🍳</span><div class="name">Torta Huevo</div><div class="price">$45</div></div>
+          <div class="product-card"><span class="emoji">🐔</span><div class="name">Torta Pollo</div><div class="price">$65</div></div>
+          <div class="product-card"><span class="emoji">🥑</span><div class="name">Torta Vegetariana</div><div class="price">$55</div></div>
+          <div class="product-card"><span class="emoji">🧆</span><div class="name">Torta Especial</div><div class="price">$80</div></div>
+          <div class="product-card"><span class="emoji">🌶️</span><div class="name">Torta Ahogada</div><div class="price">$75</div></div>
+          <div class="product-card"><span class="emoji">🥚</span><div class="name">Torta Cubana</div><div class="price">$85</div></div>
         </div>
       </div>
 
-      <!-- Carrito -->
       <div class="cart">
-        <div class="cart-header">
-          🧾 Orden #1043 <div class="cart-badge">4</div>
-        </div>
+        <div class="cart-header">🧾 Orden #1043 <div class="cart-badge">4</div></div>
         <div class="cart-items">
-          <div class="cart-row">
-            <span>🥖</span>
-            <div class="ci-name">Torta de Milanesa</div>
-            <div class="ci-qty">x2</div>
-            <div class="ci-price">$130</div>
-          </div>
-          <div class="cart-row">
-            <span>🥩</span>
-            <div class="ci-name">Torta de Bistec</div>
-            <div class="ci-qty">x1</div>
-            <div class="ci-price">$70</div>
-          </div>
-          <div class="cart-row">
-            <span>🥤</span>
-            <div class="ci-name">Agua de Horchata</div>
-            <div class="ci-qty">x1</div>
-            <div class="ci-price">$25</div>
-          </div>
+          <div class="cart-row"><span>🥖</span><div class="ci-name">Torta de Milanesa</div><div class="ci-qty">x2</div><div class="ci-price">$130</div></div>
+          <div class="cart-row"><span>🥩</span><div class="ci-name">Torta de Bistec</div><div class="ci-qty">x1</div><div class="ci-price">$70</div></div>
+          <div class="cart-row"><span>🥤</span><div class="ci-name">Agua de Horchata</div><div class="ci-qty">x1</div><div class="ci-price">$25</div></div>
         </div>
         <div class="cart-footer">
-          <div style="font-size:0.75rem; color:var(--cafe2); margin-bottom:0.4rem; display:flex; justify-content:space-between;">
-            <span>Subtotal</span><span>$225</span>
-          </div>
-          <div style="font-size:0.75rem; color:var(--cafe2); margin-bottom:0.4rem; display:flex; justify-content:space-between;">
-            <span>Descuento</span><span style="color:var(--olivo);">- $0</span>
+          <div class="cart-subtotals">
+            <div><span>Subtotal</span><span>$225</span></div>
+            <div><span>Descuento</span><span style="color:var(--olivo)">- $0</span></div>
           </div>
           <div class="cart-total">
             <span class="label">Total</span>
@@ -1041,8 +1014,8 @@
       </div>
     </div>
 
-    <!-- ═ INVENTARIO ═ -->
-    <div class="section-title">📦 Inventario</div>
+    <!-- ── INVENTARIO ── -->
+    <div class="section-title" id="inventario">📦 Inventario</div>
 
     <div class="panel">
       <div class="panel-header">
@@ -1055,79 +1028,69 @@
         <div class="tab">Bebidas</div>
         <div class="tab">Extras</div>
       </div>
-      <table>
-        <thead>
-          <tr>
-            <th>Producto</th>
-            <th>Categoría</th>
-            <th>Stock Actual</th>
-            <th>Stock Mín.</th>
-            <th>Unidad</th>
-            <th>Estado</th>
-            <th>Última actualización</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>Pan Telera</strong></td>
-            <td><span class="chip tortas">Tortas</span></td>
-            <td>240</td>
-            <td>50</td>
-            <td>pieza</td>
-            <td><span class="stock-badge stock-ok">✓ Disponible</span></td>
-            <td style="color:var(--cafe2); font-size:0.78rem;">Hoy 08:30</td>
-          </tr>
-          <tr>
-            <td><strong>Milanesa de res</strong></td>
-            <td><span class="chip tortas">Tortas</span></td>
-            <td>18</td>
-            <td>20</td>
-            <td>kg</td>
-            <td><span class="stock-badge stock-low">⚠ Bajo stock</span></td>
-            <td style="color:var(--cafe2); font-size:0.78rem;">Hoy 10:15</td>
-          </tr>
-          <tr>
-            <td><strong>Agua de Horchata</strong></td>
-            <td><span class="chip bebidas">Bebidas</span></td>
-            <td>0</td>
-            <td>10</td>
-            <td>litro</td>
-            <td><span class="stock-badge stock-empty">✗ Sin stock</span></td>
-            <td style="color:var(--cafe2); font-size:0.78rem;">Ayer 18:00</td>
-          </tr>
-          <tr>
-            <td><strong>Refresco 600ml</strong></td>
-            <td><span class="chip bebidas">Bebidas</span></td>
-            <td>96</td>
-            <td>24</td>
-            <td>pieza</td>
-            <td><span class="stock-badge stock-ok">✓ Disponible</span></td>
-            <td style="color:var(--cafe2); font-size:0.78rem;">Hoy 09:00</td>
-          </tr>
-          <tr>
-            <td><strong>Aguacate</strong></td>
-            <td><span class="chip extras">Extras</span></td>
-            <td>14</td>
-            <td>15</td>
-            <td>pieza</td>
-            <td><span class="stock-badge stock-low">⚠ Bajo stock</span></td>
-            <td style="color:var(--cafe2); font-size:0.78rem;">Hoy 07:45</td>
-          </tr>
-          <tr>
-            <td><strong>Jamón de pierna</strong></td>
-            <td><span class="chip tortas">Tortas</span></td>
-            <td>5.2</td>
-            <td>3</td>
-            <td>kg</td>
-            <td><span class="stock-badge stock-ok">✓ Disponible</span></td>
-            <td style="color:var(--cafe2); font-size:0.78rem;">Hoy 08:30</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th>Categoría</th>
+              <th>Stock</th>
+              <th>Mín.</th>
+              <th>Unidad</th>
+              <th>Estado</th>
+              <th>Actualizado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Pan Telera</strong></td>
+              <td><span class="chip tortas">Tortas</span></td>
+              <td>240</td><td>50</td><td>pieza</td>
+              <td><span class="stock-badge stock-ok">✓ Disponible</span></td>
+              <td style="color:var(--cafe2);font-size:0.74rem;">Hoy 08:30</td>
+            </tr>
+            <tr>
+              <td><strong>Milanesa de res</strong></td>
+              <td><span class="chip tortas">Tortas</span></td>
+              <td>18</td><td>20</td><td>kg</td>
+              <td><span class="stock-badge stock-low">⚠ Bajo stock</span></td>
+              <td style="color:var(--cafe2);font-size:0.74rem;">Hoy 10:15</td>
+            </tr>
+            <tr>
+              <td><strong>Agua de Horchata</strong></td>
+              <td><span class="chip bebidas">Bebidas</span></td>
+              <td>0</td><td>10</td><td>litro</td>
+              <td><span class="stock-badge stock-empty">✗ Sin stock</span></td>
+              <td style="color:var(--cafe2);font-size:0.74rem;">Ayer 18:00</td>
+            </tr>
+            <tr>
+              <td><strong>Refresco 600ml</strong></td>
+              <td><span class="chip bebidas">Bebidas</span></td>
+              <td>96</td><td>24</td><td>pieza</td>
+              <td><span class="stock-badge stock-ok">✓ Disponible</span></td>
+              <td style="color:var(--cafe2);font-size:0.74rem;">Hoy 09:00</td>
+            </tr>
+            <tr>
+              <td><strong>Aguacate</strong></td>
+              <td><span class="chip extras">Extras</span></td>
+              <td>14</td><td>15</td><td>pieza</td>
+              <td><span class="stock-badge stock-low">⚠ Bajo stock</span></td>
+              <td style="color:var(--cafe2);font-size:0.74rem;">Hoy 07:45</td>
+            </tr>
+            <tr>
+              <td><strong>Jamón de pierna</strong></td>
+              <td><span class="chip tortas">Tortas</span></td>
+              <td>5.2</td><td>3</td><td>kg</td>
+              <td><span class="stock-badge stock-ok">✓ Disponible</span></td>
+              <td style="color:var(--cafe2);font-size:0.74rem;">Hoy 08:30</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
-    <!-- ═ SUCURSALES ═ -->
-    <div class="section-title">🏪 Sucursales</div>
+    <!-- ── SUCURSALES ── -->
+    <div class="section-title" id="sucursales">🏪 Sucursales</div>
 
     <div class="panel">
       <div class="panel-header">
@@ -1136,9 +1099,8 @@
       </div>
       <div class="sucursales-grid">
         <div class="suc-card principal">
-          <div style="display:flex; align-items:center; gap:6px; margin-bottom:4px;">
-            <span class="suc-status"></span>
-            <div class="suc-name">Centro</div>
+          <div style="display:flex;align-items:center;gap:5px;margin-bottom:3px;">
+            <span class="suc-status"></span><div class="suc-name">Centro</div>
           </div>
           <div class="suc-address">Av. Morelos 45, Centro Chilapa</div>
           <div class="suc-stats">
@@ -1148,9 +1110,8 @@
           </div>
         </div>
         <div class="suc-card secundaria">
-          <div style="display:flex; align-items:center; gap:6px; margin-bottom:4px;">
-            <span class="suc-status"></span>
-            <div class="suc-name">Mercado</div>
+          <div style="display:flex;align-items:center;gap:5px;margin-bottom:3px;">
+            <span class="suc-status"></span><div class="suc-name">Mercado</div>
           </div>
           <div class="suc-address">Mercado Juárez, Local 12</div>
           <div class="suc-stats">
@@ -1160,9 +1121,8 @@
           </div>
         </div>
         <div class="suc-card secundaria">
-          <div style="display:flex; align-items:center; gap:6px; margin-bottom:4px;">
-            <span class="suc-status"></span>
-            <div class="suc-name">Colonia Norte</div>
+          <div style="display:flex;align-items:center;gap:5px;margin-bottom:3px;">
+            <span class="suc-status"></span><div class="suc-name">Colonia Norte</div>
           </div>
           <div class="suc-address">Calle Hidalgo 120, Col. Norte</div>
           <div class="suc-stats">
@@ -1172,9 +1132,8 @@
           </div>
         </div>
         <div class="suc-card secundaria">
-          <div style="display:flex; align-items:center; gap:6px; margin-bottom:4px;">
-            <span class="suc-status"></span>
-            <div class="suc-name">Plaza</div>
+          <div style="display:flex;align-items:center;gap:5px;margin-bottom:3px;">
+            <span class="suc-status"></span><div class="suc-name">Plaza</div>
           </div>
           <div class="suc-address">Plaza Chilapa, Local 8</div>
           <div class="suc-stats">
@@ -1184,9 +1143,8 @@
           </div>
         </div>
         <div class="suc-card secundaria">
-          <div style="display:flex; align-items:center; gap:6px; margin-bottom:4px;">
-            <span class="suc-status"></span>
-            <div class="suc-name">Periferia</div>
+          <div style="display:flex;align-items:center;gap:5px;margin-bottom:3px;">
+            <span class="suc-status"></span><div class="suc-name">Periferia</div>
           </div>
           <div class="suc-address">Carretera Chilapa km 2</div>
           <div class="suc-stats">
@@ -1198,81 +1156,40 @@
       </div>
     </div>
 
-    <!-- ═ REPORTES ═ -->
-    <div class="section-title">📈 Reportes</div>
+    <!-- ── REPORTES ── -->
+    <div class="section-title" id="reportes">📈 Reportes</div>
 
     <div class="two-col">
-      <!-- Ventas por producto -->
       <div class="panel">
         <div class="panel-header">
           <div class="panel-title">🥇 Top Productos Hoy</div>
           <button class="panel-action">Ver todo</button>
         </div>
         <div class="bar-chart">
-          <div style="height:0.7rem;"></div>
-          <div class="bar-row">
-            <div class="bar-label">Torta Milanesa</div>
-            <div class="bar-track"><div class="bar-fill r" style="width:88%">88%</div></div>
-          </div>
-          <div class="bar-row">
-            <div class="bar-label">Torta Bistec</div>
-            <div class="bar-track"><div class="bar-fill r" style="width:74%">74%</div></div>
-          </div>
-          <div class="bar-row">
-            <div class="bar-label">Refresco</div>
-            <div class="bar-track"><div class="bar-fill a" style="width:65%">65%</div></div>
-          </div>
-          <div class="bar-row">
-            <div class="bar-label">Torta Pierna</div>
-            <div class="bar-track"><div class="bar-fill r" style="width:58%">58%</div></div>
-          </div>
-          <div class="bar-row">
-            <div class="bar-label">Agua Natural</div>
-            <div class="bar-track"><div class="bar-fill o" style="width:40%">40%</div></div>
-          </div>
-          <div class="bar-row">
-            <div class="bar-label">Torta Especial</div>
-            <div class="bar-track"><div class="bar-fill c" style="width:30%">30%</div></div>
-          </div>
+          <div style="height:0.6rem;"></div>
+          <div class="bar-row"><div class="bar-label">Torta Milanesa</div><div class="bar-track"><div class="bar-fill r" style="width:88%">88%</div></div></div>
+          <div class="bar-row"><div class="bar-label">Torta Bistec</div><div class="bar-track"><div class="bar-fill r" style="width:74%">74%</div></div></div>
+          <div class="bar-row"><div class="bar-label">Refresco</div><div class="bar-track"><div class="bar-fill a" style="width:65%">65%</div></div></div>
+          <div class="bar-row"><div class="bar-label">Torta Pierna</div><div class="bar-track"><div class="bar-fill r" style="width:58%">58%</div></div></div>
+          <div class="bar-row"><div class="bar-label">Agua Natural</div><div class="bar-track"><div class="bar-fill o" style="width:40%">40%</div></div></div>
+          <div class="bar-row"><div class="bar-label">Torta Especial</div><div class="bar-track"><div class="bar-fill c" style="width:30%">30%</div></div></div>
         </div>
       </div>
 
-      <!-- Alertas -->
       <div class="panel">
         <div class="panel-header">
           <div class="panel-title">🔔 Alertas Recientes</div>
           <button class="panel-action">Marcar todas</button>
         </div>
-        <div class="alert-item">
-          <div class="alert-icon">🚨</div>
-          <div class="alert-text"><strong>Sin stock:</strong> Agua de Horchata — Suc. Centro</div>
-          <div class="alert-time">hace 2h</div>
-        </div>
-        <div class="alert-item">
-          <div class="alert-icon">⚠️</div>
-          <div class="alert-text"><strong>Bajo stock:</strong> Milanesa de res — Suc. Mercado</div>
-          <div class="alert-time">hace 3h</div>
-        </div>
-        <div class="alert-item">
-          <div class="alert-icon">⚠️</div>
-          <div class="alert-text"><strong>Bajo stock:</strong> Aguacate — Suc. Colonia Norte</div>
-          <div class="alert-time">hace 4h</div>
-        </div>
-        <div class="alert-item">
-          <div class="alert-icon">🔄</div>
-          <div class="alert-text">Transferencia pendiente de Suc. Centro → Suc. Plaza</div>
-          <div class="alert-time">hace 5h</div>
-        </div>
-        <div class="alert-item">
-          <div class="alert-icon">💳</div>
-          <div class="alert-text">Corte de caja pendiente — Suc. Periferia</div>
-          <div class="alert-time">hace 6h</div>
-        </div>
+        <div class="alert-item"><div class="alert-icon">🚨</div><div class="alert-text"><strong>Sin stock:</strong> Agua de Horchata — Suc. Centro</div><div class="alert-time">hace 2h</div></div>
+        <div class="alert-item"><div class="alert-icon">⚠️</div><div class="alert-text"><strong>Bajo stock:</strong> Milanesa de res — Suc. Mercado</div><div class="alert-time">hace 3h</div></div>
+        <div class="alert-item"><div class="alert-icon">⚠️</div><div class="alert-text"><strong>Bajo stock:</strong> Aguacate — Suc. Colonia Norte</div><div class="alert-time">hace 4h</div></div>
+        <div class="alert-item"><div class="alert-icon">🔄</div><div class="alert-text">Transferencia pendiente Centro → Plaza</div><div class="alert-time">hace 5h</div></div>
+        <div class="alert-item"><div class="alert-icon">💳</div><div class="alert-text">Corte de caja pendiente — Suc. Periferia</div><div class="alert-time">hace 6h</div></div>
       </div>
     </div>
 
-    <!-- Resumen financiero -->
-    <div class="panel" style="margin-bottom:2rem; animation: fadeUp 0.5s 0.4s both;">
+    <div class="panel" style="margin-bottom:1.5rem;">
       <div class="panel-header">
         <div class="panel-title">💰 Resumen Financiero — Semana Actual</div>
         <button class="panel-action">Descargar PDF</button>
@@ -1299,43 +1216,111 @@
   </main>
 </div>
 
+<!-- ═══ BOTTOM NAV (móvil) ═══ -->
+<nav class="bottom-nav" id="bottomNav">
+  <div class="bn-item active" data-section="dashboard"><div class="bn-icon">📊</div>Inicio</div>
+  <div class="bn-item" data-section="pos"><div class="bn-icon">🛒</div>Venta</div>
+  <div class="bn-item" data-section="inventario"><div class="bn-icon">📦</div>Inventario</div>
+  <div class="bn-item" data-section="sucursales"><div class="bn-icon">🏪</div>Sucursales</div>
+  <div class="bn-item" data-section="reportes"><div class="bn-icon">📈</div>Reportes</div>
+</nav>
+
 <script>
-  // Tabs interactivos
-  document.querySelectorAll('.tab').forEach(tab => {
-    tab.addEventListener('click', function() {
-      this.closest('.tabs').querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-      this.classList.add('active');
-    });
-  });
+/* ── HAMBURGER / SIDEBAR ── */
+const hamburger = document.getElementById('hamburger');
+const sidebar   = document.getElementById('sidebar');
+const overlay   = document.getElementById('overlay');
 
-  // Categorías POS
-  document.querySelectorAll('.cat-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-      this.closest('.menu-cats').querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-      this.classList.add('active');
-    });
-  });
+function openSidebar() {
+  sidebar.classList.add('open');
+  overlay.classList.add('active');
+  hamburger.classList.add('open');
+}
+function closeSidebar() {
+  sidebar.classList.remove('open');
+  overlay.classList.remove('active');
+  hamburger.classList.remove('open');
+}
 
-  // Producto al carrito (feedback visual)
-  document.querySelectorAll('.product-card').forEach(card => {
-    card.addEventListener('click', function() {
-      this.style.borderColor = 'var(--rojo)';
-      this.style.transform = 'scale(0.96)';
-      setTimeout(() => {
-        this.style.borderColor = '';
-        this.style.transform = '';
-      }, 200);
-    });
-  });
+hamburger.addEventListener('click', () => {
+  sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
+});
+overlay.addEventListener('click', closeSidebar);
 
-  // Nav items
-  document.querySelectorAll('.nav-item').forEach(item => {
-    item.addEventListener('click', function(e) {
-      e.preventDefault();
-      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-      this.classList.add('active');
-    });
+/* ── SIDEBAR NAV ITEMS ── */
+document.querySelectorAll('.nav-item').forEach(item => {
+  item.addEventListener('click', function(e) {
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    this.classList.add('active');
+    // Cerrar en móvil
+    if (window.innerWidth <= 768) closeSidebar();
   });
+});
+
+/* ── BOTTOM NAV ── */
+document.querySelectorAll('.bn-item').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.bn-item').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    const section = this.dataset.section;
+    const el = document.getElementById(section);
+    if (el) {
+      const offset = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 60;
+      const top = el.getBoundingClientRect().top + window.scrollY - offset - 12;
+      window.scrollTo({ top, behavior:'smooth' });
+    }
+  });
+});
+
+/* ── TABS INVENTARIO ── */
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', function() {
+    this.closest('.tabs').querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+
+/* ── CATEGORÍAS POS ── */
+document.querySelectorAll('.cat-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    this.closest('.menu-cats').querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+
+/* ── PRODUCTO CLICK (feedback táctil) ── */
+document.querySelectorAll('.product-card').forEach(card => {
+  card.addEventListener('click', function() {
+    this.style.borderColor = 'var(--rojo)';
+    this.style.transform = 'scale(0.93)';
+    setTimeout(() => {
+      this.style.borderColor = '';
+      this.style.transform = '';
+    }, 180);
+  });
+});
+
+/* ── SCROLL SPY para bottom nav ── */
+const sections = ['dashboard','pos','inventario','sucursales','reportes'];
+let ticking = false;
+
+window.addEventListener('scroll', () => {
+  if (!ticking) {
+    requestAnimationFrame(() => {
+      const headerH = 60 + 20;
+      let current = sections[0];
+      sections.forEach(id => {
+        const el = document.getElementById(id);
+        if (el && el.getBoundingClientRect().top <= headerH) current = id;
+      });
+      document.querySelectorAll('.bn-item').forEach(b => {
+        b.classList.toggle('active', b.dataset.section === current);
+      });
+      ticking = false;
+    });
+    ticking = true;
+  }
+}, { passive: true });
 </script>
 
 </body>
