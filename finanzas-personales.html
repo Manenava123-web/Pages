@@ -143,6 +143,15 @@
 </div>
 
 <script>
+// Almacenamiento seguro: usa window.storage si existe; si no, memoria local de sesión.
+const mem = {};
+const store = {
+  async set(k,v){ if(window.storage){return window.storage.set(k,v);} mem[k]=v; return {key:k}; },
+  async get(k){ if(window.storage){return window.storage.get(k);} return mem[k]!=null?{key:k,value:mem[k]}:null; },
+  async delete(k){ if(window.storage){return window.storage.delete(k);} delete mem[k]; return {key:k}; },
+  async list(prefix){ if(window.storage){return window.storage.list(prefix);} return {keys:Object.keys(mem).filter(x=>x.startsWith(prefix||''))}; },
+};
+
 const fmt = n => '$' + Math.round(n).toLocaleString('es-MX');
 
 const DEFAULTS = {
@@ -232,8 +241,8 @@ async function saveMonth(){
   const key = 'month:'+now.getTime();
   const entry = {date: now.toLocaleDateString('es-MX',{month:'long',year:'numeric'}), ...c, ts: now.getTime()};
   try{
-    await window.storage.set(key, JSON.stringify(entry));
-    await window.storage.set('accumulated', JSON.stringify(state.accumulated));
+    await store.set(key, JSON.stringify(entry));
+    await store.set('accumulated', JSON.stringify(state.accumulated));
     loadHistory();
   }catch(e){ console.error(e); }
 }
@@ -241,12 +250,12 @@ async function saveMonth(){
 async function loadHistory(){
   const list = document.getElementById('historyList');
   try{
-    const res = await window.storage.list('month:');
+    const res = await store.list('month:');
     const keys = (res && res.keys) ? res.keys : [];
     if(keys.length===0){ list.innerHTML='<div class="empty">Aún no has guardado ningún mes.</div>'; return; }
     const entries = [];
     for(const k of keys){
-      try{ const r = await window.storage.get(k); if(r) entries.push({key:k, ...JSON.parse(r.value)}); }catch(e){}
+      try{ const r = await store.get(k); if(r) entries.push({key:k, ...JSON.parse(r.value)}); }catch(e){}
     }
     entries.sort((a,b)=>b.ts-a.ts);
     list.innerHTML = entries.map(e=>
@@ -256,7 +265,7 @@ async function loadHistory(){
 }
 
 async function delMonth(key){
-  try{ await window.storage.delete(key); loadHistory(); }catch(e){}
+  try{ await store.delete(key); loadHistory(); }catch(e){}
 }
 
 function resetDefaults(){
@@ -268,7 +277,7 @@ function resetDefaults(){
 async function init(){
   renderInputs();
   try{
-    const acc = await window.storage.get('accumulated');
+    const acc = await store.get('accumulated');
     if(acc){ state.accumulated = JSON.parse(acc.value); document.getElementById('accumulated').value = state.accumulated; }
   }catch(e){}
   document.getElementById('accumulated').addEventListener('input', update);
